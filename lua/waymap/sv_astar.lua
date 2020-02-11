@@ -23,10 +23,10 @@ function Waymap.Astar(start, goal)
             return Waymap.reconstruct_path(cameFrom, current)
         end
 
-        currWaymap.AddToClosedList()
+        current:AddToClosedList()
 
-        for k, neighbor in pairs(currWaymap.GetAdjacentAreas()) do
-            local newCostSoFar = currWaymap.GetCostSoFar() + Waymap.heuristic_cost_estimate(current, neighbor)
+        for k, neighbor in pairs(current:GetAdjacentAreas()) do
+            local newCostSoFar = current:GetCostSoFar() + Waymap.heuristic_cost_estimate(current, neighbor)
 
             if (neighbor:IsUnderwater()) then -- Add your own area filters or whatever here
                 continue
@@ -49,7 +49,7 @@ function Waymap.Astar(start, goal)
                     neighbor:AddToOpenList()
                 end
 
-                cameFrom[neighbor:GetID()] = currWaymap.GetID()
+                cameFrom[neighbor:GetID()] = current:GetID()
             end
         end
     end
@@ -66,7 +66,7 @@ end
 function Waymap.reconstruct_path(cameFrom, current)
     local total_path = {current}
 
-    current = currWaymap.GetID()
+    current = current:GetID()
     while (cameFrom[current]) do
         current = cameFrom[current]
         table.insert(total_path, navmesh.GetNavAreaByID(current))
