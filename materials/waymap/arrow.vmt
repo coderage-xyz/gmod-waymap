@@ -1,0 +1,15 @@
+"UnlitGeneric"
+{
+	"$basetexture" "waymap/arrow"
+	"$translucent" 1
+
+	"Proxies"
+	{
+		"TextureScroll"
+		{
+			"texturescrollvar" "$baseTextureTransform"
+			"texturescrollrate" 1
+			"texturescrollangle" 90.00
+		}
+	}
+}
