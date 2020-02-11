@@ -2,6 +2,23 @@
 	Pathfinding algorithms
 --]]
 
+local function heuristic_cost_estimate(start, goal)
+    -- Perhaps play with some calculations on which corner is closest/farthest or whatever
+    return start:GetCenter():Distance(goal:GetCenter())
+end
+
+-- using CNavAreas as table keys doesn't work, we use IDs
+local function reconstruct_path(cameFrom, current)
+    local total_path = {current}
+
+    current = current:GetID()
+    while (cameFrom[current]) do
+        current = cameFrom[current]
+        table.insert(total_path, navmesh.GetNavAreaByID(current))
+    end
+    return total_path
+end
+
 function Waymap.Astar(start, goal)
     if (not IsValid(start) or not IsValid(goal)) then return false end
     if (start == goal) then return true end
@@ -55,23 +72,6 @@ function Waymap.Astar(start, goal)
     end
 
     return false
-end
-
-local function heuristic_cost_estimate(start, goal)
-    -- Perhaps play with some calculations on which corner is closest/farthest or whatever
-    return start:GetCenter():Distance(goal:GetCenter())
-end
-
--- using CNavAreas as table keys doesn't work, we use IDs
-local function reconstruct_path(cameFrom, current)
-    local total_path = {current}
-
-    current = current:GetID()
-    while (cameFrom[current]) do
-        current = cameFrom[current]
-        table.insert(total_path, navmesh.GetNavAreaByID(current))
-    end
-    return total_path
 end
 
 --[[
