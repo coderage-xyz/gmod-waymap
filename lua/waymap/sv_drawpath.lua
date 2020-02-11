@@ -1,6 +1,8 @@
-include("shared.lua")
+--[[
+	Path-drawing functions
+--]]
 
-local function drawThePath(path, time)
+function Waymap.drawThePath(path, time)
 	local prevArea
 	for _, area in pairs(path) do
 		debugoverlay.Sphere(area:GetCenter(), 8, time or 9, color_white, true)
