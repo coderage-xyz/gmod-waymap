@@ -1,4 +1,4 @@
 
-WayMap.Config = WayMap.Config or {
-	Title = "WayMap"
+Waymap.Config = Waymap.Config or {
+	Title = "Waymap"
 }
