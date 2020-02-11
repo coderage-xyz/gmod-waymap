@@ -85,6 +85,8 @@ function Waymap.AstarVector(start, goal)
 end
 
 function Waymap.ConvertAreasToVectors(path)
+	if not istable(path) then return end -- path can be a boolean if the destination is the same as start pos
+	
 	local vectors = {}
 	
 	for _, area in pairs(path) do
