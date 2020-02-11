@@ -34,3 +34,5 @@ Waymap.Include("waymap/sv_drawpath.lua", Waymap.INSTANCE.SERVER)
 
 Waymap.Include("waymap/netpath/sv_netpath.lua", Waymap.INSTANCE.SERVER)
 Waymap.Include("waymap/netpath/cl_netpath.lua", Waymap.INSTANCE.CLIENT)
+
+Waymap.Include("waymap/cl_paths.lua", Waymap.INSTANCE.CLIENT)
