@@ -25,3 +25,4 @@ function WayMap.Include(path, instance)
 end
 
 WayMap.Include("waymap/sh_config.lua", WayMap.INSTANCE.SHARED)
+WayMap.Include("waymap/sv_wmanager.lua", WayMap.INSTANCE.SERVER)
