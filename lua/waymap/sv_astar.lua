@@ -14,19 +14,19 @@ function Waymap.Astar(start, goal)
 
     start:SetCostSoFar(0)
 
-    start:SetTotalCost(Waymap.heuristic_cost_estimate(start, goal))
+    start:SetTotalCost(heuristic_cost_estimate(start, goal))
     start:UpdateOnOpenList()
 
     while (!start:IsOpenListEmpty()) do
         local current = start:PopOpenList() -- Remove the area with lowest cost in the open list and return it
         if (current == goal) then
-            return Waymap.reconstruct_path(cameFrom, current)
+            return reconstruct_path(cameFrom, current)
         end
 
         current:AddToClosedList()
 
         for k, neighbor in pairs(current:GetAdjacentAreas()) do
-            local newCostSoFar = current:GetCostSoFar() + Waymap.heuristic_cost_estimate(current, neighbor)
+            local newCostSoFar = current:GetCostSoFar() + heuristic_cost_estimate(current, neighbor)
 
             if (neighbor:IsUnderwater()) then -- Add your own area filters or whatever here
                 continue
@@ -36,7 +36,7 @@ function Waymap.Astar(start, goal)
                 continue
             else
                 neighbor:SetCostSoFar(newCostSoFar)
-                neighbor:SetTotalCost(newCostSoFar + Waymap.heuristic_cost_estimate(neighbor, goal))
+                neighbor:SetTotalCost(newCostSoFar + heuristic_cost_estimate(neighbor, goal))
 
                 if (neighbor:IsClosed()) then
                     neighbor:RemoveFromClosedList()
@@ -57,13 +57,13 @@ function Waymap.Astar(start, goal)
     return false
 end
 
-function Waymap.heuristic_cost_estimate(start, goal)
+local function heuristic_cost_estimate(start, goal)
     -- Perhaps play with some calculations on which corner is closest/farthest or whatever
     return start:GetCenter():Distance(goal:GetCenter())
 end
 
 -- using CNavAreas as table keys doesn't work, we use IDs
-function Waymap.reconstruct_path(cameFrom, current)
+local function reconstruct_path(cameFrom, current)
     local total_path = {current}
 
     current = current:GetID()
