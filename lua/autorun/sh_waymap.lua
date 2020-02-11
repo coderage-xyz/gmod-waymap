@@ -26,3 +26,6 @@ end
 
 Waymap.Include("Waymap/sh_config.lua", Waymap.INSTANCE.SHARED)
 Waymap.Include("Waymap/sv_wmanager.lua", Waymap.INSTANCE.SERVER)
+Waymap.Include("Waymap/cl_image.lua", Waymap.INSTANCE.CLIENT)
+Waymap.Include("Waymap/cl_ui.lua", Waymap.INSTANCE.CLIENT)
+Waymap.Include("Waymap/vgui/dwaymap.lua", Waymap.INSTANCE.CLIENT)
