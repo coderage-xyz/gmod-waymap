@@ -6,8 +6,8 @@ local PLAYER = FindMetaTable("Player")
 
 function PLAYER:MakeWManager()
 	self.WManager = ents.Create("waypoint_manager")
-	self.WManager:SetPos(ply:GetPos())
-	self.WManager:SetParent(ply)
+	self.WManager:SetPos(self:GetPos())
+	self.WManager:SetParent(self)
 	self.WManager:Spawn()
 	
 	return self.WManager
