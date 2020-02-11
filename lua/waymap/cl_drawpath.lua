@@ -12,7 +12,6 @@ hook.Add("PostDrawOpaqueRenderables", "Waymap.DrawPath", function()
 		node = node + Vector(0, 0, 8)
 		
 		if (last) then
-			render.SetColorModulation(1, 0, 0)
 			render.SetMaterial(arrowmat)
 			render.DrawBeam(last, node, 8, 0, last:Distance(node) / 8)
 		end
