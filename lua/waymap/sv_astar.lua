@@ -83,3 +83,13 @@ function Waymap.AstarVector(start, goal)
     local goalArea = navmesh.GetNearestNavArea(goal)
     return Waymap.Astar(startArea, goalArea)
 end
+
+function Waymap.ConvertAreasToVectors(path)
+	local vectors = {}
+	
+	for _, area in pairs(path) do
+		table.insert(vectors, area:GetCenter())
+	end
+	
+	return vectors
+end
