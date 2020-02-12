@@ -11,6 +11,9 @@ net.Receive("Waymap.RequestPath", function(ln, ply)
 	local endpos = net.ReadVector()
 	
 	local path = Waymap.AstarVector(startpos, endpos)
+	
+	if not istable(path) then return end
+	
 	local vecs = Waymap.ConvertAreasToVectors(path)
 	
 	net.Start("Waymap.SendPath")
