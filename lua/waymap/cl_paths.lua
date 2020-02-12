@@ -39,7 +39,7 @@ end
 
 function Waymap.Path.ClearPaths()
 	Waymap.Path.SetActive(nil)
-	Waymap.Path._paths = nil
+	Waymap.Path._paths = {}
 end
 
 --[[
