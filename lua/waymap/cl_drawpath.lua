@@ -8,7 +8,7 @@ local wpmat = Material( "sprites/sent_ball" )
 hook.Add("PostDrawOpaqueRenderables", "Waymap.DrawPath", function()
 	local active = Waymap.Path.GetActive()
 	
-	if not active then return end
+	if not istable(active) then return end
 	
 	local last
 	
