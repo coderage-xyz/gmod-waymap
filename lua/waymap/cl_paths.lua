@@ -2,6 +2,11 @@
 	Path management on client
 --]]
 
+--[[
+	Concommands that I use when debugging:
+	lua_run_clients Waymap.RequestPath(here, there)
+--]]
+
 Waymap.Path = Waymap.Path or {}
 
 Waymap.Path._paths = Waymap.Path._paths or {}
@@ -100,6 +105,35 @@ function Waymap.Path.Subdiv(path) -- path is a table of vectors
 	return newpath
 end
 
+function Waymap.Path.SubdivCorners(path) -- path is a table of vectors
+	print("[Waymap] Path is " .. #path .. " segments before corner subdivision.")
+
+	local newpath = {}
+	for i, vec in pairs(path) do
+		local last, next = path[i - 1], path[i + 1]
+		
+		if not last or not next then
+			table.insert(newpath, vec)
+		else
+			local thirdbefore = ((2 / 3) * vec + (last / 3))
+			local thirdafter = ((2 / 3) * vec + (next / 3))
+
+			debugoverlay.Sphere(thirdbefore, 4, 10)
+			debugoverlay.Sphere(vec, 4, 10)
+			debugoverlay.Sphere(thirdafter, 4, 10)
+			
+			table.insert(newpath, thirdbefore)
+			table.insert(newpath, vec)
+			table.insert(newpath, thirdafter)
+		end
+	end
+	
+	print("[Waymap] Path is " .. #newpath .. " segments after corner subdivision.")
+	
+	--PrintTable(newpath)
+	return newpath
+end
+
 local function fact(n) -- The factorial function, notated as n! in the majority of scholarly practice
 	if (n == 0) then
 		return 1
@@ -142,9 +176,9 @@ function Waymap.Path.Bezier3Table(seg, v0, v1, v2) -- Waymap.Path.Bezier(number 
 end
 --]]
 
-function Waymap.Path.BezierRecursive(subdiv, ...)
+function Waymap.Path.BezierRecursive(subdiv, args)
 	--subdiv = subdiv or 16
-	local args = {...}
+	--local args = {...}
 	local n = (#args - 1)
 	local bpath = {}
 	
@@ -193,5 +227,5 @@ function Waymap.Path.BezierPath(path, subdiv)
 	end
 	--]]
 	
-	return Waymap.Path.BezierRecursive(subdiv, unpack(path))
+	return Waymap.Path.BezierRecursive(subdiv, path)
 end

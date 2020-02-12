@@ -2,11 +2,6 @@
 	Net functions
 --]]
 
---[[
-	Concommands that I use when debugging:
-	lua_run_clients Waymap.RequestPath(here, there, function(path) Waymap.Path.SetActive(Waymap.Path.Add(path)) end)
---]]
-
 local callbacks = {}
 
 function Waymap.RequestPath(startpos, endpos, callback)
@@ -41,11 +36,15 @@ net.Receive("Waymap.SendPath", function(ln)
 	
 	print("[Waymap] Received path of " .. (ln / 1000) .. " Kb, a total distance of " .. distance .. ".")
 	
+	--pathvecs = Waymap.Path.SubdivCorners(pathvecs)
+	
 	if Waymap.ConVars.Bezier() then
-		local subdivcnt, subdivrem = math.modf(distance / 2048)
+		--local subdivcnt, subdivrem = math.modf(distance / 2048)
+		--[[
 		for i = 1, subdivcnt do
 			pathvecs = Waymap.Path.Subdiv(pathvecs) -- Cut the path into smaller pieces by finding midpoints
 		end
+		--]]
 		print("[Waymap] Starting Bézier interpolation...")
 		pathvecs = Waymap.Path.BezierPath(pathvecs, distance / 32) -- Smooth out jagged edges via recursive parametric Bezier curves
 		print("[Waymap] Finished Bézier parametric curve interpolation with " .. #pathvecs .. " segments.")
