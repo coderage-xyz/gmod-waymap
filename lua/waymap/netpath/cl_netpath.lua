@@ -2,6 +2,11 @@
 	Net functions
 --]]
 
+--[[
+	Concommands that I use when debugging:
+	lua_run_clients Waymap.RequestPath(here, there, function(path) Waymap.Path.SetActive(Waymap.Path.Add(path)) end)
+--]]
+
 local callbacks = {}
 
 function Waymap.RequestPath(startpos, endpos, callback)

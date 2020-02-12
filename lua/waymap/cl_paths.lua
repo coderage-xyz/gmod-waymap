@@ -42,7 +42,7 @@ end
 --]]
 
 function Waymap.Path.Subdiv(path) -- path is a table of vectors
-	print("[Waymap] Path is " .. #path .. " before subdivision.")
+	print("[Waymap] Path is of " .. #path .. " segments before subdivision.")
 	
 	local last
 	local newpath = {}
@@ -58,7 +58,7 @@ function Waymap.Path.Subdiv(path) -- path is a table of vectors
 		last = vec
 	end
 	
-	print("[Waymap] Path is " .. #newpath .. " after subdivision.")
+	print("[Waymap] Path is of " .. #newpath .. " segments after subdivision.")
 	
 	PrintTable(newpath)
 	return newpath
@@ -73,7 +73,7 @@ local function fact(n) -- The factorial function, notated as n! in the majority 
 end
 
 local function binomial(n, r) -- See https://en.wikipedia.org/wiki/Pascal%27s_triangle
-	print("[Waymap] Running binomial function with arguments " .. tostring(n) .. ", " .. tostring(r) .. ".")
+	--print("[Waymap] Running binomial function with arguments " .. tostring(n) .. ", " .. tostring(r) .. ".")
 	
 	if (r > n) then
 		Error("[Waymap] What are you trying to do, cause a stack overflow? In all binomial coefficients you must ensure that r is never greater than n.")
@@ -118,7 +118,7 @@ function Waymap.Path.BezierRecursive(subdiv, ...)
 			vec = vec + (binomial(n, i) * math.pow((1 - t), (n - i)) * math.pow(t, i) * (args[i + 1]))
 		end
 		table.insert(bpath, vec)
-		print("[Waymap] Made point " .. tostring(vec) .. " @ " .. #bpath .. ", t = " .. tostring(t))
+		--print("[Waymap] Made point " .. tostring(vec) .. " @ " .. #bpath .. ", t = " .. tostring(t))
 	end
 	
 	return bpath
