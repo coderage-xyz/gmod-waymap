@@ -41,7 +41,7 @@ net.Receive("Waymap.SendPath", function(ln)
 	
 	print("[Waymap] Received path of " .. (ln / 1000) .. " Kb, a total distance of " .. distance .. ".")
 	
-	if Waymap.ConVars.Bezier:GetBool() then
+	if Waymap.ConVars.Bezier() then
 		local subdivcnt, subdivrem = math.modf(distance / 2048)
 		for i = 1, subdivcnt do
 			pathvecs = Waymap.Path.Subdiv(pathvecs) -- Cut the path into smaller pieces by finding midpoints
