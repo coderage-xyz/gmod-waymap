@@ -37,6 +37,10 @@ function Waymap.Path.GetPaths()
 	return Waymap.Path._paths
 end
 
+function Waymap.Path.ClearPaths()
+	Waymap.Path._paths = nil
+end
+
 --[[
 	Simple utility functions
 --]]
