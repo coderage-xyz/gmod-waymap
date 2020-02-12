@@ -46,10 +46,12 @@ net.Receive("Waymap.SendPath", function(ln)
 	
 	print("[Waymap] Received path of " .. (ln / 1000) .. " Kb, a total distance of " .. distance .. ".")
 	print("[Waymap] Starting Bézier interpolation...")
-	pathvecs = Waymap.Path.BezierPath(pathvecs, distance / 64) -- Smooth out jagged edges via recursive parametric Bezier curves
+	pathvecs = Waymap.Path.BezierPath(pathvecs, distance / 32) -- Smooth out jagged edges via recursive parametric Bezier curves
 	print("[Waymap] Finished Bézier parametric curve interpolation with " .. #pathvecs .. " segments.")
 	print("[Waymap] Running callbacks...")
 	callbacks[id](pathvecs) -- Run our callback
 	print("[Waymap] Callback has been run, voiding callback.")
 	callbacks[id] = nil -- Delete it from our registry
+	
+	--Waymap.Path._texcoord = (0.1 * Waymap.Path.GetTotalLength(pathvecs) / #pathvecs)
 end)

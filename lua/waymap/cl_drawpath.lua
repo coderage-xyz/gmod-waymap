@@ -12,10 +12,17 @@ local waypointsize = {
 	min = 16,
 	max = 20,
 	speed = 3,
-	cur = nil
+	cur = 20
 }
 
 local ptoffset = Vector(0, 0, 16)
+
+hook.Add("Think", "Waymap.DoDrawCalculations", function()
+	if istable(Waymap.Path.GetActive()) then
+		waypointsize.cur = math.cos(CurTime() * waypointsize.speed)
+		waypointsize.cur = math.Remap(waypointsize.cur, -1, 1, waypointsize.min, waypointsize.max)
+	end
+end)
 
 hook.Add("PostDrawOpaqueRenderables", "Waymap.DrawPath", function()
 	local active = Waymap.Path.GetActive()
@@ -43,9 +50,6 @@ hook.Add("PostDrawOpaqueRenderables", "Waymap.DrawPath", function()
 	end
 	--]]
 	
-	waypointsize.cur = math.cos(CurTime() * waypointsize.speed)
-	waypointsize.cur = math.Remap(waypointsize.cur, -1, 1, waypointsize.min, waypointsize.max)
-	
 	render.SetMaterial(waypointmat)
 	render.DrawSprite(active[1] + ptoffset, waypointsize.cur, waypointsize.cur, waypointstartcolor)
 	
@@ -54,8 +58,8 @@ hook.Add("PostDrawOpaqueRenderables", "Waymap.DrawPath", function()
 	render.StartBeam(#active)
 		for i, node in pairs(active) do
 			node = node + ptoffset
-			local texcoord = (0.1 * Waymap.Path.GetTotalLength(active) / #active)
-			render.AddBeam(node, 8, (i * texcoord), color_white)
+			--local texcoord = (0.1 * Waymap.Path.GetTotalLength(active) / #active)
+			render.AddBeam(node, 8, (i * Waymap.Path._texcoord), color_white)
 			--last = node
 		end
 	render.EndBeam()

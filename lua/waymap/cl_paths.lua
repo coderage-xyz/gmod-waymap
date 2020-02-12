@@ -7,6 +7,8 @@ Waymap.Path = Waymap.Path or {}
 Waymap.Path._paths = Waymap.Path._paths or {}
 Waymap.Path._active = Waymap.Path._active or {}
 
+Waymap.Path._texcoord = 8
+
 function Waymap.Path.Add(path) -- path is a table of vectors
 	local id = table.Count(Waymap.Path._paths) + 1
 	Waymap.Path._paths[id] = path
@@ -21,10 +23,19 @@ end
 
 function Waymap.Path.SetActive(pathid)
 	Waymap.Path._active = pathid
+	
+	local path = Waymap.Path.Get(pathid)
+	if path then
+		Waymap.Path._texcoord = (0.1 * Waymap.Path.GetTotalLength(path) / #path)
+	end
 end
 
 function Waymap.Path.GetActive()
 	return Waymap.Path._paths[Waymap.Path._active]
+end
+
+function Waymap.Path.Get(pathid)
+	return Waymap.Path._paths[id]
 end
 
 function Waymap.Path.RemoveActive()
