@@ -94,6 +94,7 @@ function Waymap.ConvertAreasToVectors(path)
 		last = vectors[#vectors]
 		
 		if last then
+			--[[
 			local corners = {
 				area:GetCenter(),
 				
@@ -113,6 +114,8 @@ function Waymap.ConvertAreasToVectors(path)
 			end
 			
 			table.insert(vectors, pickedcorner)
+			--]]
+			table.insert(vectors, area:GetClosestPointOnArea(last))
 		else
 			table.insert(vectors, area:GetCenter())
 		end
