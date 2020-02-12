@@ -8,7 +8,12 @@ local waypointmat = Material("sprites/sent_ball")
 local waypointstartcolor = Color(255, 154, 0)
 local waypointendcolor = Color(39, 167, 216)
 
-local waypointsize = 16
+local waypointsize = {
+	min = 16,
+	max = 20,
+	speed = 3,
+	cur = nil
+}
 
 local ptoffset = Vector(0, 0, 16)
 
@@ -38,8 +43,11 @@ hook.Add("PostDrawOpaqueRenderables", "Waymap.DrawPath", function()
 	end
 	--]]
 	
+	waypointsize.cur = math.cos(CurTime() * waypointsize.speed)
+	waypointsize.cur = math.Remap(waypointsize.cur, -1, 1, waypointsize.min, waypointsize.max)
+	
 	render.SetMaterial(waypointmat)
-	render.DrawSprite(active[1] + ptoffset, waypointsize, waypointsize, waypointstartcolor)
+	render.DrawSprite(active[1] + ptoffset, waypointsize.cur, waypointsize.cur, waypointstartcolor)
 	
 	--local last
 	render.SetMaterial(arrowmat)
@@ -53,5 +61,5 @@ hook.Add("PostDrawOpaqueRenderables", "Waymap.DrawPath", function()
 	render.EndBeam()
 	
 	render.SetMaterial(waypointmat)
-	render.DrawSprite(active[#active] + ptoffset, waypointsize, waypointsize, waypointendcolor)
+	render.DrawSprite(active[#active] + ptoffset, waypointsize.cur, waypointsize.cur, waypointendcolor)
 end)
