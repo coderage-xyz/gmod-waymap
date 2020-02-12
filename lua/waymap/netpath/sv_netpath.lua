@@ -16,8 +16,13 @@ net.Receive("Waymap.RequestPath", function(ln, ply)
 	
 	local vecs = Waymap.ConvertAreasToVectors(path)
 	
+	local json = util.TableToJSON(vecs)
+	json = util.Compress(json)
+	local jsonlen = #json
+	
 	net.Start("Waymap.SendPath")
 		net.WriteFloat(id)
-		net.WriteTable(vecs)
+		net.WriteFloat(jsonlen)
+		net.WriteData(json, jsonlen)
 	net.Send(ply)
 end)

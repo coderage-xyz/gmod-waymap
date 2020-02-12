@@ -15,11 +15,11 @@ function Waymap.RequestPath(startpos, endpos, callback)
 		Waymap.Path.SetActive(id)
 	end
 	
-	print(callback)
+	--print(callback)
 	
 	--local id = util.CRC(tostring(startpos) .. tostring(endpos))
 	local id = table.Count(callbacks) + 1
-	print(id)
+	print("[Waymap] Saving callback ID: " .. id)
 	callbacks[id] = callback
 	
 	net.Start("Waymap.RequestPath")
@@ -31,12 +31,18 @@ end
 
 net.Receive("Waymap.SendPath", function(ln)
 	local id = net.ReadFloat()
-	local pathvecs = net.ReadTable()
-	pathvecs = Waymap.Path.Subdiv(pathvecs)
-	print("[Waymap] Received path of " .. ln .. " bits. Attempting Bézier curve interpolation.")
-	pathvecs = Waymap.Path.BezierPath(pathvecs)
+	local jsonlen = net.ReadFloat()
+	local json = net.ReadData(jsonlen)
+	
+	json = util.Decompress(json)
+	pathvecs = util.JSONToTable(json)
+	
+	pathvecs = Waymap.Path.Subdiv(pathvecs) -- Cut the path into smaller pieces by finding midpoints
+	print("[Waymap] Received path of " .. (ln / 1000) .. " Kb.")
+	print("[Waymap] Starting Bézier interpolation...")
+	pathvecs = Waymap.Path.BezierPath(pathvecs) -- Smooth out jagged edges via recursive parametric Bezier curves
 	print("[Waymap] Finished Bézier parametric curve interpolation, running callbacks.")
-	callbacks[id](pathvecs)
+	callbacks[id](pathvecs) -- Run our callback
 	print("[Waymap] Callback has been run, voiding callback.")
-	callbacks[id] = nil
+	callbacks[id] = nil -- Delete it from our registry
 end)
