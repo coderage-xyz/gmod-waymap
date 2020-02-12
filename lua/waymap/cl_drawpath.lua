@@ -10,8 +10,6 @@ hook.Add("PostDrawOpaqueRenderables", "Waymap.DrawPath", function()
 	
 	if not istable(active) then return end
 	
-	local last
-	
 	--[[
 	for k, node in pairs(active) do
 		node = node + Vector(0, 0, 8)
@@ -33,10 +31,14 @@ hook.Add("PostDrawOpaqueRenderables", "Waymap.DrawPath", function()
 	end
 	--]]
 	
+	--local last
 	render.SetMaterial(arrowmat)
 	render.StartBeam(#active)
 		for i, node in pairs(active) do
-			render.AddBeam(node, 8, (CurTime() + i * (#active / 2)), color_white)
+			node = node + Vector(0, 0, 16)
+			local texcoord = (0.1 * Waymap.Path.GetTotalLength(active) / #active)
+			render.AddBeam(node, 8, (i * texcoord), color_white)
+			--last = node
 		end
 	render.EndBeam()
 end)

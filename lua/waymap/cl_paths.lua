@@ -34,6 +34,22 @@ function Waymap.Path.RemoveActive()
 end
 
 --[[
+	Simple utility functions
+--]]
+
+function Waymap.Path.GetTotalLength(path) -- path is a table of vectors
+	local distance = 0
+	
+	for i, vec in pairs(path) do
+		if (i == 1) then continue end
+		local last = path[i - 1]
+		distance = distance + last:Distance(vec)
+	end
+	
+	return distance
+end
+
+--[[
 	Path subdivision and Bézier curve functions
 	
 	References:
@@ -42,7 +58,7 @@ end
 --]]
 
 function Waymap.Path.Subdiv(path) -- path is a table of vectors
-	print("[Waymap] Path is of " .. #path .. " segments before subdivision.")
+	print("[Waymap] Path is " .. #path .. " segments before subdivision.")
 	
 	local last
 	local newpath = {}
@@ -58,9 +74,9 @@ function Waymap.Path.Subdiv(path) -- path is a table of vectors
 		last = vec
 	end
 	
-	print("[Waymap] Path is of " .. #newpath .. " segments after subdivision.")
+	print("[Waymap] Path is " .. #newpath .. " segments after subdivision.")
 	
-	PrintTable(newpath)
+	--PrintTable(newpath)
 	return newpath
 end
 

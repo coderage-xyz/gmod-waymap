@@ -37,11 +37,18 @@ net.Receive("Waymap.SendPath", function(ln)
 	json = util.Decompress(json)
 	pathvecs = util.JSONToTable(json)
 	
-	pathvecs = Waymap.Path.Subdiv(pathvecs) -- Cut the path into smaller pieces by finding midpoints
-	print("[Waymap] Received path of " .. (ln / 1000) .. " Kb.")
+	local distance = Waymap.Path.GetTotalLength(pathvecs)
+	local subdivcnt, subdivrem = math.modf(distance / 2048)
+	
+	for i = 1, subdivcnt do
+		pathvecs = Waymap.Path.Subdiv(pathvecs) -- Cut the path into smaller pieces by finding midpoints
+	end
+	
+	print("[Waymap] Received path of " .. (ln / 1000) .. " Kb, a total distance of " .. distance .. ".")
 	print("[Waymap] Starting Bézier interpolation...")
-	pathvecs = Waymap.Path.BezierPath(pathvecs) -- Smooth out jagged edges via recursive parametric Bezier curves
-	print("[Waymap] Finished Bézier parametric curve interpolation, running callbacks.")
+	pathvecs = Waymap.Path.BezierPath(pathvecs, distance / 64) -- Smooth out jagged edges via recursive parametric Bezier curves
+	print("[Waymap] Finished Bézier parametric curve interpolation with " .. #pathvecs .. " segments.")
+	print("[Waymap] Running callbacks...")
 	callbacks[id](pathvecs) -- Run our callback
 	print("[Waymap] Callback has been run, voiding callback.")
 	callbacks[id] = nil -- Delete it from our registry
