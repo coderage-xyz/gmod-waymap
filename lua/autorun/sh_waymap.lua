@@ -24,6 +24,8 @@ function Waymap.Include(path, instance)
 	end
 end
 
+Waymap.Include("waymap/convars/cl_convars.lua", Waymap.INSTANCE.CLIENT)
+
 Waymap.Include("waymap/sh_config.lua", Waymap.INSTANCE.SHARED)
 Waymap.Include("waymap/sv_wmanager.lua", Waymap.INSTANCE.SERVER)
 Waymap.Include("waymap/cl_image.lua", Waymap.INSTANCE.CLIENT)
