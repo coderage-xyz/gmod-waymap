@@ -33,6 +33,10 @@ function Waymap.Path.RemoveActive()
 	return removed
 end
 
+function Waymap.Path.GetPaths()
+	return Waymap.Path._paths
+end
+
 --[[
 	Simple utility functions
 --]]
