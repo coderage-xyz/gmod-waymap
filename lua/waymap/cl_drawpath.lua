@@ -3,7 +3,7 @@
 --]]
 
 local arrowmat = Material("waymap/arrow_outline")
-local waypointmat = Material("sprites/sent_ball")
+local waypointmat = Material("waymap/waypoint")
 
 local waypointstartcolor = Color(255, 154, 0)
 local waypointendcolor = Color(39, 167, 216)
@@ -51,7 +51,7 @@ hook.Add("PostDrawOpaqueRenderables", "Waymap.DrawPath", function()
 	--]]
 	
 	render.SetMaterial(waypointmat)
-	render.DrawSprite(active[1] + ptoffset, waypointsize.cur, waypointsize.cur, waypointstartcolor)
+	render.DrawSprite(active[1] + ptoffset, waypointsize.cur, waypointsize.cur * 2, waypointstartcolor)
 	
 	--local last
 	render.SetMaterial(arrowmat)
@@ -65,5 +65,5 @@ hook.Add("PostDrawOpaqueRenderables", "Waymap.DrawPath", function()
 	render.EndBeam()
 	
 	render.SetMaterial(waypointmat)
-	render.DrawSprite(active[#active] + ptoffset, waypointsize.cur, waypointsize.cur, waypointendcolor)
+	render.DrawSprite(active[#active] + ptoffset, waypointsize.cur, waypointsize.cur * 2, waypointendcolor)
 end)
