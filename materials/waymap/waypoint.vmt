@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture" "waymap/waypoint"
+	"$translucent" 1
+}
