@@ -14,3 +14,11 @@ function Waymap.UI.OpenMap()
 		Waymap.UI.waymapFrame:MakePopup()
 	end
 end
+
+function Waymap.UI.OpenCameraEditor()
+	if not IsValid(Waymap.UI.waymapCameraEditorFrame) then
+		Waymap.UI.waymapCameraEditorFrame = vgui.Create("DWaymapCameraEditor")
+		Waymap.UI.waymapCameraEditorFrame:SetVisible(true) 
+		Waymap.UI.waymapCameraEditorFrame:MakePopup()
+	end
+end

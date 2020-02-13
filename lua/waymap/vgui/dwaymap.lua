@@ -23,10 +23,10 @@ function PANEL:Paint(width, height)
 		bloomtone = false,
 		dopostprocess = false,
 		ortho = {
-			left = min.x,
-			right = max.x,
-			top = min.y,
-			bottom = max.y
+			left = -10000,
+			right = 10000,
+			top = -10000,
+			bottom = 10000
 		}
 	})
 end

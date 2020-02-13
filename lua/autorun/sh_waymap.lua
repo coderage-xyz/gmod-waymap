@@ -31,9 +31,11 @@ Waymap.Include("waymap/convars/cl_convars.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/sv_wmanager.lua", Waymap.INSTANCE.SERVER)
 Waymap.Include("waymap/cl_image.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/cl_ui.lua", Waymap.INSTANCE.CLIENT)
-Waymap.Include("waymap/vgui/dwaymap.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/sv_astar.lua", Waymap.INSTANCE.SERVER)
 Waymap.Include("waymap/sv_drawpath.lua", Waymap.INSTANCE.SERVER)
+
+Waymap.Include("waymap/vgui/dwaymapcameraeditor.lua", Waymap.INSTANCE.CLIENT)
+Waymap.Include("waymap/vgui/dwaymap.lua", Waymap.INSTANCE.CLIENT)
 
 Waymap.Include("waymap/netpath/sv_netpath.lua", Waymap.INSTANCE.SERVER)
 Waymap.Include("waymap/netpath/cl_netpath.lua", Waymap.INSTANCE.CLIENT)
