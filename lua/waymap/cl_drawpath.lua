@@ -15,7 +15,7 @@ local waypointsize = {
 	cur = 20
 }
 
-local ptoffset = Vector(0, 0, 16)
+local ptoffset = Vector(0, 0, 20)
 
 hook.Add("Think", "Waymap.DoDrawCalculations", function()
 	if istable(Waymap.Path.GetActive()) then
