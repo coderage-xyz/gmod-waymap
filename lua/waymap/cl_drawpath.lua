@@ -24,7 +24,7 @@ local waypointsize = {
 local ptoffset = Vector(0, 0, 20)
 local waypointoffset = Vector(0, 0, 40)
 
-hook.Add("Think", "Waymap.DoDrawCalculations", function()
+hook.Add("Think", "Waymap.MoveWaypointModels", function()
 	local curpath = Waymap.Path.GetActive()
 	if istable(curpath) then
 		if not Waymap._waypointmdls.waypointstart then
