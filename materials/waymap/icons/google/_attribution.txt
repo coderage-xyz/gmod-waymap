@@ -1,4 +1,4 @@
 https://wiki.creativecommons.org/wiki/best_practices_for_attribution
 
-These icons are a derivative of "Material Design Icon Pack" and "Maps And Transport Icon Pack" by Google from www.flaticon.com, used under CC 3.0 BY / Levels of original inverted for colorization
+These icons are a derivative of "Material Design Icon Pack" and "Maps And Transport Icon Pack" by Google from www.flaticon.com, used under CC 3.0 BY / Resized and inverted levels for colorization
 Icons made by <a href="https://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
