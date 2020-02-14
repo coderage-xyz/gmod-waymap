@@ -2,20 +2,29 @@
 	Waymap Icons Test
 --]]
 
-local iconspath = "waymap/icons/google/"
-local iconsearch = "materials/waymap/icons/google/*.png"
+local iconspath = "materials/waymap/icons/"
 
 local iconparams = "mips"
 
 local icons = {}
 
-local files, directories = file.Find(iconsearch, "GAME")
+--local files, directories = file.Find(iconsearch, "GAME")
 
-for _, file in pairs(files) do
-	icons[#icons + 1] = Material(iconspath .. file, iconparams)
+local function LoadAllIcons(folder)
+	local path = folder and (iconspath .. folder .. "/") or iconspath
+	local files, directories = file.Find(path .. "*", "GAME")
+	
+	for _, file in pairs(files) do
+		if string.sub(file, #file - 3) ~= ".png" then continue end
+		icons[#icons + 1] = Material(string.sub(path, 11) .. file, iconparams)
+	end
+	
+	for _, directory in pairs(directories) do
+		LoadAllIcons(directory)
+	end
 end
 
-icons[#icons + 1] = Material("waymap/icons/revolver.png", iconparams)
+LoadAllIcons()
 
 hook.Add("HUDPaint", "DrawGoogleIcons", function()
 	if Waymap.ConVars.Debug_ShowIcons() then
