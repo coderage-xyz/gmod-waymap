@@ -15,7 +15,7 @@ for _, file in pairs(files) do
 	icons[#icons + 1] = Material(iconspath .. file, iconparams)
 end
 
---icons[#icons + 1] = Material("waymap/icons/gun.png", iconparams)
+icons[#icons + 1] = Material("waymap/icons/revolver.png", iconparams)
 
 hook.Add("HUDPaint", "DrawGoogleIcons", function()
 	if Waymap.ConVars.Debug_ShowIcons() then
