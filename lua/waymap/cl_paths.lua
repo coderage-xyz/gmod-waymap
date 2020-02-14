@@ -12,6 +12,8 @@ Waymap.Path = Waymap.Path or {}
 Waymap.Path._paths = Waymap.Path._paths or {}
 Waymap.Path._active = Waymap.Path._active or {}
 
+Waymap._arrows = Waymap._arrows or {}
+
 Waymap.Path._texcoord = 8
 
 function Waymap.Path.Add(path) -- path is a table of vectors
