@@ -27,3 +27,14 @@ Waymap.ConVars.CreateClientConVar{
     value = 1,
     helpText = "Enable bezier curves for paths",
 }
+
+--[[
+	Debug convars
+--]]
+
+Waymap.ConVars.CreateClientConVar{
+    name = "Debug_ShowIcons",
+    type = "Bool",
+    value = 0,
+    helpText = "Show icon debug view",
+}

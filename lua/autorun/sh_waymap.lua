@@ -45,3 +45,6 @@ Waymap.Include("waymap/cl_paths.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/cl_drawpath.lua", Waymap.INSTANCE.CLIENT)
 
 Waymap.Include("waymap/sv_resource.lua", Waymap.INSTANCE.SERVER)
+
+-- Debug files
+Waymap.Include("waymap/debug/cl_showicons.lua", Waymap.INSTANCE.CLIENT)
