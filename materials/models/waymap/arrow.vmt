@@ -1,0 +1,12 @@
+"VertexlitGeneric"
+{
+	"$basetexture" "models/waymap/arrow"
+
+//	"$vertexalpha" 1
+	"$vertexcolor" 1
+
+	"$phong" 1
+	"$phongexponent" 3
+	"$phongboost" 3
+	"$phongfresnelranges" "[ .025 2 1]"
+}
