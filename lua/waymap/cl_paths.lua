@@ -103,7 +103,6 @@ function Waymap.Path.Subdiv(path) -- path is a table of vectors
 	
 	print("[Waymap] Path is " .. #newpath .. " segments after subdivision.")
 	
-	--PrintTable(newpath)
 	return newpath
 end
 
@@ -132,7 +131,6 @@ function Waymap.Path.SubdivCorners(path) -- path is a table of vectors
 	
 	print("[Waymap] Path is " .. #newpath .. " segments after corner subdivision.")
 	
-	--PrintTable(newpath)
 	return newpath
 end
 
@@ -145,8 +143,6 @@ local function fact(n) -- The factorial function, notated as n! in the majority 
 end
 
 local function binomial(n, r) -- See https://en.wikipedia.org/wiki/Pascal%27s_triangle
-	--print("[Waymap] Running binomial function with arguments " .. tostring(n) .. ", " .. tostring(r) .. ".")
-	
 	if (r > n) then
 		Error("[Waymap] What are you trying to do, cause a stack overflow? In all binomial coefficients you must ensure that r is never greater than n.")
 		return nil
@@ -155,32 +151,7 @@ local function binomial(n, r) -- See https://en.wikipedia.org/wiki/Pascal%27s_tr
 	return (fact(n) / (fact(n - r) * fact(r)))
 end
 
---[[
-function Waymap.Path.Bezier3(t, v0, v1, v2) -- Waymap.Path.Bezier(number timestep, vector v0, vector v1, vector v2)
-	-- Linear interpolation
-	local L0 = (1 - t) * v0 + (t * v1)
-	local L1 = (1 - t) * v1 + (t * v2)
-	-- Quadratic
-	--local Q0 = ((1 - t) * (1 - t)) * v0 + (2 * (1 - t) * t * v1) + (t * t * v2)
-	local Q0 = (1 - t) * L0 * t + t * L1 * t
-	
-	return Q0
-end
-
-function Waymap.Path.Bezier3Table(seg, v0, v1, v2) -- Waymap.Path.Bezier(number segments, vector v0, vector v1, vector v2)
-	local data = {}
-	--table.insert(data, v0)
-	--debugoverlay.Sphere(Vector(0, 0, data[#data] * 10), 2, 15)
-	for i = 0, 1, (1 / seg) do
-		table.insert(data, Waymap.Path.Bezier3(i, v0, v1, v2))
-	end
-	return data
-end
---]]
-
 function Waymap.Path.BezierRecursive(subdiv, args)
-	--subdiv = subdiv or 16
-	--local args = {...}
 	local n = (#args - 1)
 	local bpath = {}
 	
@@ -190,7 +161,6 @@ function Waymap.Path.BezierRecursive(subdiv, args)
 			vec = vec + (binomial(n, i) * math.pow((1 - t), (n - i)) * math.pow(t, i) * (args[i + 1]))
 		end
 		table.insert(bpath, vec)
-		--print("[Waymap] Made point " .. tostring(vec) .. " @ " .. #bpath .. ", t = " .. tostring(t))
 	end
 	
 	return bpath
@@ -198,36 +168,5 @@ end
 
 function Waymap.Path.BezierPath(path, subdiv)
 	subdiv = subdiv or 16
-	
-	--[[
-	local bpath = {}
-	table.insert(bpath, path[1])
-	
-	for i = 3, #path, 3 do
-		if not path[i - 1] or not path[i - 2] then continue end
-		print("[Waymap] Bézier curving point " .. i .. " on path.")
-		local startpoint = path[i - 2]
-		local control = path[i - 1]
-		local endpoint = path[i]
-		
-		--table.insert(bpath, startpoint)
-		
-		for i2 = 1, subdiv do
-			local step = (i2 / subdiv)
-			local seg = Waymap.Path.Bezier(step, startpoint, control, endpoint)
-			print("[Waymap] Made point " .. tostring(seg) .. " @ " .. i .. ".")
-			print("[Waymap] Curved point " .. i2 .. ", saving to table.")
-			table.insert(bpath, seg)
-			
-			debugoverlay.Sphere(seg, 8, 15)
-			if bpath[#bpath - 1] then
-				debugoverlay.Line(seg, bpath[#bpath - 1], 15)
-			end
-		end
-		
-		table.insert(bpath, endpoint)
-	end
-	--]]
-	
 	return Waymap.Path.BezierRecursive(subdiv, path)
 end

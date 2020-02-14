@@ -10,9 +10,6 @@ function Waymap.RequestPath(startpos, endpos, callback)
 		Waymap.Path.SetActive(id)
 	end
 	
-	--print(callback)
-	
-	--local id = util.CRC(tostring(startpos) .. tostring(endpos))
 	local id = table.Count(callbacks) + 1
 	print("[Waymap] Saving callback ID: " .. id)
 	callbacks[id] = callback
@@ -39,12 +36,6 @@ net.Receive("Waymap.SendPath", function(ln)
 	--pathvecs = Waymap.Path.SubdivCorners(pathvecs)
 	
 	if Waymap.ConVars.Bezier() then
-		--local subdivcnt, subdivrem = math.modf(distance / 2048)
-		--[[
-		for i = 1, subdivcnt do
-			pathvecs = Waymap.Path.Subdiv(pathvecs) -- Cut the path into smaller pieces by finding midpoints
-		end
-		--]]
 		print("[Waymap] Starting Bézier interpolation...")
 		pathvecs = Waymap.Path.BezierPath(pathvecs, distance / 32) -- Smooth out jagged edges via recursive parametric Bezier curves
 		print("[Waymap] Finished Bézier parametric curve interpolation with " .. #pathvecs .. " segments.")
