@@ -7,7 +7,7 @@ Waymap._waypointmdls = Waymap._waypointmdls or {}
 local arrowmat = Material("waymap/arrow_outline")
 --local waypointmat = Material("waymap/waypoint")
 
-local waypointmodel = Model("models/waymap/waypoint.mdl")
+local waypointmodel = Model("models/waymap/waypoint_alt.mdl")
 
 local waypointstartcolor = Color(255, 154, 0)
 local waypointendcolor = Color(39, 167, 216)
