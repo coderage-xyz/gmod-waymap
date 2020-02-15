@@ -12,7 +12,7 @@ function PANEL:Init()
 			local x, y = panel:LocalToScreen(0, 0)
 			
 			render.RenderView({
-				origin = camera.position,
+				origin = Vector(-camera.position.y, -camera.position.x, camera.position.z),
 				angles = Angle(90, math.floor(camera.rotation) * 90, 0),
 				x = x,
 				y = y,
@@ -81,12 +81,7 @@ function PANEL:Init()
 		
 		self.buttonSave = self.optionsForm:Button("Save", "")
 		self.buttonSave.DoClick = function(button)
-			if Waymap.Config.CanEditMapCamera(LocalPlayer()) then
-				Waymap.Camera.SaveCameraToServer(camera)
-			else
-				notification.AddLegacy("You do not have permission to edit the map camera!", NOTIFY_ERROR, 4)
-				surface.PlaySound("buttons/button11.wav")
-			end
+			Waymap.Camera.SaveCameraToServer(camera)
 		end
 		
 		--Add extra space at end
