@@ -1,12 +1,7 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetTitle(Waymap.Config.Title)
-	self:SetSize(ScrH(), ScrH() - 200)
-	self:Center()
-	self:SetDraggable(true) 
-	self:ShowCloseButton(true) 
-	self:SetDeleteOnClose(true)
+	self:DockMargin( 0, 0, 0, 0 )
 	
 	local min, max = game.GetWorld():GetModelBounds()
 	local loaded = false
@@ -126,35 +121,15 @@ end
 function PANEL:PerformLayout()
 	local width, height = self:GetSize()
 	
-	local titlePush = 0
-	
-	if IsValid(self.imgIcon) then
-		self.imgIcon:SetPos(5, 5)
-		self.imgIcon:SetSize(16, 16)
-		titlePush = 16
-	end
-	
-	self.btnClose:SetPos(width - 31 - 4, 0)
-	self.btnClose:SetSize(31, 24)
-	
-	self.btnMaxim:SetPos(width - 31 * 2 - 4, 0)
-	self.btnMaxim:SetSize(31, 24)
-	
-	self.btnMinim:SetPos(width - 31 * 3 - 4, 0)
-	self.btnMinim:SetSize(31, 24)
-	
-	self.lblTitle:SetPos(8 + titlePush, 2)
-	self.lblTitle:SetSize(width - 25 - titlePush, 20)
-	
 	if IsValid(self.cameraViewPanel) then
-		self.cameraViewPanel:SetPos(226, 26)
-		self.cameraViewPanel:SetSize(height - 29, height - 29)
+		self.cameraViewPanel:SetPos(226, 6)
+		self.cameraViewPanel:SetSize(height - 9, height - 9)
 	end
 	
 	if IsValid(self.optionsForm) then
-		self.optionsScrollPanel:SetPos(3, 26)
-		self.optionsScrollPanel:SetSize(222, height - 29)
+		self.optionsScrollPanel:SetPos(3, 6)
+		self.optionsScrollPanel:SetSize(221, height - 9)
 	end
 end
 
-derma.DefineControl("DWaymapCameraEditor", "Map camera editor for Waymap", PANEL, "DFrame")
+derma.DefineControl("DWaymapCameraEditor", "Map camera editor for Waymap", PANEL, "Panel")
