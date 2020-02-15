@@ -15,7 +15,15 @@ end
 
 local function splitString(str)
 	local size = math.ceil(#str / 4096)
-	print(size)
+	local strings = {}
+	
+	for i = 1, size do
+		--print((i - 1) * size + 1, i * size)
+		local splitstr = string.sub((i - 1) * size + 1, i * size)
+		table.insert(strings, splitstr)
+	end
+	
+	return strings
 end
 
 --[[
