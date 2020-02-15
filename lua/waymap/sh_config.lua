@@ -1,5 +1,39 @@
 
-Waymap.Config = Waymap.Config or {
+Waymap.Config = {
 	Title = "Waymap",
-	ConVarPrefix = "waymap_"
+	ConVarPrefix = "waymap_",
+	
+	
+	
+	
+	
+	
+	
+	
+	----Permissions----
+	
+	--Who can edit the map camera?
+	--Possible values: "none", "everyone", "admin" or "superadmin"
+	EditMapCameraPermission = "superadmin",
+	
+
+	
+	----Advanced----
+	
+	--Can player edit the map camera?
+	CanEditMapCamera = function(self, ply)
+		if EditMapCameraPermission == "none" then
+			return false
+		end
+		
+		if EditMapCameraPermission == "admin" and not ply:IsAdmin() then
+			return false
+		end
+		
+		if EditMapCameraPermission == "superadmin" and not ply:IsSuperAdmin() then
+			return false
+		end
+		
+		return true
+	end,
 }

@@ -30,6 +30,9 @@ Waymap.Include("waymap/convars/cl_convars.lua", Waymap.INSTANCE.CLIENT)
 
 Waymap.Include("waymap/sh_precache.lua", Waymap.INSTANCE.SHARED)
 
+Waymap.Include("waymap/camera/sh_camera.lua", Waymap.INSTANCE.SHARED)
+Waymap.Include("waymap/camera/sv_camera.lua", Waymap.INSTANCE.SERVER)
+Waymap.Include("waymap/camera/cl_camera.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/cl_image.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/cl_ui.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/sv_astar.lua", Waymap.INSTANCE.SERVER)
