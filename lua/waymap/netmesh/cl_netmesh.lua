@@ -12,8 +12,6 @@ local isreceiving = false
 --]]
 
 function Waymap.Map.RequestMesh(callback)
-	if isreceiving then return end
-	
 	callback = callback or function(mesh2d)
 		PrintTable(mesh2d)
 	end
@@ -26,3 +24,31 @@ function Waymap.Map.RequestMesh(callback)
 		net.WriteFloat(id)
 	net.SendToServer()
 end
+
+net.Receive("Waymap.Map.Send", function(ln)
+	local callbackid = net.ReadFloat()
+	local chunkid = net.ReadFloat()
+	local islast = net.ReadBool()
+	local chunk = net.ReadString()
+	print("[Waymap] Received chunk of " .. (ln / 1000) .. " Kb")
+	
+	table.insert(chunks, chunkid, chunk)
+	
+	if islast then
+		local tab = {}
+		for _, chunk in pairs(chunks) do
+			table.insert(tab, chunk)
+		end
+		
+		local data
+		for _, str in pairs(tab) do
+			data = data or ""
+			data = data .. str
+		end
+		
+		local mesh2d = util.JSONToTable(util.Decompress(data))
+		print(mesh2d)
+		
+		callbacks[callbackid](mesh2d)
+	end
+end)
