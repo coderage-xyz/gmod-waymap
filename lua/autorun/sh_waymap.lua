@@ -9,19 +9,19 @@ Waymap.INSTANCE.CLIENT = 3
 
 --Easier way to include files
 function Waymap.Include(path, instance)
-	if SERVER then
-		if instance == Waymap.INSTANCE.SHARED or instance == Waymap.INSTANCE.CLIENT then
-			AddCSLuaFile(path)
-		end
+    if SERVER then
+        if instance == Waymap.INSTANCE.SHARED or instance == Waymap.INSTANCE.CLIENT then
+            AddCSLuaFile(path)
+        end
 
-		if instance == Waymap.INSTANCE.SHARED or instance == Waymap.INSTANCE.SERVER then
-			include(path)
-		end
-	end
+        if instance == Waymap.INSTANCE.SHARED or instance == Waymap.INSTANCE.SERVER then
+            include(path)
+        end
+    end
 
-	if CLIENT and (instance == Waymap.INSTANCE.SHARED or instance == Waymap.INSTANCE.CLIENT) then
-		include(path)
-	end
+    if CLIENT and (instance == Waymap.INSTANCE.SHARED or instance == Waymap.INSTANCE.CLIENT) then
+        include(path)
+    end
 end
 
 Waymap.Include("waymap/sh_config.lua", Waymap.INSTANCE.SHARED)
@@ -54,6 +54,9 @@ Waymap.Include("waymap/cl_paths.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/cl_drawpath.lua", Waymap.INSTANCE.CLIENT)
 
 Waymap.Include("waymap/sv_resource.lua", Waymap.INSTANCE.SERVER)
+
+-- GWEN skin
+Waymap.Include("skins/waymap.lua", Waymap.INSTANCE.CLIENT)
 
 -- Debug files
 Waymap.Include("waymap/debug/cl_showicons.lua", Waymap.INSTANCE.CLIENT)
