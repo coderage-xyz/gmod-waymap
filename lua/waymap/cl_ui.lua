@@ -18,7 +18,7 @@ end
 function Waymap.UI.OpenCameraEditor()
 	if not IsValid(Waymap.UI.cameraEditorFrame) then
 		Waymap.UI.cameraEditorFrame = vgui.Create("DFrame")
-		Waymap.UI.cameraEditorFrame:SetTitle(Waymap.Config.Title)
+		Waymap.UI.cameraEditorFrame:SetTitle(Waymap.Config.Title .. " - Camera Editor")
 		Waymap.UI.cameraEditorFrame:SetSize(ScrH(), ScrH() - 200)
 		Waymap.UI.cameraEditorFrame:Center()
 		Waymap.UI.cameraEditorFrame:DockPadding(0, 26, 0, 0)
@@ -31,6 +31,12 @@ function Waymap.UI.OpenCameraEditor()
 		
 		Waymap.UI.cameraEditorFrame.cameraEditor = vgui.Create("DWaymapCameraEditor", Waymap.UI.cameraEditorFrame)
 		Waymap.UI.cameraEditorFrame.cameraEditor:Dock(FILL)
+	end
+end
+
+function Waymap.UI.CloseCameraEditor()
+	if IsValid(Waymap.UI.cameraEditorFrame) then
+		Waymap.UI.cameraEditorFrame:Remove()
 	end
 end
 

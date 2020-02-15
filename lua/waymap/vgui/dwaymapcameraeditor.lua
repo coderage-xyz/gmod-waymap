@@ -38,7 +38,7 @@ function PANEL:Init()
 		self.optionsScrollPanel:SetPaintBackground(true)
 		
 		self.optionsForm = vgui.Create("DForm", self.optionsScrollPanel)
-		self.optionsForm:SetName("Options")
+		self.optionsForm:SetName("Camera Options")
 		self.optionsForm:Dock(FILL)
 		
 		local maxPosition = math.max(min.x - max.x, max.x - min.x, min.y - max.y, max.z - min.z)
@@ -57,6 +57,8 @@ function PANEL:Init()
 				camera.position.y = math.floor(value)
 			end
 		end
+		
+		self.optionsForm:Help("Only change position Z if the 3D skybox is in the way or the map is displayed incorrectly")
 		
 		self.cameraPositionZSlider = self.optionsForm:NumSlider("Postion Z", "", -maxPosition, maxPosition, 0)
 		self.cameraPositionZSlider.OnValueChanged = function(slider, value)
@@ -82,6 +84,7 @@ function PANEL:Init()
 		self.buttonSave = self.optionsForm:Button("Save", "")
 		self.buttonSave.DoClick = function(button)
 			Waymap.Camera.SaveCameraToServer(camera)
+			Waymap.UI.CloseCameraEditor()
 		end
 		
 		--Add extra space at end
