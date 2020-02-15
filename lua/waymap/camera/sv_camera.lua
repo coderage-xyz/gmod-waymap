@@ -74,7 +74,13 @@ end)
 net.Receive("Waymap.Camera.ServerSaveCamera", function(len, ply)
 	local camera = net.ReadTable()
 	
-	if camera and Waymap.Config.CanEditMapCamera(ply) then
-		Waymap.Camera.Save(camera)
+	if camera then
+		if Waymap.Config.CanEditMapCamera(ply) then
+			Waymap.Camera.Save(camera)
+			
+			ply:SendLua("GAMEMODE:AddNotify(\"Map camera saved!\", NOTIFY_GENERIC, 4)")
+		else
+			ply:SendLua("GAMEMODE:AddNotify(\"You do not have permission to edit the map camera!\", NOTIFY_ERROR, 4)")
+		end
 	end
 end)
