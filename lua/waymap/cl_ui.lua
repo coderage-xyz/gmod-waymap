@@ -33,3 +33,7 @@ function Waymap.UI.OpenCameraEditor()
 		Waymap.UI.cameraEditorFrame.cameraEditor:Dock(FILL)
 	end
 end
+
+concommand.Add("waymap_cameraeditor",function(ply, cmd, args)
+    Waymap.UI.OpenCameraEditor()
+end)
