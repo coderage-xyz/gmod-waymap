@@ -13,7 +13,7 @@ function PANEL:Init()
 			
 			render.RenderView({
 				origin = Vector(-camera.position.y, -camera.position.x, camera.position.z),
-				angles = Angle(90, math.floor(camera.rotation) * 90, 0),
+				angles = Angle(90, camera.rotation * 90, 0),
 				x = x,
 				y = y,
 				w = width,
@@ -47,35 +47,35 @@ function PANEL:Init()
 		self.cameraPositionXSlider = self.optionsForm:NumSlider("Postion X", "", -maxPosition, maxPosition, 0)
 		self.cameraPositionXSlider.OnValueChanged = function(slider, value)
 			if loaded then
-				camera.position.x = value
+				camera.position.x = math.floor(value)
 			end
 		end
 		
 		self.cameraPositionYSlider = self.optionsForm:NumSlider("Postion Y", "", -maxPosition, maxPosition, 0)
 		self.cameraPositionYSlider.OnValueChanged = function(slider, value)
 			if loaded then
-				camera.position.y = value
+				camera.position.y = math.floor(value)
 			end
 		end
 		
 		self.cameraPositionZSlider = self.optionsForm:NumSlider("Postion Z", "", -maxPosition, maxPosition, 0)
 		self.cameraPositionZSlider.OnValueChanged = function(slider, value)
 			if loaded then
-				camera.position.z = value
+				camera.position.z = math.floor(value)
 			end
 		end
 		
 		self.cameraPositionZoomSlider = self.optionsForm:NumSlider("Zoom", "", -maxPosition, maxPosition, 0)
 		self.cameraPositionZoomSlider.OnValueChanged = function(slider, value)
 			if loaded then
-				camera.zoom = value
+				camera.zoom = math.floor(value)
 			end
 		end
 		
 		self.cameraPositionRotationSlider = self.optionsForm:NumSlider("Rotation", "", 0, 3, 0)
 		self.cameraPositionRotationSlider.OnValueChanged = function(slider, value)
 			if loaded then
-				camera.rotation = value
+				camera.rotation = math.floor(value)
 			end
 		end
 		
