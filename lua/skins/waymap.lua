@@ -30,8 +30,8 @@ SKIN.listview_hover = Color( 70, 70, 70, 255 )
 SKIN.listview_selected = Color( 100, 170, 220, 255 )
 
 SKIN.text_bright = Color( 255, 255, 255, 255 )
-SKIN.text_normal = Color( 180, 180, 180, 255 )
-SKIN.text_dark = Color( 20, 20, 20, 255 )
+SKIN.text_normal = Color( 6, 137, 185, 255 )
+SKIN.text_dark = Color( 5, 130, 175, 255 )
 SKIN.text_highlight = Color( 255, 20, 20, 255 )
 
 SKIN.texGradientUp = Material( "gui/gradient_up" )
@@ -47,7 +47,7 @@ SKIN.colTab = SKIN.colPropertySheet
 SKIN.colTabInactive = Color( 140, 140, 140, 255 )
 SKIN.colTabShadow = Color( 0, 0, 0, 170 )
 SKIN.colTabText = Color( 255, 255, 255, 255 )
-SKIN.colTabTextInactive = Color( 0, 0, 0, 200 )
+SKIN.colTabTextInactive = Color( 5, 130, 175, 200 )
 SKIN.fontTab = "DermaDefault"
 
 SKIN.colCollapsibleCategory = Color( 255, 255, 255, 20 )
@@ -58,10 +58,10 @@ SKIN.fontCategoryHeader = "TabLarge"
 
 SKIN.colNumberWangBG = Color( 255, 240, 150, 255 )
 SKIN.colTextEntryBG = Color( 240, 240, 240, 255 )
-SKIN.colTextEntryBorder = Color( 20, 20, 20, 255 )
-SKIN.colTextEntryText = Color( 20, 20, 20, 255 )
+SKIN.colTextEntryBorder = Color( 5, 130, 175, 200 )
+SKIN.colTextEntryText = Color( 5, 130, 175, 200 )
 SKIN.colTextEntryTextHighlight = Color( 20, 200, 250, 255 )
-SKIN.colTextEntryTextCursor = Color( 0, 0, 100, 255 )
+SKIN.colTextEntryTextCursor = Color( 5, 130, 175, 200 )
 SKIN.colTextEntryTextPlaceholder = Color( 128, 128, 128, 255 )
 
 SKIN.colMenuBG = Color( 255, 255, 255, 200 )
