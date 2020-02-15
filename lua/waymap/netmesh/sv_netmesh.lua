@@ -4,7 +4,6 @@
 
 util.AddNetworkString("Waymap.Map.Request")
 util.AddNetworkString("Waymap.Map.Send")
-util.AddNetworkString("Waymap.Map.SendHeaders")
 
 --[[
 	Useful functions
