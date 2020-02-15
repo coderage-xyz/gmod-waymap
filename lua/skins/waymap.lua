@@ -467,7 +467,7 @@ function SKIN:PaintTextEntry( panel, w, h )
     end
 
     -- Hack on a hack, but this produces the most close appearance to what it will actually look if text was actually there
-    if ( panel.GetPlaceholderText && panel.GetPlaceholderColor && panel:GetPlaceholderText() && panel:GetPlaceholderText():Trim() ! = "" && panel:GetPlaceholderColor() && ( !panel:GetText() || panel:GetText() == "" ) ) then
+    if ( panel.GetPlaceholderText && panel.GetPlaceholderColor && panel:GetPlaceholderText() && panel:GetPlaceholderText():Trim() != "" && panel:GetPlaceholderColor() && ( !panel:GetText() || panel:GetText() == "" ) ) then
 
         local oldText = panel:GetText()
 
