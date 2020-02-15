@@ -21,16 +21,15 @@ function Waymap.UI.OpenCameraEditor()
 		Waymap.UI.cameraEditorFrame:SetTitle(Waymap.Config.Title)
 		Waymap.UI.cameraEditorFrame:SetSize(ScrH(), ScrH() - 200)
 		Waymap.UI.cameraEditorFrame:Center()
+		Waymap.UI.cameraEditorFrame:DockPadding(0, 26, 0, 0)
+		Waymap.UI.cameraEditorFrame:SetSkin("Waymap")
 		Waymap.UI.cameraEditorFrame:SetDraggable(true) 
 		Waymap.UI.cameraEditorFrame:ShowCloseButton(true) 
 		Waymap.UI.cameraEditorFrame:SetDeleteOnClose(true)
 		Waymap.UI.cameraEditorFrame:SetVisible(true) 
 		Waymap.UI.cameraEditorFrame:MakePopup()
-		Waymap.UI.cameraEditorFrame:DockMargin( 0, 50, 0, 0 )
-		Waymap.UI.cameraEditorFrame:DockPadding( 0, 20, 0, 0 )
 		
 		Waymap.UI.cameraEditorFrame.cameraEditor = vgui.Create("DWaymapCameraEditor", Waymap.UI.cameraEditorFrame)
 		Waymap.UI.cameraEditorFrame.cameraEditor:Dock(FILL)
-
 	end
 end

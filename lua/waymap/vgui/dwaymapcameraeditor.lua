@@ -122,13 +122,13 @@ function PANEL:PerformLayout()
 	local width, height = self:GetSize()
 	
 	if IsValid(self.cameraViewPanel) then
-		self.cameraViewPanel:SetPos(226, 6)
-		self.cameraViewPanel:SetSize(height - 9, height - 9)
+		self.cameraViewPanel:SetPos(226, 0)
+		self.cameraViewPanel:SetSize(height - 3, height - 3)
 	end
 	
 	if IsValid(self.optionsForm) then
-		self.optionsScrollPanel:SetPos(3, 6)
-		self.optionsScrollPanel:SetSize(221, height - 9)
+		self.optionsScrollPanel:SetPos(3, 0)
+		self.optionsScrollPanel:SetSize(221, height - 3)
 	end
 end
 
