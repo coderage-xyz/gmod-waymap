@@ -14,6 +14,7 @@ local isreceiving = false
 function Waymap.Map.RequestMesh(callback)
 	callback = callback or function(mesh2d)
 		Waymap.Map._mesh2d = mesh2d
+		Waymap.Map.Shrink()
 	end
 	
 	local id = table.Count(callbacks) + 1
