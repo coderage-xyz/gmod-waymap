@@ -25,7 +25,7 @@ function Waymap.Map.GetMesh2D()
 			local newvert = {
 				x = vert.pos.x,
 				y = vert.pos.y,
-				depth = vert.pos.z
+				d = vert.pos.z
 			}
 			
 			table.insert(curtri, newvert)
@@ -35,4 +35,22 @@ function Waymap.Map.GetMesh2D()
 	end
 	
 	return Waymap.Map._mesh2d
+end
+
+function Waymap.Map.SplitMeshIntoChunks(mesh)
+	local chunks = {}
+	local sub = 256
+	
+	local current = {}
+	for i, tri in pairs(mesh) do
+		if (#current == sub) or (i == #mesh) then
+			table.insert(chunks, current)
+			current.chunkid = (#chunks + 1)
+			current = {}
+		end
+		
+		table.insert(current, tri)
+	end
+	
+	return chunks
 end

@@ -35,13 +35,13 @@ end
 
 local function SendChunk(ply, callbackid)
 	local steamid = ply:SteamID64()
+	if not cache[steamid] then return end
 	local islast = (#cache[steamid] == 1) or false
 	
 	net.Start("Waymap.Map.Send")
 		net.WriteFloat(callbackid)
-		net.WriteFloat(cache[steamid][1].chunkid)
 		net.WriteBool(islast)
-		net.WriteString(cache[steamid][1].data)
+		net.WriteTable(cache[steamid][1])
 		print("[Waymap] Sending chunk number " .. cache[steamid][1].chunkid)
 	net.Send(ply)
 	
@@ -59,16 +59,17 @@ net.Receive("Waymap.Map.Request", function(ln, ply)
 	local mesh2d = Waymap.Map.GetMesh2D()
 	print("[Waymap] Got 2D map mesh and stored to variable.")
 	
+	print(util.TableToJSON(mesh2d))
 	local strings = splitString(util.TableToJSON(mesh2d))
 	
 	if not cache[ply:SteamID64()] then cache[ply:SteamID64()] = {} end
-	for i, str in pairs(strings) do
-		print("[Waymap] Inserting chunk number " .. i)
-		table.insert(cache[ply:SteamID64()], {
-			chunkid = i,
-			data = str
-		})
+	local chunks = Waymap.Map.SplitMeshIntoChunks(mesh2d)
+	
+	for _, chunk in pairs(chunks) do
+		table.insert(cache[ply:SteamID64()], chunk)
 	end
+	
+	print("[Waymap] Total chunks: " .. #cache[ply:SteamID64()])
 	
 	timer.Create("Waymap.Map.Send_" .. ply:SteamID64(), 0.1, #strings, function()
 		SendChunk(ply, id)
