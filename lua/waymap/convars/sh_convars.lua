@@ -14,7 +14,7 @@ function Waymap.ConVars.CreateServerConVar(...)
 end
 
 --[[
-Waymap.ConVars.CreateClientConVar{
+Waymap.ConVars.CreateServerConVar{
     name = "Example",
     type = "Bool",
     value = 1,
@@ -22,3 +22,11 @@ Waymap.ConVars.CreateClientConVar{
     helpText = "Example server convar",
 }
 ]]
+
+Waymap.ConVars.CreateServerConVar{
+    name = "DefaultMapMode",
+    type = "String",
+    value = "SATALLITE",
+	flags = FCVAR_ARCHIVE + FCVAR_REPLICATED,
+    helpText = "Default mode for viewing the map. Possible values: \"SATALLITE\" or \"FLAT\"",
+}

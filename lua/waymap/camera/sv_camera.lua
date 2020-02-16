@@ -1,7 +1,6 @@
 Waymap.Camera.location = "DATA"
 Waymap.Camera.folders = "waymap/camera"
 Waymap.Camera.extension = "json"
-Waymap.Camera.loadedCamera = nil
 
 util.AddNetworkString("Waymap.Camera.ServerRequestCamera")
 util.AddNetworkString("Waymap.Camera.ServerSaveCamera")
@@ -43,6 +42,8 @@ function Waymap.Camera.Get()
 	if not Waymap.Camera.loadedCamera then
 		if Waymap.Camera.FileExists() then
 			Waymap.Camera.loadedCamera = Waymap.Camera.Load()
+			
+			hook.Run("Waymap.Camera.LoadedCameraUpdated", Waymap.Camera.loadedCamera)
 		else
 			local min, max = game.GetWorld():GetModelBounds()
 			local maxBound = math.max(min.x - max.x, max.x - min.x, min.y - max.y, max.z - min.z)
@@ -50,10 +51,11 @@ function Waymap.Camera.Get()
 			Waymap.Camera.loadedCamera = {
 				position = Vector(0, 0, maxBound),
 				zoom = maxBound,
-				rotation = 0
+				rotation = 0,
+				creationTime = os.time
 			}
 			
-			PrintTable(Waymap.Camera.loadedCamera)
+			hook.Run("Waymap.Camera.LoadedCameraUpdated", Waymap.Camera.loadedCamera)
 		end
 	end
 	
@@ -76,6 +78,7 @@ net.Receive("Waymap.Camera.ServerSaveCamera", function(len, ply)
 	
 	if camera then
 		if Waymap.Config.CanEditMapCamera(ply) then
+			camera.creationTime = os.time()
 			Waymap.Camera.Save(camera)
 			
 			ply:SendLua("GAMEMODE:AddNotify(\"Map camera saved!\", NOTIFY_GENERIC, 4)")

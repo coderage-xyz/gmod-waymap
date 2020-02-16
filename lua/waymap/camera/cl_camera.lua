@@ -24,3 +24,11 @@ net.Receive("Waymap.Camera.ClientSendCamera", function(ply)
 	Waymap.Camera.callbacks[callbackID](camera)
 	Waymap.Camera.callbacks[callbackID] = nil
 end)
+
+hook.Add("Initialize", "Waymap.Camera.Initialize", function()
+	Waymap.Camera.RequestFromServer(function(camera)
+		Waymap.Camera.loadedCamera = camera
+		
+		hook.Run("Waymap.Camera.LoadedCameraUpdated", camera)
+	end)
+end)
