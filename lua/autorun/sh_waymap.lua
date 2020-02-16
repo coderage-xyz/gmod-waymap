@@ -53,6 +53,7 @@ Waymap.Include("waymap/vgui/dwaymap.lua", Waymap.INSTANCE.CLIENT)
 -- Mesh functions and data
 Waymap.Include("waymap/sh_mapmesh.lua", Waymap.INSTANCE.SHARED)
 Waymap.Include("waymap/sv_mapmesh.lua", Waymap.INSTANCE.SERVER)
+Waymap.Include("waymap/cl_mapmesh.lua", Waymap.INSTANCE.CLIENT)
 
 -- Mesh networking
 Waymap.Include("waymap/netmesh/sv_netmesh.lua", Waymap.INSTANCE.SERVER)

@@ -17,7 +17,7 @@ local function getStringSize(str)
 end
 
 local function splitString(str)
-	local size = math.ceil(#str / 4096)
+	local size = math.ceil(#str / 6000)
 	local strings = {}
 	
 	for i = 1, size do
