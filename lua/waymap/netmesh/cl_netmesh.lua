@@ -45,6 +45,8 @@ net.Receive("Waymap.Map.Send", function(ln)
 			end
 		end
 		
+		print("[Waymap] Received last chunk. Running callbacks...")
+		
 		callbacks[callbackid](tab)
 		callbacks[callbackid] = nil
 	end
