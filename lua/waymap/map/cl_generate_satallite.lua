@@ -36,8 +36,8 @@ Waymap.Map.generators[Waymap.Map.MODE.SATELLITE] = function(camera, callback)
 		alpha = true,
 		x = 0,
 		y = 0,
-		w = ScrW(),
-		h = ScrH()
+		w = width,
+		h = height
 	})
 	
 	render.OverrideAlphaWriteEnable(false)
