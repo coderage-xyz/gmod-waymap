@@ -29,8 +29,8 @@ LoadAllIcons()
 hook.Add("HUDPaint", "DrawGoogleIcons", function()
 	if Waymap.ConVars.Debug_ShowIcons() then
 		for i, icon in pairs(icons) do
-			local x = ((i - 1) % 16) * 150 + 32
-			local y = math.floor((i - 1) / 16) * 150 + 32
+			local x = ((i - 1) % math.floor(ScrW() / 150)) * 150 + 16
+			local y = math.floor((i - 1) / math.floor(ScrW() / 150)) * 150 + 16
 			
 			local color = HSVToColor(i * 15, 1, 1)
 			
