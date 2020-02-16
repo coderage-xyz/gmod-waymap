@@ -12,7 +12,7 @@ Waymap.Path = Waymap.Path or {}
 Waymap.Path._paths = Waymap.Path._paths or {}
 Waymap.Path._active = Waymap.Path._active or {}
 
-Waymap._arrows = Waymap._arrows or {}
+Waymap.Path._arrows = Waymap.Path._arrows or {}
 
 Waymap.Path._texcoord = 8
 
@@ -33,6 +33,7 @@ function Waymap.Path.SetActive(pathid)
 	
 	local path = Waymap.Path.Get(pathid)
 	if path then
+		Waymap.Path.PopulateArrows(path)
 		Waymap.Path._texcoord = (0.1 * Waymap.Path.GetTotalLength(path) / #path)
 	end
 end
@@ -42,7 +43,7 @@ function Waymap.Path.GetActive()
 end
 
 function Waymap.Path.Get(pathid)
-	return Waymap.Path._paths[id]
+	return Waymap.Path._paths[pathid]
 end
 
 function Waymap.Path.RemoveActive()
@@ -169,4 +170,28 @@ end
 function Waymap.Path.BezierPath(path, subdiv)
 	subdiv = subdiv or 16
 	return Waymap.Path.BezierRecursive(subdiv, path)
+end
+
+function Waymap.Path.DeleteArrows()
+	for i, arrow in pairs(Waymap.Path._arrows) do
+		arrow:Remove()
+		Waymap.Path._arrows[i] = nil
+	end
+end
+
+local arrowmdl = Model("models/waymap/arrow_indent.mdl")
+
+function Waymap.Path.PopulateArrows(path)
+	if Waymap.Path._arrows then Waymap.Path.DeleteArrows() end
+	for i, node in pairs(path) do
+		if not path[i - 1] then continue end
+		
+		local arrow = ClientsideModel(arrowmdl, RENDERGROUP_OPAQUE)
+		arrow:SetPos(node)
+		local yaw = (path[i - 1] - node):Angle().yaw
+		arrow:SetAngles(Angle(0, yaw, 0))
+		arrow:Spawn()
+		
+		table.insert(Waymap.Path._arrows, arrow)
+	end
 end

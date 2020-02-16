@@ -93,11 +93,11 @@ function Waymap.ConvertAreasToVectors(path)
 	for i, area in pairs(path) do
 		last = vectors[#vectors]
 		
-		if last then
-			table.insert(vectors, area:GetClosestPointOnArea(last))
-		else
+		--if last then
+			--table.insert(vectors, area:GetClosestPointOnArea(last))
+		--else
 			table.insert(vectors, area:GetCenter())
-		end
+	--end
 	end
 	
 	return vectors
