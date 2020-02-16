@@ -50,7 +50,7 @@ function Waymap.Icons.DrawWaypoint(x, y, sizex, sizey, icon, color)
 	surface.DrawTexturedRect(x, y, sizex, sizey)
 	
 	local iconx = x + (sizex / 2) - (sizex / 4)
-	local icony = y + (sizex / 3.75)
+	local icony = y + (sizex / 4)
 	
 	surface.SetDrawColor(color)
 	surface.SetMaterial(icon)
