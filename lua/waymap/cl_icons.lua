@@ -37,3 +37,32 @@ end
 if (#Waymap.Icons.GetAll() == 0) then
 	Waymap.Icons.Load()
 end
+
+--[[
+	Drawing waypoints
+--]]
+
+local waypointmat = Material("waymap/waypoint")
+
+function Waymap.Icons.DrawWaypoint(x, y, sizex, sizey, icon, color)
+	surface.SetDrawColor(color)
+	surface.SetMaterial(waypointmat)
+	surface.DrawTexturedRect(x, y, sizex, sizey)
+	
+	local iconx = x + (sizex / 2) - (sizex / 4)
+	local icony = y + (sizex / 3.75)
+	
+	surface.SetDrawColor(color)
+	surface.SetMaterial(icon)
+	surface.DrawTexturedRect(iconx, icony, sizex / 2, sizex / 2)
+end
+
+--[[
+hook.Add("HUDPaint", "WaypointShit", function()
+	local icons = Waymap.Icons.GetAll()
+	local icon = icons[math.floor(CurTime()) % #icons]
+	local color = HSVToColor(CurTime() * 32, 1, 1)
+	print(math.floor(CurTime()) % #icons + 1)
+	Waymap.Icons.DrawWaypoint(64, 64, 128, 256, icon, color)
+end)
+--]]
