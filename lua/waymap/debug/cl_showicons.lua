@@ -3,7 +3,6 @@
 --]]
 
 local iconspath = "materials/waymap/icons/"
-
 local iconparams = "mips"
 
 local icons = {}
@@ -15,7 +14,7 @@ local function LoadAllIcons(folder)
 	local files, directories = file.Find(path .. "*", "GAME")
 	
 	for _, file in pairs(files) do
-		if string.sub(file, #file - 3) ~= ".png" then continue end
+		if string.GetExtensionFromFilename(file) ~= ".png" then continue end
 		icons[#icons + 1] = Material(string.sub(path, 11) .. file, iconparams)
 	end
 	
