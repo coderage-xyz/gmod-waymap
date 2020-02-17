@@ -3,15 +3,21 @@ Waymap.UI.waymapFrame = Waymap.UI.waymapFrame or {}
 
 function Waymap.UI.OpenMap()
 	if not IsValid(Waymap.UI.waymapFrame) then
-		Waymap.UI.waymapFrame = vgui.Create("DWaymap")
-		Waymap.UI.waymapFrame:SetSize(ScrW() - 100, ScrH() - 100) 
+		Waymap.UI.waymapFrame = vgui.Create("DFrame")
+		Waymap.UI.waymapFrame:SetTitle(Waymap.Config.Title)
+		Waymap.UI.waymapFrame:SetSize(ScrH() - 100, ScrH() - 100)
 		Waymap.UI.waymapFrame:Center()
-		Waymap.UI.waymapFrame:SetVisible(true) 
-		Waymap.UI.waymapFrame:SetDraggable(true) 
-		Waymap.UI.waymapFrame:ShowCloseButton(true) 
+		Waymap.UI.waymapFrame:DockPadding(0, 26, 0, 0)
+		Waymap.UI.waymapFrame:SetSkin("Waymap")
+		Waymap.UI.waymapFrame:SetDraggable(true)
+		Waymap.UI.waymapFrame:ShowCloseButton(true)
 		--TODO: Set to false
 		Waymap.UI.waymapFrame:SetDeleteOnClose(true)
+		Waymap.UI.waymapFrame:SetVisible(true)
 		Waymap.UI.waymapFrame:MakePopup()
+		
+		Waymap.UI.waymapFrame.waymap = vgui.Create("DWaymap", Waymap.UI.waymapFrame)
+		Waymap.UI.waymapFrame.waymap:Dock(FILL)
 	end
 end
 
@@ -40,6 +46,10 @@ function Waymap.UI.CloseCameraEditor()
 	end
 end
 
-concommand.Add("waymap_cameraeditor",function(ply, cmd, args)
+concommand.Add("waymap_openmap",function(ply, cmd, args)
+    Waymap.UI.OpenMap()
+end)
+
+concommand.Add("waymap_opencameraeditor",function(ply, cmd, args)
     Waymap.UI.OpenCameraEditor()
 end)

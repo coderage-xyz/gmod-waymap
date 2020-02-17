@@ -1,7 +1,7 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:DockMargin( 0, 0, 0, 0 )
+	self:DockMargin(0, 0, 0, 0)
 	
 	local min, max = game.GetWorld():GetModelBounds()
 	local loaded = false

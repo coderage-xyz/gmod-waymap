@@ -29,15 +29,21 @@ function Waymap.Map.Generate(camera, mode, callback)
 			["$basetexture"] = Material("../data/" .. Waymap.Map.GetFullFilePath(camera, mode)):GetName()
 		})
 		
-		callback(material)
+		if callback then
+			callback(material)
+		end
 	end)
 end
 
 function Waymap.Map.Load(camera, mode, callback)
 	if Waymap.Map.Exists(camera, mode) then
-		callback(Material("../data/" .. Waymap.Map.GetFullFilePath(camera, mode)))
+		if callback then
+			callback(Material("../data/" .. Waymap.Map.GetFullFilePath(camera, mode)))
+		end
 	else
-		callback(nil)
+		if callback then
+			callback(nil)
+		end
 	end
 end
 
@@ -51,19 +57,25 @@ end
 
 function Waymap.Map.Get(camera, mode, callback)
 	if Waymap.Map.loadedMaps[mode] then
-		callback(Waymap.Map.loadedMaps[mode])
+		if callback then
+			callback(Waymap.Map.loadedMaps[mode])
+		end
 	else
 		if Waymap.Map.Exists(camera, mode) then
 			Waymap.Map.Load(camera, mode, function(material)
 				Waymap.Map.loadedMaps[mode] = material
 				
-				callback(material)
+				if callback then
+					callback(material)
+				end
 			end)
 		else
 			Waymap.Map.Generate(camera, mode, function(material)
 				Waymap.Map.loadedMaps[mode] = material
 				
-				callback(material)
+				if callback then
+					callback(material)
+				end
 			end)
 		end
 	end
@@ -79,5 +91,5 @@ function Waymap.Map.GetFullFilePath(camera, mode)
 end
 
 hook.Add("Waymap.Camera.LoadedCameraUpdated", "Waymap.Map.GenerateFromLoadedCamera", function(camera)
-	
+	Waymap.Map.Get(camera, Waymap.Map.selectedMode)
 end)
