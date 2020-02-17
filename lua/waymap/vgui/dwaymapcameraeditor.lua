@@ -131,3 +131,4 @@ function PANEL:PerformLayout()
 end
 
 derma.DefineControl("DWaymapCameraEditor", "Map camera editor for Waymap", PANEL, "Panel")
+Waymap.UI.OpenCameraEditor()
