@@ -187,9 +187,21 @@ function Waymap.Path.PopulateArrows(path)
 		if not path[i - 1] then continue end
 		
 		local arrow = ClientsideModel(arrowmdl, RENDERGROUP_OPAQUE)
-		arrow:SetPos(node)
-		local yaw = (path[i - 1] - node):Angle().yaw
-		arrow:SetAngles(Angle(0, yaw, 0))
+		
+		local tr = util.TraceLine{
+			start = node,
+			endpos = node + Vector(0, 0, -1e5),
+			filter = player.GetAll()
+		}
+		
+		arrow:SetPos(tr.HitPos)
+		
+		local angle = tr.HitNormal:Angle()
+		angle:RotateAroundAxis(angle:Right(), -90)
+		local rotation = (path[i - 1] - node):Angle().y - angle.y
+		angle:RotateAroundAxis(angle:Up(), rotation)
+		arrow:SetAngles(angle)
+		
 		arrow:Spawn()
 		
 		table.insert(Waymap.Path._arrows, arrow)
