@@ -1,34 +1,35 @@
 local PANEL = {}
 
 function PANEL:Init()
-	self:SetTitle(Waymap.Config.Title)
-end
-
-function PANEL:Paint(width, height)
-	local x, y = self:GetPos()
-	local min, max = game.GetWorld():GetModelBounds()
+	self:DockMargin(0, 0, 0, 0)
+	self.requestedMaterial = false
+	self.mapMaterial = nil
 	
-	render.RenderView({
-		origin = Vector(0, 0, math.max(min.z, max.z)),
-		angles = Angle(90, 0, 0),
-		x = x,
-		y = y,
-		w = height,
-		h = height,
-		drawhud = false,
-		drawmonitors = false,
-		drawviewmodel = false,
-		viewmodelfov = false,
-		drawhud = false,
-		bloomtone = false,
-		dopostprocess = false,
-		ortho = {
-			left = -10000,
-			right = 10000,
-			top = -10000,
-			bottom = 10000
-		}
-	})
+	self.mapViewPanel = vgui.Create("DPanel", self)
+	self.mapViewPanel.Paint = function(panel, width, height)
+		if self.mapMaterial then
+			Waymap.Map.Draw(self.mapMaterial, 0, 0, width, height)
+		end
+	end
 end
 
-derma.DefineControl("DWaymap", "Full size map frame for Waymap", PANEL, "DFrame")
+function PANEL:Think()
+	if not requestedMaterial and not self.mapMaterial and Waymap.Camera.loadedCamera then
+		self.requestedMaterial = true
+		
+		Waymap.Map.Get(Waymap.Camera.loadedCamera, Waymap.Map.selectedMode, function(material)
+			self.mapMaterial = material
+		end)
+	end
+end
+
+function PANEL:PerformLayout()
+	local width, height = self:GetSize()
+	
+	if IsValid(self.mapViewPanel) then
+		self.mapViewPanel:SetPos(0, 0)
+		self.mapViewPanel:SetSize(height, height)
+	end
+end
+
+derma.DefineControl("DWaymap", "Full size map for Waymap", PANEL, "Panel")

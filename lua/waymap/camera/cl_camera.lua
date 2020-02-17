@@ -1,4 +1,5 @@
 Waymap.Camera = Waymap.Camera or {}
+Waymap.Camera.loadedCamera = Waymap.Camera.loadedCamera or nil
 Waymap.Camera.callbackID = Waymap.Camera.callbackID or 0
 Waymap.Camera.callbacks = Waymap.Camera.callbacks or {}
 
@@ -25,7 +26,7 @@ net.Receive("Waymap.Camera.ClientSendCamera", function(ply)
 	Waymap.Camera.callbacks[callbackID] = nil
 end)
 
-hook.Add("Initialize", "Waymap.Camera.Initialize", function()
+hook.Add("InitPostEntity", "Waymap.Camera.InitPostEntity", function()
 	Waymap.Camera.RequestFromServer(function(camera)
 		Waymap.Camera.loadedCamera = camera
 		
