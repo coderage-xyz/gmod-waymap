@@ -95,3 +95,4 @@ hook.Add("HUDPaint", "TestingDrawMap", function()
 		surface.DrawTexturedRect(0, 0, 1024, 1024)
 	end
 end)
+--]]
