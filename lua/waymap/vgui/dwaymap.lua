@@ -14,7 +14,7 @@ function PANEL:Init()
 end
 
 function PANEL:Think()
-	if not requestedMaterial and not self.mapMaterial and Waymap.Camera.loadedCamera then
+	if not self.requestedMaterial and not self.mapMaterial and Waymap.Camera.loadedCamera then
 		self.requestedMaterial = true
 		
 		Waymap.Map.Get(Waymap.Camera.loadedCamera, Waymap.Map.selectedMode, function(material)
