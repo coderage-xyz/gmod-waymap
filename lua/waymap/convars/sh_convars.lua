@@ -26,7 +26,7 @@ Waymap.ConVars.CreateServerConVar{
 Waymap.ConVars.CreateServerConVar{
     name = "DefaultMapMode",
     type = "String",
-    value = "SATALLITE",
+    value = "SATELLITE",
 	flags = FCVAR_ARCHIVE + FCVAR_REPLICATED,
-    helpText = "Default mode for viewing the map. Possible values: \"SATALLITE\" or \"FLAT\"",
+    helpText = "Default mode for viewing the map. Possible values: \"SATELLITE\" or \"FLAT\"",
 }
