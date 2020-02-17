@@ -53,6 +53,7 @@ Waymap.Include("waymap/map/sv_netmesh.lua", Waymap.INSTANCE.SERVER)
 Waymap.Include("waymap/map/cl_netmesh.lua", Waymap.INSTANCE.CLIENT)
 
 -- Path
+Waymap.Include("waymap/path/sh_paths.lua", Waymap.INSTANCE.SHARED)
 Waymap.Include("waymap/path/sv_astar.lua", Waymap.INSTANCE.SERVER)
 Waymap.Include("waymap/path/sv_drawpath.lua", Waymap.INSTANCE.SERVER)
 Waymap.Include("waymap/path/cl_paths.lua", Waymap.INSTANCE.CLIENT)
