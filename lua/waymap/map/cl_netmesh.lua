@@ -2,10 +2,10 @@
 	Clientside handling of mesh requests and responses
 --]]
 
-local callbacks = {}
-local chunks = {}
-
-local isreceiving = false
+Waymap.Map = Waymap.Map or {}
+Waymap.Map.meshCallbackID = Waymap.Map.meshCallbackID or 0
+Waymap.Map.meshCallbacks = Waymap.Map.meshCallbacks or {}
+Waymap.Map.meshChunks = Waymap.Map.meshChunks or {}
 
 --[[
 	Net handling
@@ -17,12 +17,12 @@ function Waymap.Map.RequestMesh(callback)
 		Waymap.Map.Shrink()
 	end
 	
-	local id = table.Count(callbacks) + 1
-	Waymap.Debug.Print("[Waymap] Saving callback ID: " .. id)
-	callbacks[id] = callback
+	Waymap.Map.meshCallbackID = Waymap.Map.meshCallbackID + 1
+	Waymap.Debug.Print("[Waymap] Saving callback ID: " .. Waymap.Map.meshCallbackID)
+	Waymap.Map.meshCallbacks[Waymap.Map.meshCallbackID] = callback
 	
 	net.Start("Waymap.Map.Request")
-		net.WriteFloat(id)
+		net.WriteFloat(Waymap.Map.meshCallbackID)
 	net.SendToServer()
 end
 
@@ -34,11 +34,11 @@ net.Receive("Waymap.Map.Send", function(ln)
 	
 	Waymap.Debug.Print("[Waymap] Received chunk of " .. (ln / 1000) .. " Kb")
 	
-	table.insert(chunks, chunkid, chunk)
+	table.insert(Waymap.Map.meshChunks, chunkid, chunk)
 	
 	if islast then
 		local tab = {}
-		for _, chunk in pairs(chunks) do
+		for _, chunk in pairs(Waymap.Map.meshChunks) do
 			for i, data in pairs(chunk) do
 				if not (i == "chunkid") then
 					table.insert(tab, data)
@@ -48,7 +48,7 @@ net.Receive("Waymap.Map.Send", function(ln)
 		
 		Waymap.Debug.Print("[Waymap] Received last chunk. Running callbacks...")
 		
-		callbacks[callbackid](tab)
-		callbacks[callbackid] = nil
+		Waymap.Map.meshCallbacks[callbackid](tab)
+		Waymap.Map.meshCallbacks[callbackid] = nil
 	end
 end)

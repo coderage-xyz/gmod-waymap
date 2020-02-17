@@ -24,60 +24,49 @@ function Waymap.Include(path, instance)
     end
 end
 
--- Addon config
+-- Config
 Waymap.Include("waymap/sh_config.lua", Waymap.INSTANCE.SHARED)
 Waymap.Include("waymap/convars/sh_convars.lua", Waymap.INSTANCE.SHARED)
 Waymap.Include("waymap/convars/cl_convars.lua", Waymap.INSTANCE.CLIENT)
 
--- Content precaching
-Waymap.Include("waymap/sh_precache.lua", Waymap.INSTANCE.SHARED)
+-- Resource
+Waymap.Include("waymap/resource/sv_resource.lua", Waymap.INSTANCE.SERVER)
+Waymap.Include("waymap/resource/sh_precache.lua", Waymap.INSTANCE.SHARED)
 
--- UI
+-- Camera
 Waymap.Include("waymap/camera/sh_camera.lua", Waymap.INSTANCE.SHARED)
 Waymap.Include("waymap/camera/sv_camera.lua", Waymap.INSTANCE.SERVER)
 Waymap.Include("waymap/camera/cl_camera.lua", Waymap.INSTANCE.CLIENT)
-Waymap.Include("waymap/cl_ui.lua", Waymap.INSTANCE.CLIENT)
+
+-- UI
+Waymap.Include("waymap/ui/cl_ui.lua", Waymap.INSTANCE.CLIENT)
+Waymap.Include("waymap/ui/cl_icons.lua", Waymap.INSTANCE.CLIENT)
 
 -- Map
 Waymap.Include("waymap/map/cl_map.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/map/cl_generate_satellite.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/map/cl_drawmap.lua", Waymap.INSTANCE.CLIENT)
+Waymap.Include("waymap/map/sh_mapmesh.lua", Waymap.INSTANCE.SHARED)
+Waymap.Include("waymap/map/sv_mapmesh.lua", Waymap.INSTANCE.SERVER)
+Waymap.Include("waymap/map/cl_mapmesh.lua", Waymap.INSTANCE.CLIENT)
+Waymap.Include("waymap/map/sv_netmesh.lua", Waymap.INSTANCE.SERVER)
+Waymap.Include("waymap/map/cl_netmesh.lua", Waymap.INSTANCE.CLIENT)
 
+-- Path
+Waymap.Include("waymap/path/sv_astar.lua", Waymap.INSTANCE.SERVER)
+Waymap.Include("waymap/path/sv_drawpath.lua", Waymap.INSTANCE.SERVER)
+Waymap.Include("waymap/path/cl_paths.lua", Waymap.INSTANCE.CLIENT)
+Waymap.Include("waymap/path/cl_drawpath.lua", Waymap.INSTANCE.CLIENT)
+Waymap.Include("waymap/path/sv_netpath.lua", Waymap.INSTANCE.SERVER)
+Waymap.Include("waymap/path/cl_netpath.lua", Waymap.INSTANCE.CLIENT)
 
--- Pathfinding
-Waymap.Include("waymap/sv_astar.lua", Waymap.INSTANCE.SERVER)
-Waymap.Include("waymap/sv_drawpath.lua", Waymap.INSTANCE.SERVER)
-
--- Derma
+-- VGUI
 Waymap.Include("waymap/vgui/dwaymapcameraeditor.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/vgui/dwaymap.lua", Waymap.INSTANCE.CLIENT)
-
--- Mesh functions and data
-Waymap.Include("waymap/sh_mapmesh.lua", Waymap.INSTANCE.SHARED)
-Waymap.Include("waymap/sv_mapmesh.lua", Waymap.INSTANCE.SERVER)
-Waymap.Include("waymap/cl_mapmesh.lua", Waymap.INSTANCE.CLIENT)
-
--- Mesh networking
-Waymap.Include("waymap/netmesh/sv_netmesh.lua", Waymap.INSTANCE.SERVER)
-Waymap.Include("waymap/netmesh/cl_netmesh.lua", Waymap.INSTANCE.CLIENT)
-
--- Path networking
-Waymap.Include("waymap/netpath/sv_netpath.lua", Waymap.INSTANCE.SERVER)
-Waymap.Include("waymap/netpath/cl_netpath.lua", Waymap.INSTANCE.CLIENT)
-
--- Paths
-Waymap.Include("waymap/cl_paths.lua", Waymap.INSTANCE.CLIENT)
-Waymap.Include("waymap/cl_drawpath.lua", Waymap.INSTANCE.CLIENT)
-
--- Server downloads
-Waymap.Include("waymap/sv_resource.lua", Waymap.INSTANCE.SERVER)
 
 -- GWEN skin
 Waymap.Include("skins/waymap.lua", Waymap.INSTANCE.CLIENT)
 
--- Icons
-Waymap.Include("waymap/cl_icons.lua", Waymap.INSTANCE.CLIENT)
-
--- Debug files
+-- Debug
 Waymap.Include("waymap/debug/sh_debug.lua", Waymap.INSTANCE.SHARED)
 Waymap.Include("waymap/debug/cl_showicons.lua", Waymap.INSTANCE.CLIENT)

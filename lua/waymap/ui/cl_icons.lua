@@ -2,8 +2,8 @@
 	Loading and storage of icons
 --]]
 
-Waymap.Icons = Waymap.Icons or {}
-Waymap.Icons._icons = Waymap.Icons._icons or {}
+Waymap.UI = Waymap.UI or {}
+Waymap.UI._icons = Waymap.UI._icons or {}
 
 --[[
 	Useful functions
@@ -12,30 +12,30 @@ Waymap.Icons._icons = Waymap.Icons._icons or {}
 local iconspath = "materials/waymap/icons/"
 local iconparams = "mips"
 
-function Waymap.Icons.Load(folder)
+function Waymap.UI.LoadIcons(folder)
 	local path = folder and (iconspath .. folder .. "/") or iconspath
 	local files, directories = file.Find(path .. "*", "GAME")
 	
 	for _, file in pairs(files) do
 		if string.GetExtensionFromFilename(file) ~= "png" then continue end
-		Waymap.Icons._icons[#Waymap.Icons._icons + 1] = Material(string.sub(path, 11) .. file, iconparams)
+		Waymap.UI._icons[#Waymap.UI._icons + 1] = Material(string.sub(path, 11) .. file, iconparams)
 	end
 	
 	for _, directory in pairs(directories) do
-		Waymap.Icons.Load(directory)
+		Waymap.UI.LoadIcons(directory)
 	end
 end
 
-function Waymap.Icons.GetAll()
-	return Waymap.Icons._icons
+function Waymap.UI.GetAllIcons()
+	return Waymap.UI._icons
 end
 
 --[[
 	Making sure we load the icons
 --]]
 
-if (#Waymap.Icons.GetAll() == 0) then
-	Waymap.Icons.Load()
+if (#Waymap.UI.GetAllIcons() == 0) then
+	Waymap.UI.LoadIcons()
 end
 
 --[[
@@ -44,7 +44,7 @@ end
 
 local waypointmat = Material("waymap/waypoint")
 
-function Waymap.Icons.DrawWaypoint(x, y, sizex, sizey, icon, color)
+function Waymap.UI.DrawWaypoint(x, y, sizex, sizey, icon, color)
 	surface.SetDrawColor(color)
 	surface.SetMaterial(waypointmat)
 	surface.DrawTexturedRect(x, y, sizex, sizey)
@@ -59,10 +59,10 @@ end
 
 --[[
 hook.Add("HUDPaint", "WaypointShit", function()
-	local icons = Waymap.Icons.GetAll()
+	local icons = Waymap.UI.GetAllIcons()
 	local icon = icons[math.floor(CurTime()) % #icons]
 	local color = HSVToColor(CurTime() * 32, 1, 1)
 	Waymap.Debug.Print(math.floor(CurTime()) % #icons + 1)
-	Waymap.Icons.DrawWaypoint(64, 64, 128, 256, icon, color)
+	Waymap.UI.DrawWaypoint(64, 64, 128, 256, icon, color)
 end)
 --]]

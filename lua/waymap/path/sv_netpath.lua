@@ -2,6 +2,8 @@
 	Add network strings
 --]]
 
+Waymap.Path = Waymap.Path or {}
+
 util.AddNetworkString("Waymap.RequestPath")
 util.AddNetworkString("Waymap.SendPath")
 
@@ -10,7 +12,7 @@ net.Receive("Waymap.RequestPath", function(ln, ply)
 	local startpos = net.ReadVector()
 	local endpos = net.ReadVector()
 	
-	local path = Waymap.AstarVector(startpos, endpos)
+	local path = Waymap.Path.AstarVector(startpos, endpos)
 	
 	if not istable(path) then return end
 	

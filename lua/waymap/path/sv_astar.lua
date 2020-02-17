@@ -2,6 +2,8 @@
 	Pathfinding algorithms
 --]]
 
+Waymap.Path = Waymap.Path or {}
+
 local function heuristic_cost_estimate(start, goal)
     -- Perhaps play with some calculations on which corner is closest/farthest or whatever
     return start:GetCenter():Distance(goal:GetCenter())
@@ -19,7 +21,7 @@ local function reconstruct_path(cameFrom, current)
     return total_path
 end
 
-function Waymap.Astar(start, goal)
+function Waymap.Path.Astar(start, goal)
     if (not IsValid(start) or not IsValid(goal)) then return false end
     if (start == goal) then return true end
 
@@ -78,10 +80,10 @@ end
 	Additional pathfinding functions
 --]]
 
-function Waymap.AstarVector(start, goal)
+function Waymap.Path.AstarVector(start, goal)
     local startArea = navmesh.GetNearestNavArea(start)
     local goalArea = navmesh.GetNearestNavArea(goal)
-    return Waymap.Astar(startArea, goalArea)
+    return Waymap.Path.Astar(startArea, goalArea)
 end
 
 function Waymap.ConvertAreasToVectors(path)

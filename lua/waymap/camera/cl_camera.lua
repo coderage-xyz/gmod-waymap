@@ -1,5 +1,5 @@
 Waymap.Camera = Waymap.Camera or {}
-Waymap.Camera.callbackID = 0
+Waymap.Camera.callbackID = Waymap.Camera.callbackID or 0
 Waymap.Camera.callbacks = Waymap.Camera.callbacks or {}
 
 function Waymap.Camera.RequestFromServer(callback)

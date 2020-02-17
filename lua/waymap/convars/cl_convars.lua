@@ -2,6 +2,8 @@
 	Client convars
 --]]
 
+Waymap.ConVars = Waymap.ConVars or {}
+
 function Waymap.ConVars.CreateClientConVar(...)
     local conVarTable = ...
     local conVar = CreateClientConVar(Waymap.Config.ConVarPrefix .. string.lower(conVarTable.name), conVarTable.value, conVarTable.shouldSave, false, conVarTable.helpText)

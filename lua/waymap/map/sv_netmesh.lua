@@ -2,11 +2,12 @@
 	Serverside handling of mesh requests and responses
 --]]
 
+Waymap.Map = Waymap.Map or {}
+Waymap.Map.meshCache = Waymap.Map.meshCache or {}
+
 util.AddNetworkString("Waymap.Map.Request")
 util.AddNetworkString("Waymap.Map.Send")
 
-local callbacks = {}
-local cache = {}
 
 --[[
 	Useful functions
@@ -35,23 +36,23 @@ end
 
 local function SendChunk(ply, callbackid)
 	local steamid = ply:SteamID64()
-	if not cache[steamid] then return end
-	local islast = (#cache[steamid] == 1) or false
+	if not Waymap.Map.meshCache[steamid] then return end
+	local islast = (#Waymap.Map.meshCache[steamid] == 1) or false
 	
 	net.Start("Waymap.Map.Send")
 		net.WriteFloat(callbackid)
 		net.WriteBool(islast)
-		net.WriteTable(cache[steamid][1])
-		Waymap.Debug.Print("[Waymap] Sending chunk number " .. cache[steamid][1].chunkid)
+		net.WriteTable(Waymap.Map.meshCache[steamid][1])
+		Waymap.Debug.Print("[Waymap] Sending chunk number " .. Waymap.Map.meshCache[steamid][1].chunkid)
 	net.Send(ply)
 	
-	table.remove(cache[steamid], 1)
+	table.remove(Waymap.Map.meshCache[steamid], 1)
 	
-	if islast then cache[steamid] = nil end
+	if islast then Waymap.Map.meshCache[steamid] = nil end
 end
 
 net.Receive("Waymap.Map.Request", function(ln, ply)
-	if cache[ply:SteamID64()] then return end
+	if Waymap.Map.meshCache[ply:SteamID64()] then return end
 	
 	local id = net.ReadFloat()
 	
@@ -61,14 +62,14 @@ net.Receive("Waymap.Map.Request", function(ln, ply)
 	
 	local strings = splitString(util.TableToJSON(mesh2d))
 	
-	if not cache[ply:SteamID64()] then cache[ply:SteamID64()] = {} end
+	if not Waymap.Map.meshCache[ply:SteamID64()] then Waymap.Map.meshCache[ply:SteamID64()] = {} end
 	local chunks = Waymap.Map.SplitMeshIntoChunks(mesh2d)
 	
 	for _, chunk in pairs(chunks) do
-		table.insert(cache[ply:SteamID64()], chunk)
+		table.insert(Waymap.Map.meshCache[ply:SteamID64()], chunk)
 	end
 	
-	Waymap.Debug.Print("[Waymap] Total chunks: " .. #cache[ply:SteamID64()])
+	Waymap.Debug.Print("[Waymap] Total chunks: " .. #Waymap.Map.meshCache[ply:SteamID64()])
 	
 	timer.Create("Waymap.Map.Send_" .. ply:SteamID64(), 0.1, #strings, function()
 		SendChunk(ply, id)

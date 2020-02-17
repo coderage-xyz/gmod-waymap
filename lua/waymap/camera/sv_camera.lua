@@ -1,3 +1,4 @@
+Waymap.Camera = Waymap.Camera or {}
 Waymap.Camera.location = "DATA"
 Waymap.Camera.folders = "waymap/camera"
 Waymap.Camera.extension = "json"

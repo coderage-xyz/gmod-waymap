@@ -2,7 +2,9 @@
 	Path-drawing functions
 --]]
 
-function Waymap.drawThePath(path, time)
+Waymap.Path = Waymap.Path or {}
+
+function Waymap.Path.DrawThePath(path, time)
 	local prevArea
 	for _, area in pairs(path) do
 		debugoverlay.Sphere(area:GetCenter(), 8, time or 9, color_white, true)

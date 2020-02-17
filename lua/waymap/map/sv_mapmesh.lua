@@ -2,6 +2,8 @@
 	Map functions
 --]]
 
+Waymap.Map = Waymap.Map or {}
+
 function Waymap.Map.GetMesh()
 	if not Waymap.Map._mesh then
 		Waymap.Map._mesh = game.GetWorld():GetPhysicsObject():GetMesh()

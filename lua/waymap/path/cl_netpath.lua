@@ -2,7 +2,9 @@
 	Net functions
 --]]
 
-local callbacks = {}
+Waymap.Path = Waymap.Path or {}
+Waymap.Path.pathCallbackID = Waymap.Path.pathCallbackID or 0
+Waymap.Path.pathCallbacks = Waymap.Path.pathCallbacks or {}
 
 function Waymap.RequestPath(startpos, endpos, callback)
 	callback = callback or function(path)
@@ -10,12 +12,12 @@ function Waymap.RequestPath(startpos, endpos, callback)
 		Waymap.Path.SetActive(id)
 	end
 	
-	local id = table.Count(callbacks) + 1
-	Waymap.Debug.Print("[Waymap] Saving callback ID: " .. id)
-	callbacks[id] = callback
+	Waymap.Path.pathCallbackID = Waymap.Path.pathCallbackID + 1
+	Waymap.Debug.Print("[Waymap] Saving callback ID: " .. Waymap.Path.pathCallbackID)
+	Waymap.Path.pathCallbacks[Waymap.Path.pathCallbackID] = callback
 	
 	net.Start("Waymap.RequestPath")
-		net.WriteFloat(id)
+		net.WriteFloat(Waymap.Path.pathCallbackID)
 		net.WriteVector(startpos)
 		net.WriteVector(endpos)
 	net.SendToServer()
@@ -42,9 +44,9 @@ net.Receive("Waymap.SendPath", function(ln)
 	end
 	
 	Waymap.Debug.Print("[Waymap] Running callbacks...")
-	callbacks[id](pathvecs) -- Run our callback
+	Waymap.Path.pathCallbacks[id](pathvecs) -- Run our callback
 	Waymap.Debug.Print("[Waymap] Callback has been run, voiding callback.")
-	callbacks[id] = nil -- Delete it from our registry
+	Waymap.Path.pathCallbacks[id] = nil -- Delete it from our registry
 	
 	--Waymap.Path._texcoord = (0.1 * Waymap.Path.GetTotalLength(pathvecs) / #pathvecs)
 end)
