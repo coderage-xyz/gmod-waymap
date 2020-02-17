@@ -53,7 +53,7 @@ function Waymap.Camera.Get()
 				position = Vector(0, 0, maxBound),
 				zoom = maxBound,
 				rotation = 0,
-				creationTime = os.time
+				creationTime = os.time()
 			}
 			
 			hook.Run("Waymap.Camera.LoadedCameraUpdated", Waymap.Camera.loadedCamera)
