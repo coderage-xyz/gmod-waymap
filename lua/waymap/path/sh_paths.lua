@@ -8,6 +8,7 @@ Waymap.Path = Waymap.Path or {}
 	Utility functions
 --]]
 
+--[[
 function Waymap.Path.GetPointOnPath(path, ...)
 	local args = {...}
 	local solutions = {}
@@ -51,3 +52,4 @@ function Waymap.Path.GetPointOnPath(path, ...)
 	
 	return solutions
 end
+--]]
