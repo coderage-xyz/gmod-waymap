@@ -46,7 +46,7 @@ function Waymap.Map.Reload()
 end
 
 function Waymap.Map.Exists(camera, mode)
-	return file.Exists(Waymap.Map.GetFullFilePath(camera, mode), Waymap.Camera.location)
+	return file.Exists(Waymap.Map.GetFullFilePath(camera, mode), Waymap.Map.location)
 end
 
 function Waymap.Map.Get(camera, mode, callback)
@@ -70,7 +70,7 @@ function Waymap.Map.Get(camera, mode, callback)
 end
 
 function Waymap.Map.GetNameFromCamera(camera, mode)
-return util.CRC(game.GetIPAddress()) .. "_" .. game.GetMap() .. "_" .. mode .. "_" .. camera.creationTime
+	return util.CRC(game.GetIPAddress()) .. "_" .. game.GetMap() .. "_" .. mode .. "_" .. camera.creationTime
 end
 
 --Get the full file path including folders, name and extension

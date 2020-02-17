@@ -40,7 +40,7 @@ Waymap.Include("waymap/cl_ui.lua", Waymap.INSTANCE.CLIENT)
 
 -- Map
 Waymap.Include("waymap/map/cl_map.lua", Waymap.INSTANCE.CLIENT)
-Waymap.Include("waymap/map/cl_generate_satallite.lua", Waymap.INSTANCE.CLIENT)
+Waymap.Include("waymap/map/cl_generate_satellite.lua", Waymap.INSTANCE.CLIENT)
 
 -- Pathfinding
 Waymap.Include("waymap/sv_astar.lua", Waymap.INSTANCE.SERVER)
