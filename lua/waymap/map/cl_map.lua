@@ -50,7 +50,9 @@ function Waymap.Map.Exists(camera, mode)
 end
 
 function Waymap.Map.Get(camera, mode, callback)
-	if not Waymap.Map.loadedMaps[mode] then
+	if Waymap.Map.loadedMaps[mode] then
+		callback(Waymap.Map.loadedMaps[mode])
+	else
 		if Waymap.Map.Exists(camera, mode) then
 			Waymap.Map.Load(camera, mode, function(material)
 				Waymap.Map.loadedMaps[mode] = material
@@ -65,8 +67,6 @@ function Waymap.Map.Get(camera, mode, callback)
 			end)
 		end
 	end
-	
-	callback(Waymap.Map.loadedMaps[mode])
 end
 
 function Waymap.Map.GetNameFromCamera(camera, mode)
