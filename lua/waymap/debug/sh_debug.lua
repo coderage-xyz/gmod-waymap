@@ -2,6 +2,8 @@
 	Debug printing functions
 --]]
 
+Waymap.Debug = Waymap.Debug or {}
+
 function Waymap.Debug.IsEnabled()
 	return Waymap.ConVars.Debug()
 end
