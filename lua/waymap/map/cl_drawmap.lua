@@ -2,8 +2,8 @@
 	Functions for drawing the satellite map
 --]]
 
-function Waymap.Map.Draw(mapmat, x, y, sizex, sizey)
+function Waymap.Map.Draw(mapMat, x, y, sizeX, sizeY)
 	surface.SetDrawColor(255, 255, 255, 255)
-	surface.SetMaterial(mapmat)
-	surface.DrawTexturedRect(x, y, sizex, sizey)
+	surface.SetMaterial(mapMat)
+	surface.DrawTexturedRect(x, y, sizeX, sizeY)
 end
