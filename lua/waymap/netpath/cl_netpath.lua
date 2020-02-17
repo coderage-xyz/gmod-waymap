@@ -11,7 +11,7 @@ function Waymap.RequestPath(startpos, endpos, callback)
 	end
 	
 	local id = table.Count(callbacks) + 1
-	print("[Waymap] Saving callback ID: " .. id)
+	Waymap.Debug.Print("[Waymap] Saving callback ID: " .. id)
 	callbacks[id] = callback
 	
 	net.Start("Waymap.RequestPath")
@@ -31,19 +31,19 @@ net.Receive("Waymap.SendPath", function(ln)
 	
 	local distance = Waymap.Path.GetTotalLength(pathvecs)
 	
-	print("[Waymap] Received path of " .. (ln / 1000) .. " Kb, a total distance of " .. distance .. ".")
+	Waymap.Debug.Print("[Waymap] Received path of " .. (ln / 1000) .. " Kb, a total distance of " .. distance .. ".")
 	
 	--pathvecs = Waymap.Path.SubdivCorners(pathvecs)
 	
 	if Waymap.ConVars.Bezier() then
-		print("[Waymap] Starting Bézier interpolation...")
+		Waymap.Debug.Print("[Waymap] Starting Bézier interpolation...")
 		pathvecs = Waymap.Path.BezierPath(pathvecs, distance / 32) -- Smooth out jagged edges via recursive parametric Bezier curves
-		print("[Waymap] Finished Bézier parametric curve interpolation with " .. #pathvecs .. " segments.")
+		Waymap.Debug.Print("[Waymap] Finished Bézier parametric curve interpolation with " .. #pathvecs .. " segments.")
 	end
 	
-	print("[Waymap] Running callbacks...")
+	Waymap.Debug.Print("[Waymap] Running callbacks...")
 	callbacks[id](pathvecs) -- Run our callback
-	print("[Waymap] Callback has been run, voiding callback.")
+	Waymap.Debug.Print("[Waymap] Callback has been run, voiding callback.")
 	callbacks[id] = nil -- Delete it from our registry
 	
 	--Waymap.Path._texcoord = (0.1 * Waymap.Path.GetTotalLength(pathvecs) / #pathvecs)

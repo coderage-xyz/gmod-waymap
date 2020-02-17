@@ -18,7 +18,7 @@ function Waymap.Map.RequestMesh(callback)
 	end
 	
 	local id = table.Count(callbacks) + 1
-	print("[Waymap] Saving callback ID: " .. id)
+	Waymap.Debug.Print("[Waymap] Saving callback ID: " .. id)
 	callbacks[id] = callback
 	
 	net.Start("Waymap.Map.Request")
@@ -32,7 +32,7 @@ net.Receive("Waymap.Map.Send", function(ln)
 	local chunk = net.ReadTable()
 	local chunkid = chunk.chunkid
 	
-	print("[Waymap] Received chunk of " .. (ln / 1000) .. " Kb")
+	Waymap.Debug.Print("[Waymap] Received chunk of " .. (ln / 1000) .. " Kb")
 	
 	table.insert(chunks, chunkid, chunk)
 	
@@ -46,7 +46,7 @@ net.Receive("Waymap.Map.Send", function(ln)
 			end
 		end
 		
-		print("[Waymap] Received last chunk. Running callbacks...")
+		Waymap.Debug.Print("[Waymap] Received last chunk. Running callbacks...")
 		
 		callbacks[callbackid](tab)
 		callbacks[callbackid] = nil

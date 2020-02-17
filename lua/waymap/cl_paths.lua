@@ -86,7 +86,7 @@ end
 --]]
 
 function Waymap.Path.Subdiv(path) -- path is a table of vectors
-	print("[Waymap] Path is " .. #path .. " segments before subdivision.")
+	Waymap.Debug.Print("[Waymap] Path is " .. #path .. " segments before subdivision.")
 	
 	local last
 	local newpath = {}
@@ -102,13 +102,13 @@ function Waymap.Path.Subdiv(path) -- path is a table of vectors
 		last = vec
 	end
 	
-	print("[Waymap] Path is " .. #newpath .. " segments after subdivision.")
+	Waymap.Debug.Print("[Waymap] Path is " .. #newpath .. " segments after subdivision.")
 	
 	return newpath
 end
 
 function Waymap.Path.SubdivCorners(path) -- path is a table of vectors
-	print("[Waymap] Path is " .. #path .. " segments before corner subdivision.")
+	Waymap.Debug.Print("[Waymap] Path is " .. #path .. " segments before corner subdivision.")
 
 	local newpath = {}
 	for i, vec in pairs(path) do
@@ -130,7 +130,7 @@ function Waymap.Path.SubdivCorners(path) -- path is a table of vectors
 		end
 	end
 	
-	print("[Waymap] Path is " .. #newpath .. " segments after corner subdivision.")
+	Waymap.Debug.Print("[Waymap] Path is " .. #newpath .. " segments after corner subdivision.")
 	
 	return newpath
 end

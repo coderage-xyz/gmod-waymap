@@ -62,7 +62,7 @@ hook.Add("HUDPaint", "WaypointShit", function()
 	local icons = Waymap.Icons.GetAll()
 	local icon = icons[math.floor(CurTime()) % #icons]
 	local color = HSVToColor(CurTime() * 32, 1, 1)
-	print(math.floor(CurTime()) % #icons + 1)
+	Waymap.Debug.Print(math.floor(CurTime()) % #icons + 1)
 	Waymap.Icons.DrawWaypoint(64, 64, 128, 256, icon, color)
 end)
 --]]

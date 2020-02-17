@@ -79,4 +79,5 @@ Waymap.Include("skins/waymap.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/cl_icons.lua", Waymap.INSTANCE.CLIENT)
 
 -- Debug files
+Waymap.Include("waymap/debug/sh_debug.lua", Waymap.INSTANCE.SHARED)
 Waymap.Include("waymap/debug/cl_showicons.lua", Waymap.INSTANCE.CLIENT)

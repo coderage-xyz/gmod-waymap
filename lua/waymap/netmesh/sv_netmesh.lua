@@ -21,7 +21,7 @@ local function splitString(str)
 	local strings = {}
 	
 	for i = 1, size do
-		--print((i - 1) * size + 1, i * size)
+		--Waymap.Debug.Print((i - 1) * size + 1, i * size)
 		local splitstr = string.sub((i - 1) * size + 1, i * size)
 		table.insert(strings, splitstr)
 	end
@@ -42,7 +42,7 @@ local function SendChunk(ply, callbackid)
 		net.WriteFloat(callbackid)
 		net.WriteBool(islast)
 		net.WriteTable(cache[steamid][1])
-		print("[Waymap] Sending chunk number " .. cache[steamid][1].chunkid)
+		Waymap.Debug.Print("[Waymap] Sending chunk number " .. cache[steamid][1].chunkid)
 	net.Send(ply)
 	
 	table.remove(cache[steamid], 1)
@@ -55,11 +55,10 @@ net.Receive("Waymap.Map.Request", function(ln, ply)
 	
 	local id = net.ReadFloat()
 	
-	print("[Waymap] Getting 2D map mesh...")
+	Waymap.Debug.Print("[Waymap] Getting 2D map mesh...")
 	local mesh2d = Waymap.Map.GetMesh2D()
-	print("[Waymap] Got 2D map mesh and stored to variable.")
+	Waymap.Debug.Print("[Waymap] Got 2D map mesh and stored to variable.")
 	
-	print(util.TableToJSON(mesh2d))
 	local strings = splitString(util.TableToJSON(mesh2d))
 	
 	if not cache[ply:SteamID64()] then cache[ply:SteamID64()] = {} end
@@ -69,7 +68,7 @@ net.Receive("Waymap.Map.Request", function(ln, ply)
 		table.insert(cache[ply:SteamID64()], chunk)
 	end
 	
-	print("[Waymap] Total chunks: " .. #cache[ply:SteamID64()])
+	Waymap.Debug.Print("[Waymap] Total chunks: " .. #cache[ply:SteamID64()])
 	
 	timer.Create("Waymap.Map.Send_" .. ply:SteamID64(), 0.1, #strings, function()
 		SendChunk(ply, id)
