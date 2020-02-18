@@ -16,12 +16,12 @@ hook.Add("Think", "Waymap.MoveWaypointModels", function()
 			Waymap.Path.waypointModels[pathID] = {}
 		end
 		
-		if not Waymap.Path.waypointModels[pathID].waypointstart then
+		if not IsValid(Waymap.Path.waypointModels[pathID].waypointstart) then
 			Waymap.Path.waypointModels[pathID].waypointstart = ClientsideModel(Waymap.Path.waypointModel, RENDERGROUP_OPAQUE)
 			Waymap.Path.waypointModels[pathID].waypointstart:SetColor(Waymap.Path.waypointStartColor)
 		end
 		
-		if not Waymap.Path.waypointModels[pathID].waypointend then
+		if not IsValid(Waymap.Path.waypointModels[pathID].waypointend) then
 			Waymap.Path.waypointModels[pathID].waypointend = ClientsideModel(Waymap.Path.waypointModel, RENDERGROUP_OPAQUE)
 			Waymap.Path.waypointModels[pathID].waypointend:SetColor(Waymap.Path.waypointEndColor)
 		end

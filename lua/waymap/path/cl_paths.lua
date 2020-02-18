@@ -22,14 +22,15 @@ end
 
 function Waymap.Path.Remove(pathID)
 	local removed = IsValid(Waymap.Path._paths[pathID])
-	Waymap.Path._paths[pathID] = nil
-	
-	Waymap.Path.DeleteArrows(pathID)
 	
 	if Waymap.Path.waypointModels[pathID]  then
 		SafeRemoveEntity(Waymap.Path.waypointModels[pathID].waypointstart)
 		SafeRemoveEntity(Waymap.Path.waypointModels[pathID].waypointend)
 	end
+	
+	Waymap.Path._paths[pathID] = nil
+	Waymap.Path.waypointModels[pathID] = nil
+	Waymap.Path.DeleteArrows(pathID)
 	
 	return removed
 end
