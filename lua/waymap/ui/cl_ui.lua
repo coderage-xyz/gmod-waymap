@@ -1,6 +1,8 @@
 Waymap.UI = Waymap.UI or {}
 Waymap.UI.waymapFrame = Waymap.UI.waymapFrame or {}
 
+local blur = Material("pp/blurscreen")
+
 function Waymap.UI.OpenMap()
 	if not IsValid(Waymap.UI.waymapFrame) then
 		Waymap.UI.waymapFrame = vgui.Create("DFrame")
@@ -16,6 +18,24 @@ function Waymap.UI.OpenMap()
 		Waymap.UI.waymapFrame:SetVisible(true)
 		Waymap.UI.waymapFrame:MakePopup()
 		
+		function Waymap.UI.waymapFrame:Paint(w, h)
+			local x, y = self:LocalToScreen(0, 0)
+			
+			surface.SetDrawColor(Color(0, 0, 0, 200))
+			surface.DrawRect(0, 0, w, h)
+			
+			surface.SetDrawColor(255, 255, 255, 150)
+			surface.SetMaterial(blur)
+
+			for i = 1, 5 do
+				blur:SetFloat("$blur", (i / 4) * 4)
+				blur:Recompute()
+
+				render.UpdateScreenEffectTexture()
+				surface.DrawTexturedRect(-x, -y, ScrW(), ScrH())
+			end
+		end
+		
 		Waymap.UI.waymapFrame.waymap = vgui.Create("DWaymap", Waymap.UI.waymapFrame)
 		Waymap.UI.waymapFrame.waymap:Dock(FILL)
 	end
@@ -29,10 +49,10 @@ function Waymap.UI.OpenCameraEditor()
 		Waymap.UI.cameraEditorFrame:Center()
 		Waymap.UI.cameraEditorFrame:DockPadding(0, 26, 0, 0)
 		Waymap.UI.cameraEditorFrame:SetSkin("Waymap")
-		Waymap.UI.cameraEditorFrame:SetDraggable(true) 
-		Waymap.UI.cameraEditorFrame:ShowCloseButton(true) 
+		Waymap.UI.cameraEditorFrame:SetDraggable(true)
+		Waymap.UI.cameraEditorFrame:ShowCloseButton(true)
 		Waymap.UI.cameraEditorFrame:SetDeleteOnClose(true)
-		Waymap.UI.cameraEditorFrame:SetVisible(true) 
+		Waymap.UI.cameraEditorFrame:SetVisible(true)
 		Waymap.UI.cameraEditorFrame:MakePopup()
 		
 		Waymap.UI.cameraEditorFrame.cameraEditor = vgui.Create("DWaymapCameraEditor", Waymap.UI.cameraEditorFrame)
