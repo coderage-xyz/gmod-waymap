@@ -6,6 +6,7 @@ Waymap.Camera.extension = "json"
 util.AddNetworkString("Waymap.Camera.ServerRequestCamera")
 util.AddNetworkString("Waymap.Camera.ServerSaveCamera")
 util.AddNetworkString("Waymap.Camera.ClientSendCamera")
+util.AddNetworkString("Waymap.Camera.ClientReload")
 
 --Save camera to file for current map
 function Waymap.Camera.Save(camera)
@@ -15,7 +16,7 @@ function Waymap.Camera.Save(camera)
 	f:Write(util.TableToJSON(camera))
 	f:Close()
 	
-	Waymap.Camera.loadedCamera = camera
+	Waymap.Camera.ReloadClients()
 end
 
 --Load camera from file for current map
@@ -63,6 +64,11 @@ function Waymap.Camera.Get()
 	return Waymap.Camera.loadedCamera
 end
 
+function Waymap.Camera.ReloadClients()
+	net.Start("Waymap.Camera.ClientReload")
+	net.Broadcast()
+end
+
 net.Receive("Waymap.Camera.ServerRequestCamera", function(len, ply)
 	local callbackID = net.ReadFloat()
 	
@@ -81,6 +87,9 @@ net.Receive("Waymap.Camera.ServerSaveCamera", function(len, ply)
 		if Waymap.Config.CanEditMapCamera(ply) then
 			camera.creationTime = os.time()
 			Waymap.Camera.Save(camera)
+			Waymap.Camera.loadedCamera = camera
+			
+			hook.Run("Waymap.Camera.LoadedCameraUpdated", Waymap.Camera.loadedCamera)
 			
 			ply:SendLua("GAMEMODE:AddNotify(\"Map camera saved!\", NOTIFY_GENERIC, 4)")
 		else
