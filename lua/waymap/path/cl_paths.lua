@@ -4,52 +4,38 @@
 
 --[[
 	Concommands that I use when debugging:
-	lua_run_clients Waymap.RequestPath(here, there)
+	lua_run_clients Waymap.Path.Request(here, there)
 --]]
 
 Waymap.Path = Waymap.Path or {}
-
 Waymap.Path._paths = Waymap.Path._paths or {}
-Waymap.Path._active = Waymap.Path._active or {}
-
 Waymap.Path._arrows = Waymap.Path._arrows or {}
 
-Waymap.Path._texcoord = 8
-
 function Waymap.Path.Add(path) -- path is a table of vectors
-	local id = table.Count(Waymap.Path._paths) + 1
-	Waymap.Path._paths[id] = path
-	return id
-end
-
-function Waymap.Path.Remove(id)
-	local removed = IsValid(Waymap.Path._paths[id])
-	Waymap.Path._paths[id] = nil
-	return removed
-end
-
-function Waymap.Path.SetActive(pathid)
-	Waymap.Path._active = pathid
+	local pathID = #Waymap.Path._paths + 1
+	Waymap.Path._paths[pathID] = path
 	
-	local path = Waymap.Path.Get(pathid)
-	if path then
-		Waymap.Path.PopulateArrows(path)
-		Waymap.Path._texcoord = (0.1 * Waymap.Path.GetTotalLength(path) / #path)
-	end
+	Waymap.Path.PopulateArrows(pathID)
+	
+	return pathID
 end
 
-function Waymap.Path.GetActive()
-	return Waymap.Path._paths[Waymap.Path._active]
+function Waymap.Path.Remove(pathID)
+	local removed = IsValid(Waymap.Path._paths[pathID])
+	Waymap.Path._paths[pathID] = nil
+	
+	Waymap.Path.DeleteArrows(pathID)
+	
+	if Waymap.Path.waypointModels[pathID]  then
+		SafeRemoveEntity(Waymap.Path.waypointModels[pathID].waypointstart)
+		SafeRemoveEntity(Waymap.Path.waypointModels[pathID].waypointend)
+	end
+	
+	return removed
 end
 
 function Waymap.Path.Get(pathid)
 	return Waymap.Path._paths[pathid]
-end
-
-function Waymap.Path.RemoveActive()
-	local removed = IsValid(Waymap.Path._active)
-	Waymap.Path._active = nil
-	return removed
 end
 
 function Waymap.Path.GetPaths()
@@ -57,7 +43,10 @@ function Waymap.Path.GetPaths()
 end
 
 function Waymap.Path.ClearPaths()
-	Waymap.Path.SetActive(nil)
+	for pathID, path in pairs(Waymap.Path._paths) do 
+		 Waymap.Path.Remove(pathID)
+	end
+	
 	Waymap.Path._paths = {}
 end
 
@@ -172,38 +161,47 @@ function Waymap.Path.BezierPath(path, subdiv)
 	return Waymap.Path.BezierRecursive(subdiv, path)
 end
 
-function Waymap.Path.DeleteArrows()
-	for i, arrow in pairs(Waymap.Path._arrows) do
-		arrow:Remove()
-		Waymap.Path._arrows[i] = nil
+function Waymap.Path.DeleteArrows(pathID)
+	if Waymap.Path._arrows[pathID] then
+		for arrowIndex, arrow in pairs(Waymap.Path._arrows[pathID]) do
+			SafeRemoveEntity(arrow)
+		end
+		
+		Waymap.Path._arrows[pathID] = nil
 	end
 end
 
 local arrowmdl = Model("models/waymap/arrow_indent.mdl")
 
-function Waymap.Path.PopulateArrows(path)
-	if Waymap.Path._arrows then Waymap.Path.DeleteArrows() end
-	for i, node in pairs(path) do
-		if not path[i - 1] then continue end
+function Waymap.Path.PopulateArrows(pathID)
+	local path = Waymap.Path._paths[pathID]
+	
+	if path then
+		if Waymap.Path._arrows[pathID] then
+			Waymap.Path.DeleteArrows(pathID)
+		end
 		
-		local arrow = ClientsideModel(arrowmdl, RENDERGROUP_OPAQUE)
+		Waymap.Path._arrows[pathID] = {}
 		
-		local tr = util.TraceLine{
-			start = node,
-			endpos = node + Vector(0, 0, -1e5),
-			filter = player.GetAll()
-		}
-		
-		arrow:SetPos(tr.HitPos)
-		
-		local angle = tr.HitNormal:Angle()
-		angle:RotateAroundAxis(angle:Right(), -90)
-		local rotation = (path[i - 1] - node):Angle().y - angle.y
-		angle:RotateAroundAxis(angle:Up(), rotation)
-		arrow:SetAngles(angle)
-		
-		arrow:Spawn()
-		
-		table.insert(Waymap.Path._arrows, arrow)
+		for nodeIndex, node in pairs(path) do
+			if not path[nodeIndex - 1] then continue end
+			
+			local tr = util.TraceLine{
+				start = node,
+				endpos = node + Vector(0, 0, -1e5),
+				filter = player.GetAll()
+			}
+			
+			local arrow = ClientsideModel(arrowmdl, RENDERGROUP_OPAQUE)
+			arrow:SetPos(tr.HitPos)
+			local angle = tr.HitNormal:Angle()
+			angle:RotateAroundAxis(angle:Right(), -90)
+			local rotation = (path[nodeIndex - 1] - node):Angle().y - angle.y
+			angle:RotateAroundAxis(angle:Up(), rotation)
+			arrow:SetAngles(angle)
+			arrow:Spawn()
+			
+			Waymap.Path._arrows[pathID][#Waymap.Path._arrows[pathID] + 1] = arrow
+		end
 	end
 end

@@ -6,10 +6,9 @@ Waymap.Path = Waymap.Path or {}
 Waymap.Path.pathCallbackID = Waymap.Path.pathCallbackID or 0
 Waymap.Path.pathCallbacks = Waymap.Path.pathCallbacks or {}
 
-function Waymap.RequestPath(startpos, endpos, callback)
+function Waymap.Path.Request(startpos, endpos, callback)
 	callback = callback or function(path)
-		local id = Waymap.Path.Add(path)
-		Waymap.Path.SetActive(id)
+		Waymap.Path.Add(path)
 	end
 	
 	Waymap.Path.pathCallbackID = Waymap.Path.pathCallbackID + 1
