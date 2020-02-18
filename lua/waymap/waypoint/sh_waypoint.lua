@@ -10,6 +10,8 @@ Waymap.Waypoint._waypoints = Waymap.Waypoint._waypoints or {}
 --]]
 
 function Waymap.Waypoint.Add(name, desc, position, color, icon)
+	local index = util.CRC(tostring(position))
+	
 	local waypoint = {
 		name = name,
 		desc = desc,
@@ -18,7 +20,7 @@ function Waymap.Waypoint.Add(name, desc, position, color, icon)
 		icon = icon
 	}
 	
-	local index = table.insert(Waymap.Waypoint._waypoints, waypoint)
+	Waymap.Waypoint._waypoints[index] = waypoint
 	return index
 end
 
