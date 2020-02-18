@@ -37,8 +37,12 @@ end
 
 function Waymap.Map.Load(camera, mode, callback)
 	if Waymap.Map.Exists(camera, mode) then
+		local material = CreateMaterial(Waymap.Map.GetNameFromCamera(camera, mode), "UnlitGeneric", {
+			["$basetexture"] = Material("../data/" .. Waymap.Map.GetFullFilePath(camera, mode)):GetName()
+		})
+		
 		if callback then
-			callback(Material("../data/" .. Waymap.Map.GetFullFilePath(camera, mode)))
+			callback(material)
 		end
 	else
 		if callback then
