@@ -9,6 +9,26 @@ function Waymap.Map.GetMesh()
 	return Waymap.Map._mesh2d
 end
 
+local splitCount = 2e4
+
+function Waymap.Map.SplitMesh(mesh2d)
+	local split = {}
+	local third = {}
+	
+	for i, part in pairs(mesh2d) do
+		if (i % splitCount == 0) then
+			table.insert(split, third)
+			third = {}
+		end
+		
+		table.insert(third, part)
+	end
+	
+	if not (#third == 0) then table.insert(split, third) end
+	
+	return split
+end
+
 function Waymap.Map.Shrink()
 	for i, part in pairs(Waymap.Map.GetMesh()) do
 		for _, vert in pairs(part) do
@@ -45,10 +65,38 @@ function Waymap.Map.GetMinMaxs(mesh2d)
 	return min, max
 end
 
-function Waymap.Map.Make(mesh2d)
-	mesh2d = mesh2d or Waymap.Map.GetMesh()
+local numBuffers = 0
+
+function Waymap.Map.RenderParts(parts, callback)
+	local parts = parts
 	
-	local rt = GetRenderTarget("waymap_rt_meshmap", mapsize, mapsize)
+	local i = 1
+	local bufferMat
+	local numParts = #parts
+	local materials = {}
+	timer.Create("Waymap.Map.RenderParts", 0.5, numParts, function()
+		if not bufferMat then
+			bufferMat = Waymap.Map.Make(parts[1], nil, i)
+		else
+			bufferMat = Waymap.Map.Make(parts[1], bufferMat, i)
+		end
+		
+		table.insert(materials, bufferMat)
+		table.remove(parts, 1)
+		
+		if (i == numParts) then
+			callback(materials)
+		end
+		
+		i = i + 1
+	end)
+end
+
+function Waymap.Map.Make(mesh2d, buffer, id)
+	mesh2d = mesh2d or Waymap.Map.GetMesh()
+	id = id or 1
+	
+	local rt = GetRenderTarget("waymap_rt_meshmap_" .. id, mapsize, mapsize)
 
 	render.PushRenderTarget(rt)
 		render.OverrideAlphaWriteEnable(true, true)
@@ -56,7 +104,13 @@ function Waymap.Map.Make(mesh2d)
 		render.ClearDepth()
 		render.Clear(0, 0, 0, 0)
 		
-		local boundbot, boundtop = game.GetWorld():GetModelBounds()
+		if buffer then
+			print("buffer drawn", buffer)
+			surface.SetDrawColor(255, 255, 255, 255)
+			surface.SetMaterial(buffer)
+			surface.DrawTexturedRect(0, 0, mapsize, mapsize)
+		end
+		
 		local min, max = Waymap.Map.GetMinMaxs(mesh2d)
 		
 		if mesh2d then
@@ -72,7 +126,7 @@ function Waymap.Map.Make(mesh2d)
 		render.OverrideAlphaWriteEnable(false)
 	render.PopRenderTarget()
 	
-	local mapmat = CreateMaterial("waymap_map_meshmap", "UnlitGeneric", {
+	local mapmat = CreateMaterial("waymap_map_meshmap_" .. id, "UnlitGeneric", {
 		["$basetexture"] = rt:GetName(),
 		["$translucent"] = 1,
 		["$vertexcolor"] = 1
@@ -86,13 +140,15 @@ if not Waymap.Map.GetMesh() then
 	Waymap.Map.RequestMesh()
 end
 
-map = Waymap.Map.Make(Waymap.Map.GetMesh())
+--map = Waymap.Map.Make(Waymap.Map.GetMesh())
 
 hook.Add("HUDPaint", "TestingDrawMap", function()
 	if map then
-		surface.SetDrawColor(255, 255, 255, 255)
-		surface.SetMaterial(map)
-		surface.DrawTexturedRect(0, 0, 1024, 1024)
+		for i, tex in pairs(map) do
+			surface.SetDrawColor(255, 255, 255, 255)
+			surface.SetMaterial(tex)
+			surface.DrawTexturedRect(0, 0, 1024, 1024)
+		end
 	end
 end)
 --]]
