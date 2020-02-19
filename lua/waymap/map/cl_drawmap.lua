@@ -4,13 +4,11 @@
 
 Waymap.Map = Waymap.Map or {}
 
-function Waymap.Map.Draw(mapMat, x, y, sizeX, sizeY)
+function Waymap.Map.Draw(camera, material, x, y, viewPortSize)
 	surface.SetDrawColor(255, 255, 255, 255)
-	surface.SetMaterial(mapMat)
-	surface.DrawTexturedRect(x, y, sizeX, sizeY)
+	surface.SetMaterial(material)
+	surface.DrawTexturedRect(x, y, viewPortSize, viewPortSize)
 	
-	if Waymap.Camera.loadedCamera then
-		local x, y = Waymap.Camera.WorldToMap(Waymap.Camera.loadedCamera, LocalPlayer():GetPos(), sizeX)
-		surface.DrawCircle(x, y, 10, Color(255, 0, 0))
-	end
+	local playerX, playerY = Waymap.Camera.WorldToMap(camera, LocalPlayer():GetPos(), viewPortSize)
+	surface.DrawCircle(x + playerX, y + playerY, 10, Color(255, 0, 0))
 end

@@ -6,9 +6,13 @@ function PANEL:Init()
 	self.mapMaterial = nil
 	
 	self.mapViewPanel = vgui.Create("DPanel", self)
+	self.mapViewPanel.viewPositionX = 0
+	self.mapViewPanel.viewPositionY = -500
 	self.mapViewPanel.Paint = function(panel, width, height)
-		if self.mapMaterial then
-			Waymap.Map.Draw(self.mapMaterial, 0, 0, width, height)
+		local camera = Waymap.Camera.GetLoaded()
+		
+		if camera and self.mapMaterial then
+			Waymap.Map.Draw(camera, self.mapMaterial, panel.viewPositionX, panel.viewPositionY, width)
 		end
 	end
 end
@@ -28,7 +32,7 @@ function PANEL:PerformLayout()
 	
 	if IsValid(self.mapViewPanel) then
 		self.mapViewPanel:SetPos(0, 0)
-		self.mapViewPanel:SetSize(height, height)
+		self.mapViewPanel:SetSize(width, height)
 	end
 end
 

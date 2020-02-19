@@ -18,6 +18,12 @@ function Waymap.Camera.SaveCameraToServer(camera)
 	net.SendToServer()
 end
 
+--Get the currently loaded camera
+--Can be nil
+function Waymap.Camera.GetLoaded()
+	return Waymap.Camera.loadedCamera
+end
+
 net.Receive("Waymap.Camera.ClientSendCamera", function(ply)
 	local callbackID = net.ReadFloat()
 	local camera = net.ReadTable()
