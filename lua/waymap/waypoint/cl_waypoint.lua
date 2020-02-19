@@ -31,4 +31,5 @@ net.Receive("Waymap.Waypoint.Send", function(ln)
 	local waypoints = net.ReadTable()
 	Waymap.Debug.Print("[Waymap] Running callback ID: " .. id)
 	Waymap.Waypoint._callbacks[id](waypoints)
+	Waymap.Waypoint._callbacks[id] = nil
 end)
