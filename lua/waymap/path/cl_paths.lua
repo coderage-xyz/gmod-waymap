@@ -38,8 +38,8 @@ function Waymap.Path.Remove(pathID)
 	return removed
 end
 
-function Waymap.Path.Get(pathid)
-	return Waymap.Path._paths[pathid]
+function Waymap.Path.Get(pathID)
+	return Waymap.Path._paths[pathID]
 end
 
 function Waymap.Path.GetPaths()
