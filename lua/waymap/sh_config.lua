@@ -3,12 +3,8 @@ Waymap.Config = {
 	Title = "Waymap",
 	ConVarPrefix = "waymap_",
 	
-	
-	
-	
-	
-	
-	
+	----Visual----
+	WaypointSize = 64,
 	
 	----Permissions----
 	
