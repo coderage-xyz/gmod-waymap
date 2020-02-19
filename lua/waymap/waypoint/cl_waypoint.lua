@@ -4,8 +4,37 @@
 
 Waymap.Waypoint = Waymap.Waypoint or {}
 Waymap.Waypoint._waypoints = Waymap.Waypoint._waypoints or {}
+Waymap.Waypoint._local = Waymap.Waypoint._local or {}
 
 Waymap.Waypoint._callbacks = Waymap.Waypoint._callbacks or {}
+
+--[[
+	Waypoint editing functions
+--]]
+
+function Waymap.Waypoint.AddLocal(name, desc, position, color, icon)
+	local index = Waymap.Waypoint._cur
+	Waymap.Waypoint._cur = Waymap.Waypoint._cur + 1
+	
+	local waypoint = {
+		name = name,
+		desc = desc,
+		position = position,
+		color = color,
+		icon = icon
+	}
+	
+	Waymap.Waypoint._local[index] = waypoint
+	return index
+end
+
+function Waymap.Waypoint.GetLocal(index)
+	return Waymap.Waypoint._local[index]
+end
+
+function Waymap.Waypoint.GetAllLocal()
+	return Waymap.Waypoint._local
+end
 
 --[[
 	Net handling

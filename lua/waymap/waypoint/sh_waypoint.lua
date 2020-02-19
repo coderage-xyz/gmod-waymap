@@ -5,6 +5,8 @@
 Waymap.Waypoint = Waymap.Waypoint or {}
 Waymap.Waypoint._waypoints = Waymap.Waypoint._waypoints or {}
 
+Waymap.Waypoint._cur = Waymap.Waypoint._cur or 0
+
 --[[
 	Basic waypoint editing functions
 --]]
