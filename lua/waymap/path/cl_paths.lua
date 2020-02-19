@@ -32,7 +32,7 @@ function Waymap.Path.Remove(pathID)
 	
 	Waymap.Path._paths[pathID] = nil
 	Waymap.Path.waypointModels[pathID] = nil
-	Waymap.Path.SetColor(pathID, nil)
+	Waymap.Path._colors[pathID] = nil
 	Waymap.Path.DeleteArrows(pathID)
 	
 	return removed

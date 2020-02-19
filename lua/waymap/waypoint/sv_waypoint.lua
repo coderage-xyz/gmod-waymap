@@ -9,6 +9,26 @@ util.AddNetworkString("Waymap.Waypoint.Request")
 util.AddNetworkString("Waymap.Waypoint.Send")
 
 --[[
+	Basic waypoint editing functions
+--]]
+
+function Waymap.Waypoint.Add(name, desc, position, color, icon)
+	local index = Waymap.Waypoint._cur
+	Waymap.Waypoint._cur = Waymap.Waypoint._cur + 1
+	
+	local waypoint = {
+		name = name,
+		desc = desc,
+		position = position,
+		color = color,
+		icon = icon
+	}
+	
+	Waymap.Waypoint._waypoints[index] = waypoint
+	return index
+end
+
+--[[
 	Net handling
 --]]
 
