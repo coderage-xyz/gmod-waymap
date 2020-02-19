@@ -16,8 +16,8 @@ function Waymap.Path.Add(path, color) -- path is a table of vectors
 	local pathID = #Waymap.Path._paths + 1
 	Waymap.Path._paths[pathID] = path
 	
-	Waymap.Path.SetColor(pathID, color or Color(255, 0, 0))
 	Waymap.Path.PopulateArrows(pathID)
+	Waymap.Path.SetColor(pathID, color or Color(255, 0, 0))
 	
 	return pathID
 end
