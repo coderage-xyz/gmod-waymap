@@ -36,11 +36,9 @@ function Waymap.Map.Shrink()
 			vert.y = vert.y / scale
 		end
 		
-		--[[
 		if math.abs(part[3].x - part[1].x) > 0.3 or math.abs(part[3].y - part[1].y) > 0.3 then
 			Waymap.Map._mesh2d[i] = nil
 		end
-		--]]
 	end
 end
 
@@ -135,12 +133,16 @@ function Waymap.Map.Make(mesh2d, buffer, id)
 	return mapmat
 end
 
---[[
 if not Waymap.Map.GetMesh() then
 	Waymap.Map.RequestMesh()
 end
 
---map = Waymap.Map.Make(Waymap.Map.GetMesh())
+local splitmesh = Waymap.Map.SplitMesh(Waymap.Map.GetMesh())
+
+local map
+Waymap.Map.RenderParts(splitmesh, function(materials)
+	map = materials
+end)
 
 hook.Add("HUDPaint", "TestingDrawMap", function()
 	if map then
@@ -151,4 +153,3 @@ hook.Add("HUDPaint", "TestingDrawMap", function()
 		end
 	end
 end)
---]]
