@@ -18,7 +18,10 @@ function Waymap.UI.LoadIcons(folder)
 	
 	for _, file in pairs(files) do
 		if string.GetExtensionFromFilename(file) ~= "png" then continue end
-		Waymap.UI._icons[#Waymap.UI._icons + 1] = Material(string.sub(path, 11) .. file, iconparams)
+		
+		local pathAndName = string.sub(path, 11) .. file
+		
+		Waymap.UI._icons[pathAndName] = Material(pathAndName, iconparams)
 	end
 	
 	for _, directory in pairs(directories) do
@@ -53,7 +56,7 @@ function Waymap.UI.DrawWaypoint(x, y, sizex, sizey, icon, color)
 	local icony = y + (sizex / 4)
 	
 	surface.SetDrawColor(color)
-	surface.SetMaterial(isstring(icon) and icon or Waymap.UI.GetAllIcons()[icon])
+	surface.SetMaterial(Waymap.UI.GetAllIcons()[icon])
 	surface.DrawTexturedRect(iconx, icony, sizex / 2, sizex / 2)
 end
 
