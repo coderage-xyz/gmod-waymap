@@ -6,7 +6,11 @@ Waymap.Debug = Waymap.Debug or {}
 
 hook.Add("HUDPaint", "DrawGoogleIcons", function()
 	if Waymap.ConVars.Debug_ShowIcons() then
-		for i, icon in pairs(Waymap.UI.GetAllIcons()) do
+		local i = 0
+		
+		for iconPath, icon in pairs(Waymap.UI.GetAllIcons()) do
+			i = i + 1
+			
 			local x = ((i - 1) % math.floor(ScrW() / 150)) * 150 + 16
 			local y = math.floor((i - 1) / math.floor(ScrW() / 150)) * 150 + 16
 			
