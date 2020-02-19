@@ -53,7 +53,7 @@ function Waymap.UI.DrawWaypoint(x, y, sizex, sizey, icon, color)
 	local icony = y + (sizex / 4)
 	
 	surface.SetDrawColor(color)
-	surface.SetMaterial(icon)
+	surface.SetMaterial(isstring(icon) and icon or Waymap.UI.GetAllIcons()[icon])
 	surface.DrawTexturedRect(iconx, icony, sizex / 2, sizex / 2)
 end
 
