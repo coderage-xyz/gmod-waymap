@@ -10,11 +10,13 @@
 Waymap.Path = Waymap.Path or {}
 Waymap.Path._paths = Waymap.Path._paths or {}
 Waymap.Path._arrows = Waymap.Path._arrows or {}
+Waymap.Path._colors = Waymap.Path._colors or {}
 
-function Waymap.Path.Add(path) -- path is a table of vectors
+function Waymap.Path.Add(path, color) -- path is a table of vectors
 	local pathID = #Waymap.Path._paths + 1
 	Waymap.Path._paths[pathID] = path
 	
+	Waymap.Path.SetColor(pathID, color or Color(255, 0, 0))
 	Waymap.Path.PopulateArrows(pathID)
 	
 	return pathID
@@ -30,6 +32,7 @@ function Waymap.Path.Remove(pathID)
 	
 	Waymap.Path._paths[pathID] = nil
 	Waymap.Path.waypointModels[pathID] = nil
+	Waymap.Path.SetColor(pathID, nil)
 	Waymap.Path.DeleteArrows(pathID)
 	
 	return removed
@@ -43,8 +46,23 @@ function Waymap.Path.GetPaths()
 	return Waymap.Path._paths
 end
 
+function Waymap.Path.SetColor(pathID, color)
+	Waymap.Path._colors[pathID] = color
+	Waymap.Path.UpdateArrowColors(pathID)
+end
+
+function Waymap.Path.GetColor(pathID)
+	return Waymap.Path._colors[pathID]
+end
+
+function Waymap.Path.UpdateArrowColors(pathID)
+	for _, arrow in pairs(Waymap.Path._arrows[pathID]) do
+		arrow:SetColor(Waymap.Path.GetColor(pathID))
+	end
+end
+
 function Waymap.Path.ClearPaths()
-	for pathID, path in pairs(Waymap.Path._paths) do 
+	for pathID, path in pairs(Waymap.Path._paths) do
 		 Waymap.Path.Remove(pathID)
 	end
 	
@@ -200,6 +218,9 @@ function Waymap.Path.PopulateArrows(pathID)
 			local rotation = (path[nodeIndex - 1] - node):Angle().y - angle.y
 			angle:RotateAroundAxis(angle:Up(), rotation)
 			arrow:SetAngles(angle)
+			
+			arrow:SetColor(Waymap.Path.GetColor(pathID))
+			
 			arrow:Spawn()
 			
 			Waymap.Path._arrows[pathID][#Waymap.Path._arrows[pathID] + 1] = arrow
