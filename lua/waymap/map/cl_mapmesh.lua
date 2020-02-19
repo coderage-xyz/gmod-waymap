@@ -133,6 +133,7 @@ function Waymap.Map.Make(mesh2d, buffer, id)
 	return mapmat
 end
 
+--[[
 if not Waymap.Map.GetMesh() then
 	Waymap.Map.RequestMesh()
 end
@@ -153,3 +154,4 @@ hook.Add("HUDPaint", "TestingDrawMap", function()
 		end
 	end
 end)
+--]]
