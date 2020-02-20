@@ -45,7 +45,7 @@ end
 	Drawing waypoints
 --]]
 
-local waypointmat = Material("waymap/waypoint")
+local waypointmat = Material("waymap/waypoint.png", "alphatest smooth")
 
 function Waymap.UI.DrawWaypoint(x, y, sizex, sizey, icon, color)
 	surface.SetDrawColor(color)
