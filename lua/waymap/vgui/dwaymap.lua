@@ -7,14 +7,22 @@ function PANEL:Init()
 	
 	self.mapViewPanel = vgui.Create("DPanel", self)
 	self.mapViewPanel.viewPositionX, self.mapViewPanel.viewPositionY = 0, 0
+	self.mapViewPanel.zoom = 0
 	self.mapViewPanel.isMovingView = false
 	self.mapViewPanel.pressedCursorPositionX, self.mapViewPanel.pressedCursorPositionY = 0, 0
 	self.mapViewPanel.pressedViewPositionX, self.mapViewPanel.pressedViewPositionY = 0, 0
+	self.mapViewPanel.camera = {}
 	self.mapViewPanel.Paint = function(panel, width, height)
 		local camera = Waymap.Camera.GetLoaded()
 		
 		if camera and self.mapMaterial then
-			Waymap.Map.Draw(camera, self.mapMaterial, panel.viewPositionX, panel.viewPositionY)
+			panel.camera.position = camera.position
+			panel.camera.zoom = camera.zoom
+			panel.camera.rotation = camera.rotation
+			panel.camera.renderTargetSize = camera.renderTargetSize + panel.zoom
+			panel.camera.creationTime = camera.creationTime
+			
+			Waymap.Map.Draw(panel.camera, self.mapMaterial, panel.viewPositionX, panel.viewPositionY)
 		end
 	end
 	self.mapViewPanel.OnMousePressed = function(panel, keyCode)
@@ -22,6 +30,17 @@ function PANEL:Init()
 			panel.pressedCursorPositionX, panel.pressedCursorPositionY = self:LocalCursorPos()
 			panel.pressedViewPositionX, panel.pressedViewPositionY = panel.viewPositionX, panel.viewPositionY
 			panel.isMovingView = true
+		end
+	end
+	self.mapViewPanel.OnMouseWheeled = function(panel, scrollDelta)
+		local camera = Waymap.Camera.GetLoaded()
+		
+		if camera then
+			if scrollDelta > 0 then
+				panel.zoom = panel.zoom + camera.renderTargetSize / 10
+			elseif scrollDelta < 0 then
+				panel.zoom = panel.zoom - camera.renderTargetSize / 10
+			end
 		end
 	end
 	self.mapViewPanel.Think = function(panel)
