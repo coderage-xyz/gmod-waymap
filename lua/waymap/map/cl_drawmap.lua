@@ -27,15 +27,20 @@ function Waymap.Map.DrawPaths(x, y, camera, viewPortSize)
 	for pathID, path in pairs(Waymap.Path.GetPaths()) do
 		local color = Waymap.Path.GetColor(pathID)
 		
+		surface.SetDrawColor(color)
+		draw.NoTexture()
+		
 		for i, this in pairs(path) do
 			local last = path[i - 1]
 			if not last then continue end
 			local lastX, lastY = Waymap.Camera.WorldToMap(camera, last, viewPortSize)
 			local thisX, thisY = Waymap.Camera.WorldToMap(camera, this, viewPortSize)
 			
-			surface.SetDrawColor(color)
 			surface.DrawCircle(x + lastX, y + lastY, 2, color)
-			surface.DrawLine(x + lastX, y + lastY, x + thisX, y + thisY)
+			
+			local dX, dY = (thisX - lastX), (thisY - lastY)
+			local rot = math.deg(-math.atan(dY / dX))
+			surface.DrawTexturedRectRotated(x + (thisX + lastX) / 2, y + (thisY + lastY) / 2, math.sqrt(dX * dX + dY * dY), 4, rot)
 		end
 	end
 end
