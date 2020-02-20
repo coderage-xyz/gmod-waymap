@@ -17,6 +17,8 @@ util.AddNetworkString("Waymap.Waypoint.ClientReceiveAll")
 function Waymap.Waypoint.Broadcast(waypointID)
 	local waypoint = Waymap.Waypoint.Get(waypointID)
 	
+	Waymap.Debug.Print("[Waymap] Transmitting waypoint \"" .. waypoint.name .. "\" to all clients...")
+	
 	net.Start("Waymap.Waypoint.ClientReceive")
 	net.WriteFloat(waypointID)
 	net.WriteString(waypoint.name)
@@ -25,6 +27,8 @@ function Waymap.Waypoint.Broadcast(waypointID)
 	net.WriteColor(waypoint.color)
 	net.WriteString(waypoint.icon)
 	net.Broadcast()
+	
+	Waymap.Debug.Print("[Waymap] Finished transmitting waypoint data.")
 end
 
 --[[
@@ -39,6 +43,8 @@ net.Receive("Waymap.Waypoint.ServerRequestAll", function(ln, ply)
 		net.WriteFloat(callbackID)
 		net.WriteTable(Waymap.Waypoint.GetAll())
 		net.Send(ply)
+		
+		Waymap.Debug.Print("[Waymap] Sent all global icons to player " .. ply:Name .. ".")
 	end
 end)
 

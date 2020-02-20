@@ -55,6 +55,7 @@ function Waymap.Waypoint.UploadLocal(localWaypointID)
 	net.SendToServer()
 	
 	Waymap.Waypoint.RemoveLocal(localWaypointID)
+	Waymap.Debug.Print("[Waymap] Local waypoint \"" .. localWaypoint.name .. "\" sent to server.")
 end
 
 --[[
@@ -64,6 +65,7 @@ end
 function Waymap.Waypoint.RequestAllFromServer(callback)
 	callback = callback or function(waypoints)
 		table.Merge(Waymap.Waypoint._waypoints, waypoints)
+		Waymap.Debug.Print("[Waymap] Global waypoint table merged with new data from server.")
 	end
 	
 	Waymap.Waypoint._callbackID = Waymap.Waypoint._callbackID + 1
@@ -87,6 +89,7 @@ net.Receive("Waymap.Waypoint.ClientReceive", function(ln)
 	local icon = net.ReadString()
 	
 	Waymap.Waypoint.Add(name, description, position, color, icon)
+	Waymap.Debug.Print("[Waymap] Waypoint \"" .. name .. "\" received from server and added to table.")
 end)
 
 net.Receive("Waymap.Waypoint.ClientReceiveAll", function(ln)
