@@ -208,7 +208,7 @@ function Waymap.Path.PopulateArrows(pathID)
 			local tr = util.TraceLine{
 				start = node,
 				endpos = node + Vector(0, 0, -1e5),
-				filter = player.GetAll()
+				collisiongroup = COLLISION_GROUP_DEBRIS
 			}
 			
 			local arrow = ClientsideModel(arrowmdl, RENDERGROUP_OPAQUE)
