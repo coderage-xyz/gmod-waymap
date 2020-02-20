@@ -37,8 +37,6 @@ function Waymap.Map.DrawPaths(x, y, camera)
 			local lastX, lastY = Waymap.Camera.WorldToMap(camera, last)
 			local thisX, thisY = Waymap.Camera.WorldToMap(camera, this)
 			
-			--surface.DrawCircle(x + lastX, y + lastY, 2, color)
-			
 			local dX, dY = (thisX - lastX), (thisY - lastY)
 			local rot = math.deg(-math.atan(dY / dX))
 			surface.DrawTexturedRectRotated(x + (thisX + lastX) / 2, y + (thisY + lastY) / 2, math.sqrt(dX * dX + dY * dY) + 1, 4, rot)
