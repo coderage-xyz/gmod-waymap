@@ -44,7 +44,7 @@ net.Receive("Waymap.Waypoint.ServerRequestAll", function(ln, ply)
 		net.WriteTable(Waymap.Waypoint.GetAll())
 		net.Send(ply)
 		
-		Waymap.Debug.Print("[Waymap] Sent all global icons to player " .. ply:Name .. ".")
+		Waymap.Debug.Print("[Waymap] Sent all global icons to player " .. ply:Name() .. ".")
 	end
 end)
 
