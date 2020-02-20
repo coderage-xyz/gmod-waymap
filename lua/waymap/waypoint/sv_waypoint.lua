@@ -58,5 +58,6 @@ net.Receive("Waymap.Waypoint.ServerAdd", function(ln, ply)
 	if name and description and position and color and icon then
 		local waypointID = Waymap.Waypoint.Add(name, description, position, color, icon)
 		Waymap.Waypoint.Broadcast(waypointID)
+		Waymap.Debug.Print("[Waymap] Added global waypoint \"" .. name .. "\".")
 	end
 end)
