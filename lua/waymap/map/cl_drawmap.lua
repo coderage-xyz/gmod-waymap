@@ -40,7 +40,7 @@ function Waymap.Map.DrawPaths(x, y, camera, viewPortSize)
 			
 			local dX, dY = (thisX - lastX), (thisY - lastY)
 			local rot = math.deg(-math.atan(dY / dX))
-			surface.DrawTexturedRectRotated(x + (thisX + lastX) / 2, y + (thisY + lastY) / 2, math.sqrt(dX * dX + dY * dY), 4, rot)
+			surface.DrawTexturedRectRotated(x + (thisX + lastX) / 2, y + (thisY + lastY) / 2, math.sqrt(dX * dX + dY * dY) + 1, 4, rot)
 		end
 	end
 end
