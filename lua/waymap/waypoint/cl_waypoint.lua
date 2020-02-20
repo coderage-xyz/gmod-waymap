@@ -71,7 +71,7 @@ function Waymap.Waypoint.RequestAllFromServer(callback)
 	
 	Waymap.Debug.Print("[Waymap] Saving callback ID: " .. Waymap.Waypoint._callbackID)
 	
-	net.Start("Waymap.Waypoint.RequestAll")
+	net.Start("Waymap.Waypoint.ServerRequestAll")
 	net.WriteFloat(Waymap.Waypoint._callbackID)
 	net.SendToServer()
 end
