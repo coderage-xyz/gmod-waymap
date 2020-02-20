@@ -36,4 +36,4 @@ function PANEL:PerformLayout()
 	end
 end
 
-derma.DefineControl("DWaymap", "Full size map for Waymap", PANEL, "DPanel")
+derma.DefineControl("DWaymap", "Full size map for Waymap", PANEL, "Panel")
