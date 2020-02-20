@@ -46,8 +46,8 @@ function PANEL:Init()
 			
 			local cursorX, cursorY = self:LocalCursorPos()
 			
-			panel.viewPositionX = panel.viewPositionX - ((cursorX) / panel:GetWide() * ((camera.renderTargetSize + panel.zoom + zoomAdd) - (camera.renderTargetSize + panel.zoom)))
-			panel.viewPositionY = panel.viewPositionY - ((cursorY) / panel:GetWide() * ((camera.renderTargetSize + panel.zoom + zoomAdd) - (camera.renderTargetSize + panel.zoom)))
+			panel.viewPositionX = panel.viewPositionX - (cursorX / panel:GetWide() * ((camera.renderTargetSize + panel.zoom + zoomAdd) - (camera.renderTargetSize + panel.zoom)))
+			panel.viewPositionY = panel.viewPositionY - (cursorY / panel:GetTall() * ((camera.renderTargetSize + panel.zoom + zoomAdd) - (camera.renderTargetSize + panel.zoom)))
 			panel.zoom = panel.zoom + zoomAdd
 		end
 	end
