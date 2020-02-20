@@ -36,11 +36,19 @@ function PANEL:Init()
 		local camera = Waymap.Camera.GetLoaded()
 		
 		if camera then
+			local zoomAdd = 0
+			
 			if scrollDelta > 0 then
-				panel.zoom = panel.zoom + camera.renderTargetSize / 10
+				zoomAdd = camera.renderTargetSize / 10
 			elseif scrollDelta < 0 then
-				panel.zoom = panel.zoom - camera.renderTargetSize / 10
+				zoomAdd = -camera.renderTargetSize / 10
 			end
+			
+			local cursorX, cursorY = self:LocalCursorPos()
+			
+			panel.viewPositionX = panel.viewPositionX - ((cursorX) / panel:GetWide() * ((camera.renderTargetSize + panel.zoom + zoomAdd) - (camera.renderTargetSize + panel.zoom)))
+			panel.viewPositionY = panel.viewPositionY - ((cursorY) / panel:GetWide() * ((camera.renderTargetSize + panel.zoom + zoomAdd) - (camera.renderTargetSize + panel.zoom)))
+			panel.zoom = panel.zoom + zoomAdd
 		end
 	end
 	self.mapViewPanel.Think = function(panel)
