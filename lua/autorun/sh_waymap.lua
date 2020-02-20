@@ -69,6 +69,7 @@ Waymap.Include("waymap/path/cl_netpath.lua", Waymap.INSTANCE.CLIENT)
 -- VGUI
 Waymap.Include("waymap/vgui/dwaymapcameraeditor.lua", Waymap.INSTANCE.CLIENT)
 Waymap.Include("waymap/vgui/dwaymap.lua", Waymap.INSTANCE.CLIENT)
+Waymap.Include("waymap/vgui/dwaymapwaypoint.lua", Waymap.INSTANCE.CLIENT)
 
 -- GWEN skin
 Waymap.Include("skins/waymap.lua", Waymap.INSTANCE.CLIENT)
