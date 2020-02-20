@@ -5,7 +5,7 @@
 Waymap.Map = Waymap.Map or {}
 
 Waymap.Map.waypointMat = Material("waymap/waypoint")
-Waymap.Map.playerMat = Material("waymap/player")
+Waymap.Map.playerMat = Material("waymap/player.png", "alphatest smooth")
 
 function Waymap.Map.DrawWaypoints(x, y, waypoints, camera, viewPortSize)
 	for _, waypoint in pairs(waypoints) do
@@ -55,7 +55,7 @@ function Waymap.Map.Draw(camera, material, x, y, viewPortSize)
 	local rot = LocalPlayer():GetAngles().y - (camera.rotation - 1) * 90
 	surface.SetDrawColor(team.GetColor(LocalPlayer():Team()))
 	surface.SetMaterial(Waymap.Map.playerMat)
-	surface.DrawTexturedRectRotated(x + playerX, y + playerY, Waymap.Config.WaypointSize * 2, Waymap.Config.WaypointSize, rot)
+	surface.DrawTexturedRectRotated(x + playerX, y + playerY, Waymap.Config.WaypointSize, Waymap.Config.WaypointSize, rot)
 	
 	Waymap.Map.DrawPaths(x, y, camera, viewPortSize)
 	
