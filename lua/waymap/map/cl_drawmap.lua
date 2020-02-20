@@ -36,7 +36,7 @@ function Waymap.Map.DrawPaths(x, y, camera, viewPortSize)
 			local lastX, lastY = Waymap.Camera.WorldToMap(camera, last, viewPortSize)
 			local thisX, thisY = Waymap.Camera.WorldToMap(camera, this, viewPortSize)
 			
-			surface.DrawCircle(x + lastX, y + lastY, 2, color)
+			--surface.DrawCircle(x + lastX, y + lastY, 2, color)
 			
 			local dX, dY = (thisX - lastX), (thisY - lastY)
 			local rot = math.deg(-math.atan(dY / dX))
