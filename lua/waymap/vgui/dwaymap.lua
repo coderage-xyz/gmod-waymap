@@ -27,13 +27,13 @@ function PANEL:Init()
 	self.mapViewPanel.Think = function(panel)
 		if panel.isMovingView then
 			if not input.IsMouseDown(MOUSE_LEFT) then
+				local cursorX, cursorY = self:LocalCursorPos()
+				
+				panel.viewPositionX = panel.pressedViewPositionX + (cursorX - panel.pressedCursorPositionX)
+				panel.viewPositionY = panel.pressedViewPositionY + (cursorY - panel.pressedCursorPositionY)
+			else
 				panel.isMovingView = false
 			end
-			
-			local cursorX, cursorY = self:LocalCursorPos()
-			
-			panel.viewPositionX = panel.pressedViewPositionX + (cursorX - panel.pressedCursorPositionX)
-			panel.viewPositionY = panel.pressedViewPositionY + (cursorY - panel.pressedCursorPositionY)
 		end
 	end
 end
