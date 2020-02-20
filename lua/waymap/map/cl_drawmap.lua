@@ -6,9 +6,9 @@ Waymap.Map = Waymap.Map or {}
 
 Waymap.Map.waypointMat = Material("waymap/waypoint")
 
-function Waymap.Map.DrawWaypoints(x, y, waypoints, camera, viewPortSize)
+function Waymap.Map.DrawWaypoints(x, y, waypoints, camera)
 	for _, waypoint in pairs(waypoints) do
-		local waypointX, waypointY = Waymap.Camera.WorldToMap(camera, waypoint.position, viewPortSize)
+		local waypointX, waypointY = Waymap.Camera.WorldToMap(camera, waypoint.position)
 		waypointX = waypointX - Waymap.Config.WaypointSize / 2
 		waypointY = waypointY - Waymap.Config.WaypointSize * 2
 		
@@ -23,7 +23,7 @@ function Waymap.Map.DrawWaypoints(x, y, waypoints, camera, viewPortSize)
 	end
 end
 
-function Waymap.Map.DrawPaths(x, y, camera, viewPortSize)
+function Waymap.Map.DrawPaths(x, y, camera)
 	for pathID, path in pairs(Waymap.Path.GetPaths()) do
 		local color = Waymap.Path.GetColor(pathID)
 		
@@ -33,8 +33,8 @@ function Waymap.Map.DrawPaths(x, y, camera, viewPortSize)
 		for i, this in pairs(path) do
 			local last = path[i - 1]
 			if not last then continue end
-			local lastX, lastY = Waymap.Camera.WorldToMap(camera, last, viewPortSize)
-			local thisX, thisY = Waymap.Camera.WorldToMap(camera, this, viewPortSize)
+			local lastX, lastY = Waymap.Camera.WorldToMap(camera, last)
+			local thisX, thisY = Waymap.Camera.WorldToMap(camera, this)
 			
 			--surface.DrawCircle(x + lastX, y + lastY, 2, color)
 			
@@ -45,16 +45,16 @@ function Waymap.Map.DrawPaths(x, y, camera, viewPortSize)
 	end
 end
 
-function Waymap.Map.Draw(camera, material, x, y, viewPortSize)
+function Waymap.Map.Draw(camera, material, x, y)
 	surface.SetDrawColor(255, 255, 255, 255)
 	surface.SetMaterial(material)
-	surface.DrawTexturedRect(x, y, viewPortSize, viewPortSize)
+	surface.DrawTexturedRect(x, y, camera.renderTargetSize, camera.renderTargetSize)
 	
-	local playerX, playerY = Waymap.Camera.WorldToMap(camera, LocalPlayer():GetPos(), viewPortSize)
+	local playerX, playerY = Waymap.Camera.WorldToMap(camera, LocalPlayer():GetPos())
 	surface.DrawCircle(x + playerX, y + playerY, 10, Color(255, 0, 0))
 	
-	Waymap.Map.DrawPaths(x, y, camera, viewPortSize)
+	Waymap.Map.DrawPaths(x, y, camera)
 	
-	Waymap.Map.DrawWaypoints(x, y, Waymap.Waypoint.GetAll(), camera, viewPortSize)
-	Waymap.Map.DrawWaypoints(x, y, Waymap.Waypoint.GetAllLocal(), camera, viewPortSize)
+	Waymap.Map.DrawWaypoints(x, y, Waymap.Waypoint.GetAll(), camera)
+	Waymap.Map.DrawWaypoints(x, y, Waymap.Waypoint.GetAllLocal(), camera)
 end
