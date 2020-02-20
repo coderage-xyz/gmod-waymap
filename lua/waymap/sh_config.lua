@@ -5,6 +5,7 @@ Waymap.Config = {
 	
 	----Visual----
 	WaypointSize = 64,
+	PlayerIndicatorSize = 64,
 	MapTextureSize = 2048,
 	
 	----Permissions----
