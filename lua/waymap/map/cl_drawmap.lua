@@ -53,7 +53,7 @@ function Waymap.Map.Draw(camera, material, x, y, viewPortSize)
 	
 	local playerX, playerY = Waymap.Camera.WorldToMap(camera, LocalPlayer():GetPos(), viewPortSize)
 	local rot = LocalPlayer():GetAngles().y - (camera.rotation - 1) * 90
-	surface.SetDrawColor(255, 255, 255, 255)
+	surface.SetDrawColor(team.GetColor(LocalPlayer():Team()))
 	surface.SetMaterial(Waymap.Map.playerMat)
 	surface.DrawTexturedRectRotated(x + playerX, y + playerY, Waymap.Config.WaypointSize * 2, Waymap.Config.WaypointSize, rot)
 	
