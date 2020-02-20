@@ -1,8 +1,8 @@
 Waymap.Map = Waymap.Map or {}
 
 Waymap.Map.generators[Waymap.Map.MODE.SATELLITE] = function(camera, callback)
-	local width, height = 1024, 1024
-	local texture = GetRenderTargetEx("Waymap.Map.GenerateSatellite", width, height, RT_SIZE_DEFAULT, MATERIAL_RT_DEPTH_SHARED, 1, CREATERENDERTARGETFLAGS_UNFILTERABLE_OK, IMAGE_FORMAT_DEFAULT)
+	local width, height = 2048, 2048
+	local texture = GetRenderTargetEx("Waymap.Map.GenerateSatellite", width, height, RT_SIZE_LITERAL, MATERIAL_RT_DEPTH_SHARED, 1, CREATERENDERTARGETFLAGS_UNFILTERABLE_OK, IMAGE_FORMAT_DEFAULT)
 	
 	render.PushRenderTarget(texture)
 	cam.Start2D()
