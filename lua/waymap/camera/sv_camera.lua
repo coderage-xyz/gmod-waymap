@@ -54,6 +54,7 @@ function Waymap.Camera.Get()
 				position = Vector(0, 0, maxBound),
 				zoom = maxBound,
 				rotation = 0,
+				renderTargetSize = Waymap.Config.MapTextureSize,
 				creationTime = os.time()
 			}
 			

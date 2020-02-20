@@ -14,7 +14,7 @@ function PANEL:Init()
 		local camera = Waymap.Camera.GetLoaded()
 		
 		if camera and self.mapMaterial then
-			Waymap.Map.Draw(camera, self.mapMaterial, panel.viewPositionX, panel.viewPositionY, width)
+			Waymap.Map.Draw(camera, self.mapMaterial, panel.viewPositionX, panel.viewPositionY)
 		end
 	end
 	self.mapViewPanel.OnMousePressed = function(panel, keyCode)
