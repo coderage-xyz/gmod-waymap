@@ -12,17 +12,21 @@ function PANEL:Init()
 	self.mapViewPanel.pressedCursorPositionX, self.mapViewPanel.pressedCursorPositionY = 0, 0
 	self.mapViewPanel.pressedViewPositionX, self.mapViewPanel.pressedViewPositionY = 0, 0
 	self.mapViewPanel.camera = {}
+	self.mapViewPanel.GetModifiedCamera = function(panel, camera)
+		panel.camera.position = camera.position
+		panel.camera.zoom = camera.zoom
+		panel.camera.rotation = camera.rotation
+		panel.camera.renderTargetSize = camera.renderTargetSize + panel.zoom
+		panel.camera.creationTime = camera.creationTime
+		
+		return panel.camera
+	end
+	self.mapViewPanel:UpdateCamera()
 	self.mapViewPanel.Paint = function(panel, width, height)
 		local camera = Waymap.Camera.GetLoaded()
 		
 		if camera and self.mapMaterial then
-			panel.camera.position = camera.position
-			panel.camera.zoom = camera.zoom
-			panel.camera.rotation = camera.rotation
-			panel.camera.renderTargetSize = camera.renderTargetSize + panel.zoom
-			panel.camera.creationTime = camera.creationTime
-			
-			Waymap.Map.Draw(panel.camera, self.mapMaterial, panel.viewPositionX, panel.viewPositionY)
+			Waymap.Map.Draw(panel:GetModifiedCamera(camera), self.mapMaterial, panel.viewPositionX, panel.viewPositionY)
 		end
 	end
 	self.mapViewPanel.OnMousePressed = function(panel, keyCode)
