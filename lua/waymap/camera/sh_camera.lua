@@ -1,9 +1,9 @@
 Waymap.Camera = Waymap.Camera or {}
 Waymap.Camera.loadedCamera = Waymap.Camera.loadedCamera or nil
 
+--Convert a world position to a map position
 function Waymap.Camera.WorldToMap(camera, position)
-	local size = camera.renderTargetSize
-	local factor = size / (camera.zoom * 2)
+	local factor = camera.renderTargetSize / (camera.zoom * 2)
 	local x, y = 0, 0
 	
 	--Translate position
@@ -21,33 +21,35 @@ function Waymap.Camera.WorldToMap(camera, position)
 	y = rotatePosition.y
 	
 	--Move the view port by half
-	x = x + size / 2
-	y = y + size / 2
+	x = x + camera.renderTargetSize / 2
+	y = y + camera.renderTargetSize / 2
 	
 	--x and y are reversed here but the function should be used like this: local x, y = Waymap.Camera.WorldToMap(...)
 	return y, x
 end
 
---TODO: Make this work
---[[function Waymap.Camera.MapToWorld(camera, x, y, viewPortSize)
-	local factor = viewPortSize / (camera.zoom * 2)
-	local viewPortSizeHalf = viewPortSize / 2
-	local position = Vector(x, y, 0)
-	
-	--Move the view port by half
-	--position = position - Vector(viewPortSize / 2, viewPortSize / 2, position.z)
-	print(position)
-	
-	--Rotate position
-	--position:Rotate(Angle(0, camera.rotation * 90, 0))
-	
-	--Translate camera position
-	position = position - Vector(camera.position.x / factor, camera.position.y / factor, position.z)
+--Convert a map position to a world position
+function Waymap.Camera.MapToWorld(camera, x, y)
+	local factor = camera.renderTargetSize / (camera.zoom * 2)
+	local x2, y2 = 0, 0
 	
 	--Translate position
-	position = position - Vector(position.y, position.x, position.z)
+	x2 = x2 - x / factor
+	y2 = y2 - y / factor
 	
-	debugoverlay.Cross(position, 500, 5, Color(255, 0, 0), true)
-	print(position)
-	return position
-end]]
+	--Translate camera position
+	x2 = x2 - camera.position.x
+	y2 = y2 - camera.position.y
+	
+	--Rotate position
+	local rotatePosition = Vector(x2, y2, 0)
+	rotatePosition:Rotate(Angle(0, -camera.rotation * 90, 0))
+	x2 = rotatePosition.x
+	y2 = rotatePosition.y
+	
+	--Move the view port by half
+	x2 = x2 + (camera.renderTargetSize / 2) / factor
+	y2 = y2 + (camera.renderTargetSize / 2) / factor
+	
+	return Vector(y2, x2, 0)
+end
