@@ -21,11 +21,11 @@ function PANEL:Init()
 		
 		return panel.camera
 	end
-	self.mapViewPanel:UpdateCamera()
 	self.mapViewPanel.Paint = function(panel, width, height)
 		local camera = Waymap.Camera.GetLoaded()
 		
 		if camera and self.mapMaterial then
+			Waymap.Camera.MapToWorld(panel:GetModifiedCamera(camera), panel.pressedCursorPositionX - panel.viewPositionX, panel.pressedCursorPositionY - panel.viewPositionY)
 			Waymap.Map.Draw(panel:GetModifiedCamera(camera), self.mapMaterial, panel.viewPositionX, panel.viewPositionY)
 		end
 	end

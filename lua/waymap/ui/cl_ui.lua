@@ -7,11 +7,11 @@ function Waymap.UI.OpenMap()
 	if not IsValid(Waymap.UI.waymapFrame) then
 		Waymap.UI.waymapFrame = vgui.Create("DFrame")
 		Waymap.UI.waymapFrame:SetTitle(Waymap.Config.Title)
-		Waymap.UI.waymapFrame:SetSize(ScrW() - 100, ScrH() - 100)
+		Waymap.UI.waymapFrame:SetSize(ScrW(), ScrH())
 		Waymap.UI.waymapFrame:Center()
 		Waymap.UI.waymapFrame:DockPadding(0, 26, 0, 0)
 		Waymap.UI.waymapFrame:SetSkin("Waymap")
-		Waymap.UI.waymapFrame:SetDraggable(true)
+		Waymap.UI.waymapFrame:SetDraggable(false)
 		Waymap.UI.waymapFrame:ShowCloseButton(true)
 		--TODO: Set to false
 		Waymap.UI.waymapFrame:SetDeleteOnClose(true)

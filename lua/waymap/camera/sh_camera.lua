@@ -1,7 +1,6 @@
 Waymap.Camera = Waymap.Camera or {}
 Waymap.Camera.loadedCamera = Waymap.Camera.loadedCamera or nil
 
---Convert a world position to a map position
 function Waymap.Camera.WorldToMap(camera, position)
 	local factor = camera.renderTargetSize / (camera.zoom * 2)
 	local x, y = 0, 0
@@ -28,28 +27,41 @@ function Waymap.Camera.WorldToMap(camera, position)
 	return y, x
 end
 
---Convert a map position to a world position
 function Waymap.Camera.MapToWorld(camera, x, y)
 	local factor = camera.renderTargetSize / (camera.zoom * 2)
 	local x2, y2 = 0, 0
 	
-	--Translate position
-	x2 = x2 - x / factor
-	y2 = y2 - y / factor
+	
 	
 	--Translate camera position
 	x2 = x2 - camera.position.x
 	y2 = y2 - camera.position.y
 	
+	
+	
 	--Rotate position
 	local rotatePosition = Vector(x2, y2, 0)
+	rotatePosition.x = rotatePosition.x - camera.position.x
+	rotatePosition.x = rotatePosition.y - camera.position.y
 	rotatePosition:Rotate(Angle(0, -camera.rotation * 90, 0))
+	rotatePosition.x = rotatePosition.x + camera.position.x
+	rotatePosition.x = rotatePosition.y + camera.position.y
 	x2 = rotatePosition.x
 	y2 = rotatePosition.y
+	
+	--Translate position
+	x2 = x2 - x / factor
+	y2 = y2 - y / factor
 	
 	--Move the view port by half
 	x2 = x2 + (camera.renderTargetSize / 2) / factor
 	y2 = y2 + (camera.renderTargetSize / 2) / factor
 	
+	--[[debugoverlay.Cross(Vector(y2, x2, 0), 500, 1, Color(255, 0, 0), true)
+	print(Vector(y2, x2, 0))
+	local ply = LocalPlayer()
+	local vec1 = Vector(y2, x2, 0)
+	local vec2 = ply:GetShootPos()
+	ply:SetEyeAngles((vec1 - vec2):Angle())]]
 	return Vector(y2, x2, 0)
 end
