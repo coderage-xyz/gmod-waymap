@@ -4,7 +4,11 @@ Waymap.Config = {
 	ConVarPrefix = "waymap_",
 	
 	----Visual----
+	
+	--Map stuff--
 	WaypointSize = 64,
+	CompassGap = 128,
+	CompassSize = 128,
 	PlayerIndicatorSize = 64,
 	NodeSize = 32,
 	MapTextureSize = 2048,

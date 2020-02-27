@@ -7,6 +7,11 @@ Waymap.Map = Waymap.Map or {}
 Waymap.Map.waypointMat = Material("waymap/waypoint")
 Waymap.Map.playerMat = Material("waymap/player.png", "alphatest smooth")
 Waymap.Map.nodeMat = Material("waymap/pin.png", "alphatest smooth")
+Waymap.Map.compassMat = Material("waymap/compass.png", "alphatest smooth")
+
+--[[
+	Accessory drawing functions
+--]]
 
 function Waymap.Map.DrawWaypoints(x, y, waypoints, camera)
 	for _, waypoint in pairs(waypoints) do
@@ -53,19 +58,32 @@ function Waymap.Map.DrawPaths(x, y, camera)
 	end
 end
 
+--[[
+	Primary map-drawing functions
+--]]
+
 function Waymap.Map.Draw(camera, material, x, y)
+	-- The map itself, of course
 	surface.SetDrawColor(255, 255, 255, 255)
 	surface.SetMaterial(material)
 	surface.DrawTexturedRect(x, y, camera.renderTargetSize, camera.renderTargetSize)
 
+	-- Paths
 	Waymap.Map.DrawPaths(x, y, camera)
 	
+	-- Player indicator(s)
 	local playerX, playerY = Waymap.Camera.WorldToMap(camera, LocalPlayer():GetPos())
-	local rot = LocalPlayer():GetAngles().y - (camera.rotation - 1) * 90
+	local playerRot = LocalPlayer():GetAngles().y - (camera.rotation - 1) * 90
 	surface.SetDrawColor(team.GetColor(LocalPlayer():Team()))
 	surface.SetMaterial(Waymap.Map.playerMat)
-	surface.DrawTexturedRectRotated(x + playerX, y + playerY, Waymap.Config.PlayerIndicatorSize, Waymap.Config.PlayerIndicatorSize, rot)
+	surface.DrawTexturedRectRotated(x + playerX, y + playerY, Waymap.Config.PlayerIndicatorSize, Waymap.Config.PlayerIndicatorSize, playerRot)
 	
+	-- Waypoint(s)
 	Waymap.Map.DrawWaypoints(x, y, Waymap.Waypoint.GetAll(), camera)
 	Waymap.Map.DrawWaypoints(x, y, Waymap.Waypoint.GetAllLocal(), camera)
+	
+	-- Compass
+	surface.SetDrawColor(255, 255, 255, 255)
+	surface.SetMaterial(Waymap.Map.compassMat)
+	surface.DrawTexturedRectRotated(Waymap.Config.CompassGap, Waymap.Config.CompassGap, Waymap.Config.CompassSize, Waymap.Config.CompassSize, -((camera.rotation) * 90))
 end
