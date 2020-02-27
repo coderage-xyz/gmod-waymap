@@ -91,7 +91,7 @@ function Waymap.UI.OpenWaypointEditor()
 	if not IsValid(Waymap.UI.waypointEditorFrame) then
 		Waymap.UI.waypointEditorFrame = vgui.Create("DFrame")
 		Waymap.UI.waypointEditorFrame:SetTitle("Waypoint Editor")
-		Waymap.UI.waypointEditorFrame:SetSize(512, 256)
+		Waymap.UI.waypointEditorFrame:SetSize(500, 412)
 		Waymap.UI.waypointEditorFrame:Center()
 		
 		-- TODO: Set to false
