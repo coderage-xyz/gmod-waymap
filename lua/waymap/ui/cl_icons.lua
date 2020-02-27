@@ -10,7 +10,7 @@ Waymap.UI._icons = Waymap.UI._icons or {}
 --]]
 
 local iconspath = "materials/waymap/icons/"
-local iconparams = "mips"
+local iconparams = "alphatest smooth"
 
 function Waymap.UI.LoadIcons(folder)
 	local path = folder and (iconspath .. folder .. "/") or iconspath
