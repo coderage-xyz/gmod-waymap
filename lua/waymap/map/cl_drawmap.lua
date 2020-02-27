@@ -58,6 +58,14 @@ function Waymap.Map.DrawPaths(x, y, camera)
 	end
 end
 
+function Waymap.Map.DrawPlayer(x, y, camera, ply)
+	local playerX, playerY = Waymap.Camera.WorldToMap(camera, ply:GetPos())
+	local playerRot = ply:GetAngles().y - (camera.rotation - 1) * 90
+	surface.SetDrawColor(team.GetColor(ply:Team()))
+	surface.SetMaterial(Waymap.Map.playerMat)
+	surface.DrawTexturedRectRotated(x + playerX, y + playerY, Waymap.Config.PlayerIndicatorSize, Waymap.Config.PlayerIndicatorSize, playerRot)
+end
+
 --[[
 	Primary map-drawing functions
 --]]
@@ -72,11 +80,7 @@ function Waymap.Map.Draw(camera, material, x, y)
 	Waymap.Map.DrawPaths(x, y, camera)
 	
 	-- Player indicator(s)
-	local playerX, playerY = Waymap.Camera.WorldToMap(camera, LocalPlayer():GetPos())
-	local playerRot = LocalPlayer():GetAngles().y - (camera.rotation - 1) * 90
-	surface.SetDrawColor(team.GetColor(LocalPlayer():Team()))
-	surface.SetMaterial(Waymap.Map.playerMat)
-	surface.DrawTexturedRectRotated(x + playerX, y + playerY, Waymap.Config.PlayerIndicatorSize, Waymap.Config.PlayerIndicatorSize, playerRot)
+	Waymap.Map.DrawPlayer(x, y, camera, LocalPlayer())
 	
 	-- Waypoint(s)
 	Waymap.Map.DrawWaypoints(x, y, Waymap.Waypoint.GetAll(), camera)
