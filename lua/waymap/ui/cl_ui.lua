@@ -3,6 +3,33 @@ Waymap.UI.waymapFrame = Waymap.UI.waymapFrame or {}
 
 local blur = Material("pp/blurscreen")
 
+--[[
+	Blur texture drawing functions
+--]]
+
+function Waymap.UI.DrawBlur(panel, w, h, count)
+	count = count or 5
+	local x, y = panel:LocalToScreen(0, 0)
+	
+	surface.SetDrawColor(Color(0, 0, 0, 200))
+	surface.DrawRect(0, 0, w, h)
+	
+	surface.SetDrawColor(255, 255, 255, 150)
+	surface.SetMaterial(blur)
+
+	for i = 1, count do
+		blur:SetFloat("$blur", (i / 4) * 4)
+		blur:Recompute()
+
+		render.UpdateScreenEffectTexture()
+		surface.DrawTexturedRect(-x, -y, ScrW(), ScrH())
+	end
+end
+
+--[[
+	Map menu functions
+--]]
+
 function Waymap.UI.OpenMap()
 	if not IsValid(Waymap.UI.waymapFrame) then
 		Waymap.UI.waymapFrame = vgui.Create("DFrame")
@@ -19,27 +46,17 @@ function Waymap.UI.OpenMap()
 		Waymap.UI.waymapFrame:MakePopup()
 		
 		function Waymap.UI.waymapFrame:Paint(w, h)
-			local x, y = self:LocalToScreen(0, 0)
-			
-			surface.SetDrawColor(Color(0, 0, 0, 200))
-			surface.DrawRect(0, 0, w, h)
-			
-			surface.SetDrawColor(255, 255, 255, 150)
-			surface.SetMaterial(blur)
-
-			for i = 1, 5 do
-				blur:SetFloat("$blur", (i / 4) * 4)
-				blur:Recompute()
-
-				render.UpdateScreenEffectTexture()
-				surface.DrawTexturedRect(-x, -y, ScrW(), ScrH())
-			end
+			Waymap.UI.DrawBlur(self, w, h)
 		end
 		
 		Waymap.UI.waymapFrame.waymap = vgui.Create("DWaymap", Waymap.UI.waymapFrame)
 		Waymap.UI.waymapFrame.waymap:Dock(FILL)
 	end
 end
+
+--[[
+	Camera editor menu functions
+--]]
 
 function Waymap.UI.OpenCameraEditor()
 	if not IsValid(Waymap.UI.cameraEditorFrame) then
@@ -66,10 +83,48 @@ function Waymap.UI.CloseCameraEditor()
 	end
 end
 
+--[[
+	Waypoint editor menu functions
+--]]
+
+function Waymap.UI.OpenWaypointEditor()
+	if not IsValid(Waymap.UI.waypointEditorFrame) then
+		Waymap.UI.waypointEditorFrame = vgui.Create("DFrame")
+		Waymap.UI.waypointEditorFrame:SetTitle("Waypoint Editor")
+		Waymap.UI.waypointEditorFrame:SetSize(512, 256)
+		Waymap.UI.waypointEditorFrame:Center()
+		
+		-- TODO: Set to false
+		Waymap.UI.waypointEditorFrame:SetDeleteOnClose(true)
+		Waymap.UI.waypointEditorFrame:SetVisible(true)
+		Waymap.UI.waypointEditorFrame:MakePopup()
+		
+		Waymap.UI.waypointEditorFrame.Paint = Waymap.UI.DrawBlur
+		
+		Waymap.UI.waypointEditorFrame.editor = vgui.Create("DWaymapWaypointEditor", Waymap.UI.waypointEditorFrame)
+		Waymap.UI.waypointEditorFrame.editor:Dock(FILL)
+	end
+end
+
+function Waymap.UI.CloseWaypointEditor()
+	if IsValid(Waymap.UI.waypointEditorFrame) then
+		Waymap.UI.waypointEditorFrame:Remove()
+	end
+end
+
+--[[
+	Console commands (concommands)
+--]]
+
 concommand.Add("waymap_openmap",function(ply, cmd, args)
     Waymap.UI.OpenMap()
 end)
 
 concommand.Add("waymap_opencameraeditor",function(ply, cmd, args)
     Waymap.UI.OpenCameraEditor()
+end)
+
+-- TODO: Remove this
+concommand.Add("waymap_openwaypointeditor", function(ply, cmd, args)
+	Waymap.UI.OpenWaypointEditor()
 end)
