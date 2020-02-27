@@ -1,11 +1,11 @@
 Waymap.UI = Waymap.UI or {}
 Waymap.UI.waymapFrame = Waymap.UI.waymapFrame or {}
 
-local blur = Material("pp/blurscreen")
-
 --[[
 	Blur texture drawing functions
 --]]
+
+local blur = Material("pp/blurscreen")
 
 function Waymap.UI.DrawBlur(panel, w, h, count)
 	count = count or 5
@@ -45,9 +45,7 @@ function Waymap.UI.OpenMap()
 		Waymap.UI.waymapFrame:SetVisible(true)
 		Waymap.UI.waymapFrame:MakePopup()
 		
-		function Waymap.UI.waymapFrame:Paint(w, h)
-			Waymap.UI.DrawBlur(self, w, h)
-		end
+		Waymap.UI.waymapFrame.Paint = Waymap.UI.DrawBlur
 		
 		Waymap.UI.waymapFrame.waymap = vgui.Create("DWaymap", Waymap.UI.waymapFrame)
 		Waymap.UI.waymapFrame.waymap:Dock(FILL)
