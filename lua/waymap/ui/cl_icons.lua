@@ -33,6 +33,60 @@ function Waymap.UI.GetAllIcons()
 	return Waymap.UI._icons
 end
 
+function Waymap.UI.GetOutlinedIcon(icon, rep, coeff) -- icon must be an IMaterial!
+	rep = rep or 64
+	coeff = coeff or 0.05
+	
+	local icontag = util.CRC(icon:GetName())
+	
+	local rt = GetRenderTargetEx(
+		"waymap_iconrt_" .. icontag,
+		icon:Width(),
+		icon:Height(),
+		RT_SIZE_LITERAL,
+		MATERIAL_RT_DEPTH_SHARED,
+		1,
+		CREATERENDERTARGETFLAGS_UNFILTERABLE_OK,
+		IMAGE_FORMAT_DEFAULT
+	)
+	
+	render.PushRenderTarget(rt)
+	render.OverrideAlphaWriteEnable(true, true)
+	
+	render.ClearDepth()
+	render.Clear(0, 0, 0, 0)
+	
+	cam.Start2D()
+	
+	local sizex, sizey = icon:Width() * 0.9, icon:Height() * 0.9
+	
+	for i = 0, (2 * math.pi), (2 * math.pi) / (rep - 1) do
+		local x = (ScrW() / 2) - (sizex / 2) + math.cos(i) * (icon:Width() * coeff)
+		local y = (ScrH() / 2) - (sizey / 2) + math.sin(i) * (icon:Height() * coeff)
+		
+		surface.SetMaterial(icon)
+		surface.SetDrawColor(0, 0, 0)
+		surface.DrawTexturedRect(x, y, sizex, sizey)
+	end
+	
+	local x, y = (ScrW() / 2) - (sizex / 2), (ScrH() / 2) - (sizey / 2)
+	surface.SetDrawColor(255, 255, 255)
+	surface.DrawTexturedRect(x, y, sizex, sizey)
+	
+	cam.End2D()
+	
+	render.OverrideAlphaWriteEnable(false)
+	render.PopRenderTarget(rt)
+	
+	local iconmat = CreateMaterial("waymap_modelicon_" .. icontag .. "1", "UnlitGeneric", {
+		["$basetexture"] = rt:GetName(),
+		["$translucent"] = 1,
+		--["$vertexcolor"] = 1
+	})
+	
+	return iconmat
+end
+
 --[[
 	Making sure we load the icons
 --]]
