@@ -70,6 +70,8 @@ function Waymap.UI.OpenCameraEditor()
 		Waymap.UI.cameraEditorFrame:SetVisible(true)
 		Waymap.UI.cameraEditorFrame:MakePopup()
 		
+		Waymap.UI.cameraEditorFrame.Paint = Waymap.UI.DrawBlur
+		
 		Waymap.UI.cameraEditorFrame.cameraEditor = vgui.Create("DWaymapCameraEditor", Waymap.UI.cameraEditorFrame)
 		Waymap.UI.cameraEditorFrame.cameraEditor:Dock(FILL)
 	end
