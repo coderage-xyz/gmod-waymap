@@ -3,7 +3,9 @@
 --]]
 
 Waymap.UI = Waymap.UI or {}
+
 Waymap.UI._icons = Waymap.UI._icons or {}
+Waymap.UI._mdlicons = Waymap.UI._mdlicons or {}
 
 --[[
 	Useful functions
@@ -33,11 +35,27 @@ function Waymap.UI.GetAllIcons()
 	return Waymap.UI._icons
 end
 
+function Waymap.UI.ModelPathToSpawnIcon(path)
+	path = string.sub(path, 1, #path - 4)
+	path = "spawnicons/" .. path .. ".png"
+	return Material(path)
+end
+
 function Waymap.UI.GetOutlinedIcon(icon, rep, coeff) -- icon must be an IMaterial!
 	rep = rep or 64
 	coeff = coeff or 0.05
 	
 	local icontag = util.CRC(icon:GetName())
+	
+	if Waymap.UI._mdlicons[icontag] then
+		local entry = Waymap.UI._mdlicons[icontag]
+		if (entry.rep == rep) and (entry.coeff == coeff) then
+			Waymap.Debug.Print("[Waymap] Outlined icon already exists for this icon, using that instead.")
+			return entry.mat
+		end
+	end
+	
+	Waymap.Debug.Print("[Waymap] No existing outlined icon for specified icon, making a new one...")
 	
 	local rt = GetRenderTargetEx(
 		"waymap_iconrt_" .. icontag,
@@ -83,6 +101,12 @@ function Waymap.UI.GetOutlinedIcon(icon, rep, coeff) -- icon must be an IMateria
 		["$translucent"] = 1,
 		--["$vertexcolor"] = 1
 	})
+	
+	Waymap.UI._mdlicons[icontag] = {
+		mat = iconmat,
+		rep = rep,
+		coeff = coeff
+	}
 	
 	return iconmat
 end
