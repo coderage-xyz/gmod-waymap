@@ -9,7 +9,7 @@ function Waymap.ConVars.CreateClientConVar(...)
     local conVar = CreateClientConVar(Waymap.Config.ConVarPrefix .. string.lower(conVarTable.name), conVarTable.value, conVarTable.shouldSave, false, conVarTable.helpText)
     
     Waymap.ConVars[conVarTable.name] = function()
-        return  conVar["Get" .. conVarTable.type](conVar)
+        return conVar["Get" .. conVarTable.type](conVar)
     end
 end
 
@@ -23,11 +23,15 @@ Waymap.ConVars.CreateClientConVar{
 }
 ]]
 
+--[[
+	Path convars
+--]]
+
 Waymap.ConVars.CreateClientConVar{
-    name = "Bezier",
-    type = "Bool",
-    value = 1,
-    helpText = "Enable bezier curves for paths",
+    name = "Path_Method",
+    type = "Int",
+    value = 2,
+    helpText = "Smoothing method to be used on path. 0 = none, 1 = Bézier, 2 = Catmull-Rom",
 }
 
 --[[

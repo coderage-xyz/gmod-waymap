@@ -36,10 +36,27 @@ net.Receive("Waymap.SendPath", function(ln)
 	
 	--pathvecs = Waymap.Path.SubdivCorners(pathvecs)
 	
-	if Waymap.ConVars.Bezier() then
+	if (Waymap.ConVars.Path_Method() == 1) then
 		Waymap.Debug.Print("[Waymap] Starting Bézier interpolation...")
 		pathvecs = Waymap.Path.BezierPath(pathvecs, distance / 32) -- Smooth out jagged edges via recursive parametric Bezier curves
 		Waymap.Debug.Print("[Waymap] Finished Bézier parametric curve interpolation with " .. #pathvecs .. " segments.")
+	elseif (Waymap.ConVars.Path_Method() == 2) and (#pathvecs >= 4) then -- #pathvecs >= 4 is important here
+		Waymap.Debug.Print("[Waymap] Starting Catmull-Rom interpolation...")
+		pathvecs = Waymap.Path.CatmullRomChain(pathvecs)
+		Waymap.Debug.Print("[Waymap] Finished Catmull-Rom interpolation with " .. #pathvecs .. " segments.")
+		
+		for i = 1, #pathvecs do
+			pathvecs[i] = pathvecs[i] + Vector(0, 0, 16)
+		end
+		
+		--[[
+		for i, this in pairs(pathvecs) do
+			local last = pathvecs[i - 1]
+			if last then
+				debugoverlay.Line(last, this, #pathvecs)
+			end
+		end
+		--]]
 	end
 	
 	Waymap.Debug.Print("[Waymap] Running callbacks...")
