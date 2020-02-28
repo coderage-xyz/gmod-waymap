@@ -180,6 +180,86 @@ function Waymap.Path.BezierPath(path, subdiv)
 	return Waymap.Path.BezierRecursive(subdiv, path)
 end
 
+--[[
+	piqey's best attempt at Catmull-Rom splines
+	Quote: "It works!"
+--]]
+
+-- don't ask me to explain this
+local alpha = .5
+
+-- and also don't ask me to explain how alpha factors into this
+local function getT(t, p0, p1)
+	local a = math.pow((p1.x - p0.x), 2) + math.pow((p1.y - p0.y), 2) + math.pow((p1.z - p0.z), 2)
+	local b = math.sqrt(a)
+	local c = math.pow(b, alpha)
+	
+	return (c + t)
+end
+
+-- Makes a Catmull-Rom spline between points p0, p1, p2 and p3 with subdivision length seg
+function Waymap.Path.CatmullRomSpline(p0, p1, p2, p3, seg)
+	seg = seg or 128
+	
+	local newPoints = {}
+	local t0, t1, t2, t3
+	
+	t0 = 0
+	t1 = getT(t0, p0, p1)
+	t2 = getT(t1, p1, p2)
+	t3 = getT(t2, p2, p3)
+	
+	for t = t1, t2, (t2 - t1) / seg do
+		local A1, A2, A3
+		local B1, B2
+		local C
+		
+		A1 = (t1 - t) / (t1 - t0) * p0 + (t - t0) / (t1 - t0) * p1
+		A2 = (t2 - t) / (t2 - t1) * p1 + (t - t1) / (t2 - t1) * p2
+		A3 = (t3 - t) / (t3 - t2) * p2 + (t - t2) / (t3 - t2) * p3
+		
+		B1 = (t2 - t) / (t2 - t0) * A1 + (t - t0) / (t2 - t0) * A2
+		B2 = (t3 - t) / (t3 - t1) * A2 + (t - t1) / (t3 - t1) * A3
+		
+		C = (t2 - t) / (t2 - t1) * B1 + (t - t1) / (t2 - t1) * B2
+		
+		table.insert(newPoints, C)
+	end
+	
+	return newPoints
+end
+
+-- Makes a chain of Catmull-Rom splines; ensure that #path >= 4
+function Waymap.Path.CatmullRomChain(path, ln)
+	local newpath = {}
+	ln = ln or 128
+	
+	for i = 1, (#path - 3) do
+		local estDistance = path[i]:Distance(path[i + 1]) + path[i + 1]:Distance(path[i + 2]) + path[i + 2]:Distance(path[i + 3])
+		
+		local c = Waymap.Path.CatmullRomSpline(
+			path[i],
+			path[i + 1],
+			path[i + 2],
+			path[i + 3],
+			math.floor(estDistance / ln)
+		)
+		
+		-- not sure if this is the way I should be doing this
+		if (i ~= 1) then
+			table.remove(c, 1)
+		end
+		
+		table.Add(newpath, c)
+	end
+	
+	return newpath
+end
+
+--[[
+	Populating arrows 'n stuff
+--]]
+
 function Waymap.Path.DeleteArrows(pathID)
 	if Waymap.Path._arrows[pathID] then
 		for arrowIndex, arrow in pairs(Waymap.Path._arrows[pathID]) do
