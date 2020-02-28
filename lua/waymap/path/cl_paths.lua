@@ -286,7 +286,7 @@ function Waymap.Path.PopulateArrows(pathID)
 			if not path[nodeIndex - 1] then continue end
 			
 			local tr = util.TraceLine{
-				start = node,
+				start = node + Vector(0, 0, 32),
 				endpos = node + Vector(0, 0, -1e5),
 				collisiongroup = COLLISION_GROUP_DEBRIS
 			}

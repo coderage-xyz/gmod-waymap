@@ -45,11 +45,6 @@ net.Receive("Waymap.SendPath", function(ln)
 		pathvecs = Waymap.Path.CatmullRomChain(pathvecs)
 		Waymap.Debug.Print("[Waymap] Finished Catmull-Rom interpolation with " .. #pathvecs .. " segments.")
 		
-		for i = 1, #pathvecs do
-			if (i == 1) or (i == #pathvecs) then continue end
-			pathvecs[i] = pathvecs[i] + Vector(0, 0, 16)
-		end
-		
 		--[[
 		for i, this in pairs(pathvecs) do
 			local last = pathvecs[i - 1]
