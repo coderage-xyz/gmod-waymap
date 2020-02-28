@@ -49,7 +49,7 @@ function PANEL:Init()
 	self.iconsPanel = vgui.Create("DPanel", self.iconsAndModelsSheet)
 	self.iconsPanel.Paint = function(panel, width, height)
 		
-	end 
+	end
 	self.iconsAndModelsSheet:AddSheet("Icons", self.iconsPanel, "icon16/picture.png")
 	
 	self.iconsScroll = vgui.Create("DHorizontalScroller", self.iconsPanel)
@@ -85,7 +85,7 @@ function PANEL:Init()
 	self.modelsScroll:SetOverlap(-4)
 	
 	for iconModelIndex, iconModel in ipairs(Waymap.Config.IconModels) do
-		local icon = vgui.Create("DModelPanel")
+		local icon = vgui.Create("SpawnIcon")
 		icon:SetModel(iconModel)
 		icon:SetSize(64, 64)
 		icon.DoClick = function(panel)
