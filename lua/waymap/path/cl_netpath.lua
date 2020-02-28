@@ -32,7 +32,7 @@ net.Receive("Waymap.SendPath", function(ln)
 	
 	local distance = Waymap.Path.GetTotalLength(pathvecs)
 	
-	Waymap.Debug.Print("[Waymap] Received path of " .. (ln / 1000) .. " Kb, a total distance of " .. distance .. ".")
+	Waymap.Debug.Print("[Waymap] Received path of " .. (ln / 1000) .. " Kb, a total distance of " .. math.Round(distance, 2) .. ".")
 	
 	--pathvecs = Waymap.Path.SubdivCorners(pathvecs)
 	
@@ -46,6 +46,7 @@ net.Receive("Waymap.SendPath", function(ln)
 		Waymap.Debug.Print("[Waymap] Finished Catmull-Rom interpolation with " .. #pathvecs .. " segments.")
 		
 		for i = 1, #pathvecs do
+			if (i == 1) or (i == #pathvecs) then continue end
 			pathvecs[i] = pathvecs[i] + Vector(0, 0, 16)
 		end
 		
