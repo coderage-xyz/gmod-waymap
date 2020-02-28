@@ -51,6 +51,7 @@ net.Receive("Waymap.SendPath", function(ln)
 			if last then
 				debugoverlay.Line(last, this, #pathvecs)
 			end
+			debugoverlay.Sphere(this, 4, i, HSVToColor(i * 22.5, 1, 1))
 		end
 		--]]
 	end
