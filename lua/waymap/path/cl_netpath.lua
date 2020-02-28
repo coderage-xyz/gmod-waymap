@@ -44,6 +44,7 @@ net.Receive("Waymap.SendPath", function(ln)
 		Waymap.Debug.Print("[Waymap] Starting Catmull-Rom interpolation...")
 		pathvecs = Waymap.Path.CatmullRomChain(pathvecs)
 		Waymap.Debug.Print("[Waymap] Finished Catmull-Rom interpolation with " .. #pathvecs .. " segments.")
+	end
 		
 		for i = 1, #pathvecs do
 			if (i == 1) or (i == #pathvecs) then continue end
