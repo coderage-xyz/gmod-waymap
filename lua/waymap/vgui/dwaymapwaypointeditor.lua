@@ -31,8 +31,6 @@ function PANEL:Init()
 	self.waypointMixer.OnValueChanged = function(panel, col)
 		local waypoint = self.waypointPreview:GetWaypoint()
 		waypoint.color = col
-		
-		self.waypointPreview:SetWaypoint(waypoint)
 	end
 	
 	self.iconOrModelEntry = vgui.Create("DTextEntry", self)
@@ -68,8 +66,6 @@ function PANEL:Init()
 			
 			local waypoint = self.waypointPreview:GetWaypoint()
 			waypoint.icon = pathAndName
-			
-			self.waypointPreview:SetWaypoint(waypoint)
 		end
 		self.iconsScroll:AddPanel(icon)
 	end
@@ -90,6 +86,9 @@ function PANEL:Init()
 		icon:SetSize(64, 64)
 		icon.DoClick = function(panel)
 			self.iconOrModelEntry:SetValue(iconModel)
+			
+			local waypoint = self.waypointPreview:GetWaypoint()
+			waypoint.icon = iconModel
 		end
 		self.modelsScroll:AddPanel(icon)
 	end

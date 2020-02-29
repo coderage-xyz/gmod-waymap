@@ -6,6 +6,7 @@ Waymap.UI = Waymap.UI or {}
 
 Waymap.UI._icons = Waymap.UI._icons or {}
 Waymap.UI._mdlicons = Waymap.UI._mdlicons or {}
+Waymap.UI.modelExtension = ".mdl"
 
 --[[
 	Useful functions
@@ -38,11 +39,14 @@ end
 function Waymap.UI.ModelPathToSpawnIcon(path)
 	path = string.sub(path, 1, #path - 4)
 	path = "spawnicons/" .. path .. ".png"
-	return Material(path)
+	
+	local mat = Material(path)
+	
+	return mat
 end
 
 function Waymap.UI.GetOutlinedIcon(icon, rep, coeff) -- icon must be an IMaterial!
-	rep = rep or 64
+	rep = rep or 32
 	coeff = coeff or 0.05
 	
 	local icontag = util.CRC(icon:GetName())
@@ -76,14 +80,15 @@ function Waymap.UI.GetOutlinedIcon(icon, rep, coeff) -- icon must be an IMateria
 	
 	cam.Start2D()
 	
+	surface.SetMaterial(icon)
+	surface.SetDrawColor(0, 0, 0)
+	
 	local sizex, sizey = icon:Width() * 0.9, icon:Height() * 0.9
 	
 	for i = 0, (2 * math.pi), (2 * math.pi) / (rep - 1) do
 		local x = (ScrW() / 2) - (sizex / 2) + math.cos(i) * (icon:Width() * coeff)
 		local y = (ScrH() / 2) - (sizey / 2) + math.sin(i) * (icon:Height() * coeff)
 		
-		surface.SetMaterial(icon)
-		surface.SetDrawColor(0, 0, 0)
 		surface.DrawTexturedRect(x, y, sizex, sizey)
 	end
 	
@@ -133,8 +138,14 @@ function Waymap.UI.DrawWaypoint(x, y, sizex, sizey, icon, color)
 	local iconx = x + (sizex / 2) - (sizex / 4)
 	local icony = y + (sizex / 4)
 	
+	--If is model path
+	if string.sub(icon, -4) == Waymap.UI.modelExtension then
+		surface.SetMaterial(Waymap.UI.GetOutlinedIcon(Waymap.UI.ModelPathToSpawnIcon(icon)))
+	else
+		surface.SetMaterial(Waymap.UI.GetAllIcons()[icon])
+	end
+	
 	surface.SetDrawColor(color)
-	surface.SetMaterial(Waymap.UI.GetAllIcons()[icon])
 	surface.DrawTexturedRect(iconx, icony, sizex / 2, sizex / 2)
 end
 
