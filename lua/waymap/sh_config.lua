@@ -3,9 +3,9 @@ Waymap.Config = {
 	Title = "Waymap",
 	ConVarPrefix = "waymap_",
 	
-	----Visual----
+	--[[ Visual ]]--
 	
-	--Map stuff--
+	-- map stuff
 	WaypointSize = 64,
 	CompassGap = 64,
 	CompassSize = 128,
@@ -27,7 +27,7 @@ Waymap.Config = {
 		"models/props_junk/garbage_takeoutcarton001a.mdl";
 	},
 	
-	----Permissions----
+	--[[ Permissions ]]--
 	
 	--Who can edit the map camera?
 	--Possible values: "none", "everyone", "admin" or "superadmin"
@@ -35,7 +35,7 @@ Waymap.Config = {
 	
 
 	
-	----Advanced----
+	--[[ Advanced ]]--
 	
 	--Can player edit the map camera?
 	CanEditMapCamera = function(self, ply)
