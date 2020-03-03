@@ -66,18 +66,20 @@ function Waymap.Map.DrawPlayer(x, y, camera, ply)
 	surface.DrawTexturedRectRotated(x + playerX, y + playerY, Waymap.Config.PlayerIndicatorSize, Waymap.Config.PlayerIndicatorSize, rot)
 end
 
-function Waymap.Map.DrawCompass(camera)
+function Waymap.Map.DrawCompass(panel, camera)
+	local x, y = panel:GetSize()
+	x, y = (Waymap.Config.CompassGap + (Waymap.Config.CompassSize / 2)), (y - (Waymap.Config.CompassSize / 2) - Waymap.Config.CompassGap)
 	local rot = -(camera.rotation * 90)
 	surface.SetDrawColor(255, 255, 255, 255)
 	surface.SetMaterial(Waymap.Map.compassMat)
-	surface.DrawTexturedRectRotated(Waymap.Config.CompassGap, Waymap.Config.CompassGap, Waymap.Config.CompassSize, Waymap.Config.CompassSize, rot)
+	surface.DrawTexturedRectRotated(x, y, Waymap.Config.CompassSize, Waymap.Config.CompassSize, rot)
 end
 
 --[[
 	Primary map-drawing functions
 --]]
 
-function Waymap.Map.Draw(camera, material, x, y)
+function Waymap.Map.Draw(panel, camera, material, x, y)
 	-- The map itself, of course
 	surface.SetDrawColor(255, 255, 255, 255)
 	surface.SetMaterial(material)
@@ -94,5 +96,5 @@ function Waymap.Map.Draw(camera, material, x, y)
 	Waymap.Map.DrawWaypoints(x, y, Waymap.Waypoint.GetAllLocal(), camera)
 	
 	-- Compass
-	Waymap.Map.DrawCompass(camera)
+	Waymap.Map.DrawCompass(panel, camera)
 end

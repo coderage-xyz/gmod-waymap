@@ -26,7 +26,7 @@ function PANEL:Init()
 		
 		if camera and self.mapMaterial then
 			Waymap.Camera.MapToWorld(panel:GetModifiedCamera(camera), panel.pressedCursorPositionX - panel.viewPositionX, panel.pressedCursorPositionY - panel.viewPositionY)
-			Waymap.Map.Draw(panel:GetModifiedCamera(camera), self.mapMaterial, panel.viewPositionX, panel.viewPositionY)
+			Waymap.Map.Draw(panel, panel:GetModifiedCamera(camera), self.mapMaterial, panel.viewPositionX, panel.viewPositionY)
 		end
 	end
 	self.mapViewPanel.OnMousePressed = function(panel, keyCode)

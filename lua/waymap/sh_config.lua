@@ -7,7 +7,7 @@ Waymap.Config = {
 	
 	--Map stuff--
 	WaypointSize = 64,
-	CompassGap = 128,
+	CompassGap = 64,
 	CompassSize = 128,
 	PlayerIndicatorSize = 64,
 	NodeSize = 32,
