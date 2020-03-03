@@ -81,9 +81,7 @@ function PANEL:Think()
 	end
 end
 
-function PANEL:PerformLayout()
-	local width, height = self:GetSize()
-	
+function PANEL:PerformLayout(width, height)
 	if IsValid(self.mapViewPanel) then
 		self.mapViewPanel:SetPos(0, 0)
 		self.mapViewPanel:SetSize(width, height)
