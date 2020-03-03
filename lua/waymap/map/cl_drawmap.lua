@@ -81,9 +81,18 @@ end
 
 function Waymap.Map.Draw(panel, camera, material, x, y)
 	-- The map itself, of course
+	local filter = Waymap.ConVars.Map_Filter()
+	filter = ((filter >= 0) and (filter <= 3)) and filter or 3
+	
+	render.PushFilterMag(filter)
+	render.PushFilterMin(filter)
+	
 	surface.SetDrawColor(255, 255, 255, 255)
 	surface.SetMaterial(material)
 	surface.DrawTexturedRect(x, y, camera.renderTargetSize, camera.renderTargetSize)
+
+	render.PopFilterMag()
+	render.PopFilterMin()
 
 	-- Paths
 	Waymap.Map.DrawPaths(x, y, camera)

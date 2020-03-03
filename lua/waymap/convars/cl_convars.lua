@@ -24,6 +24,17 @@ Waymap.ConVars.CreateClientConVar{
 ]]
 
 --[[
+	Map menu convars
+--]]
+
+Waymap.ConVars.CreateClientConVar{
+    name = "Map_Filter",
+    type = "Int",
+    value = 3,
+    helpText = "0 = none, 1 = point, 2 = linear, 3 = anisotropic",
+}
+
+--[[
 	Path convars
 --]]
 
