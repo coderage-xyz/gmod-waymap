@@ -121,9 +121,11 @@ Waymap.Map.generators[Waymap.Map.MODE.SATELLITE] = function(camera, callback)
 			
 			local plateEnt = ClientsideModel("models/hunter/plates/plate8x8.mdl", RENDERGROUP_TRANSLUCENT)
 			plateEnt:SetPos(Vector(0, 0, min.z))
+			plateEnt:SetMaterial(Material("models/debug/debugwhite"))
+			plateEnt:SetColor(Color(0, 0, 0, 255))
 			
 			local matrix = Matrix()
-			matrix:SetScale(Vector(100, 100, 1))
+			matrix:SetScale(Vector(500, 500, 1))
 			
 			plateEnt:EnableMatrix("RenderMultiply", matrix)
 			plateEnt:DrawModel()
