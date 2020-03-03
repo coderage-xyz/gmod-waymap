@@ -26,7 +26,7 @@ function PANEL:Init()
 		
 		if camera and self.mapMaterial then
 			Waymap.Camera.MapToWorld(panel:GetModifiedCamera(camera), panel.pressedCursorPositionX - panel.viewPositionX, panel.pressedCursorPositionY - panel.viewPositionY)
-			Waymap.Map.Draw(panel:GetModifiedCamera(camera), self.mapMaterial, panel.viewPositionX, panel.viewPositionY)
+			Waymap.Map.Draw(panel, panel:GetModifiedCamera(camera), self.mapMaterial, panel.viewPositionX, panel.viewPositionY)
 		end
 	end
 	self.mapViewPanel.OnMousePressed = function(panel, keyCode)
@@ -81,9 +81,7 @@ function PANEL:Think()
 	end
 end
 
-function PANEL:PerformLayout()
-	local width, height = self:GetSize()
-	
+function PANEL:PerformLayout(width, height)
 	if IsValid(self.mapViewPanel) then
 		self.mapViewPanel:SetPos(0, 0)
 		self.mapViewPanel:SetSize(width, height)
