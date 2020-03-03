@@ -54,12 +54,12 @@ function Waymap.UI.GetOutlinedIcon(icon, rep, coeff) -- icon must be an IMateria
 	if Waymap.UI._mdlicons[icontag] then
 		local entry = Waymap.UI._mdlicons[icontag]
 		if (entry.rep == rep) and (entry.coeff == coeff) then
-			Waymap.Debug.Print("[Waymap] Outlined icon already exists for this icon, using that instead.")
+			--Waymap.Debug.Print("[Waymap] Outlined icon already exists for this icon, using that instead.")
 			return entry.mat
 		end
 	end
 	
-	Waymap.Debug.Print("[Waymap] No existing outlined icon for specified icon, making a new one...")
+	--Waymap.Debug.Print("[Waymap] No existing outlined icon for specified icon, making a new one...")
 	
 	local rt = GetRenderTargetEx(
 		"waymap_iconrt_" .. icontag,
