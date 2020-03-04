@@ -71,7 +71,7 @@ Waymap.Map.generators[Waymap.Map.MODE.SATELLITE] = function(camera, callback)
 					Waymap.Map.satelliteRenderStage = Waymap.Map.SATELLITE_RENDER_STAGE.RENDER
 				end
 				
-				hook.Remove("Waymap.Map.SatelliteSetupView")
+				hook.Remove("CalcView", "Waymap.Map.SatelliteSetupView")
 			end
 			
 			return {
@@ -120,7 +120,7 @@ Waymap.Map.generators[Waymap.Map.MODE.SATELLITE] = function(camera, callback)
 			render.SetStencilZFailOperation(STENCIL_REPLACE)
 			
 			local plateEnt = ClientsideModel("models/hunter/plates/plate8x8.mdl", RENDERGROUP_TRANSLUCENT)
-			plateEnt:SetPos(Vector(0, 0, min.z))
+			plateEnt:SetPos(Vector(0, 0, -16388))
 			plateEnt:SetMaterial(Material("models/debug/debugwhite"))
 			plateEnt:SetColor(Color(0, 0, 0, 255))
 			
@@ -161,6 +161,8 @@ Waymap.Map.generators[Waymap.Map.MODE.SATELLITE] = function(camera, callback)
 				
 				callback(pngData)
 			end
+			
+			hook.Remove("PostDrawTransclucentRenderables", "Waymap.Map.SatelliteRender")
 			
 			Waymap.Map.satelliteRenderStage = Waymap.Map.SATELLITE_RENDER_STAGE.NONE
 		end
