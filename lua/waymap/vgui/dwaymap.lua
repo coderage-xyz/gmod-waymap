@@ -5,6 +5,10 @@ function PANEL:Init()
 	self.requestedMaterial = false
 	self.mapMaterial = nil
 	
+	--[[
+		mapViewPanel
+	--]]
+	
 	self.mapViewPanel = vgui.Create("DPanel", self)
 	self.mapViewPanel.viewPositionX, self.mapViewPanel.viewPositionY = 0, 0
 	self.mapViewPanel.zoom = 0
@@ -67,6 +71,60 @@ function PANEL:Init()
 			end
 		end
 	end
+	
+	--[[
+		waypointList
+	--]]
+	
+	self.waypointList = vgui.Create("DScrollPanel", self)
+	self:UpdateWaypoints()
+end
+
+function PANEL:AddWaypoint(key, waypoint, doClick)
+	local button = self.waypointList:Add("DButton")
+	button:SetText(waypoint.name)
+	button:SetTextColor(waypoint.color)
+	button:SetFont("DermaLarge")
+	button:Dock(TOP)
+	local parentWidth, parentHeight = self.waypointList:GetSize()
+	button:SetHeight(parentHeight * 2)
+	button:DockMargin(0, 0, 0, 5)
+	
+	local waypointIcon = Material(waypoint.icon)
+	button.Paint = function(panel, width, height)
+		Waymap.UI.DrawBlur(panel, width, height)
+		
+		local iconwidth, iconheight = (height * 0.9), (height * 0.9)
+		local x, y = (height * 0.1), (height / 2) - (iconheight / 2)
+		surface.SetDrawColor(waypoint.color)
+		surface.SetMaterial(waypointIcon)
+		surface.DrawTexturedRect(x, y, iconwidth, iconheight)
+	end
+	
+	button.DoClick = function()
+		doClick(key)
+	end
+end
+
+function PANEL:UpdateWaypoints()
+	if IsValid(self.waypointList) then
+		self.waypointList:Clear()
+		
+		local globals = Waymap.Waypoint.GetAll()
+		local locals = Waymap.Waypoint.GetAllLocal()
+		
+		for k, waypoint in pairs(globals) do
+			self:AddWaypoint(k, waypoint, function(id)
+				-- do something here
+			end)
+		end
+		
+		for k, waypoint in pairs(locals) do
+			self:AddWaypoint(k, waypoint, function(id)
+				-- do something here
+			end)
+		end
+	end
 end
 
 function PANEL:Think()
@@ -85,6 +143,13 @@ function PANEL:PerformLayout(width, height)
 	if IsValid(self.mapViewPanel) then
 		self.mapViewPanel:SetPos(0, 0)
 		self.mapViewPanel:SetSize(width, height)
+	end
+	
+	if IsValid(self.waypointList) then
+		local newwidth, newheight = (width / 8), (height * 0.9)
+		local x, y = (width * 0.85) - (newwidth / 2), (height / 2) - (newheight / 2)
+		self.waypointList:SetPos(x, y)
+		self.waypointList:SetSize(newwidth, newheight)
 	end
 end
 
